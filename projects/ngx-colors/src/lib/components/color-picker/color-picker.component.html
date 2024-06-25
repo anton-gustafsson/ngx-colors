@@ -9,7 +9,10 @@
     <ngx-colors-thumb></ngx-colors-thumb>
   </div>
   <div class="flex grow-1">
-    <div class="justify-center align-center flex ml-4">
+    <div
+      class="justify-center align-center flex ml-4"
+      [class.ml-4]="!eyeDropperSupport || !eyeDropper"
+    >
       @if(eyeDropperSupport && eyeDropper){
       <div
         class="_eyeDropper circle hover-effect flex justify-center align-center pointer mr-1 p-1"
