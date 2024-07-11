@@ -35,9 +35,13 @@ export class AppComponent {
 
   pepe: Rgba | undefined = new Rgba(255, 0, 0, 1);
 
-  events: Array<{ who: string; event: string; value: string | undefined }> = [];
+  events: Array<{
+    who: string;
+    event: string;
+    value: string | null | undefined;
+  }> = [];
 
-  public onChange(value: string | undefined, who: string) {
+  public onChange(value: string | null | undefined, who: string) {
     this.events.push({ who: who, event: 'change', value: value });
   }
   public onModelChanges(value: string | undefined, who: string) {

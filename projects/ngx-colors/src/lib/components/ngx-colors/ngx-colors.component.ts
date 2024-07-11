@@ -10,7 +10,7 @@ import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
 })
 export class NgxColorsComponent implements OnInit {
   constructor(@Host() private triggerDirective: NgxColorsTriggerDirective) {}
-  public previewColor: string | undefined = 'rgba(255,0,255,0.3)';
+  public previewColor: string | null | undefined = 'rgba(255,0,255,0.3)';
 
   ngOnInit(): void {
     if (!this.triggerDirective) {

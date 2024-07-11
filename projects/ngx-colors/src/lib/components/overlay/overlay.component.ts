@@ -1,11 +1,13 @@
 import { Component, HostListener } from '@angular/core';
 import { PanelComponent } from '../panel/panel.component';
 import { OverlayService } from '../../services/overlay.service';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ngx-colors-overlay',
   standalone: true,
-  imports: [PanelComponent],
+  imports: [PanelComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.scss',
 })
@@ -15,4 +17,9 @@ export class OverlayComponent {
   public onClick(): void {
     this.overlayService.removePanel();
   }
+  panelCtrl: FormControl<string | null | undefined> = new FormControl<
+    string | null | undefined
+  >('');
+
+  change$: Observable<string | null | undefined> = this.panelCtrl.valueChanges;
 }

@@ -30,15 +30,19 @@ export class NgxColorsTriggerDirective
     this.openPanel();
   }
   @Input() disabled: boolean = false;
-  @Output() change: EventEmitter<string | undefined> = new EventEmitter<
-    string | undefined
+  @Output() change: EventEmitter<string | undefined | null> = new EventEmitter<
+    string | undefined | null
   >();
   destroy$: Subject<void> = new Subject<void>();
 
-  value: string | undefined = undefined;
+  value: string | undefined | null = undefined;
 
   public openPanel() {
-    this.overlayService.createOverlay(undefined, 'pepe');
+    let overlayRef = this.overlayService.createOverlay(undefined, 'pepe');
+    overlayRef.instance.change$.subscribe((r) => {
+      this.value = r;
+      this.onChange(r);
+    });
   }
 
   ngOnDestroy(): void {
@@ -46,15 +50,15 @@ export class NgxColorsTriggerDirective
     this.destroy$.complete();
   }
 
-  writeValue(obj: string | undefined): void {
+  writeValue(obj: string | undefined | null): void {
     this.value = obj;
     this.change.emit(obj);
   }
 
-  onChange: (value: string | undefined) => void = () => {};
+  onChange: (value: string | undefined | null) => void = () => {};
   onTouch: () => void = () => {};
 
-  registerOnChange(fn: (value: string | undefined) => void): void {
+  registerOnChange(fn: (value: string | undefined | null) => void): void {
     this.onChange = fn;
   }
   registerOnTouched(fn: () => void): void {

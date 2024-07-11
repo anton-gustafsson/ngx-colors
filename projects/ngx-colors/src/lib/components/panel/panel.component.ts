@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, forwardRef } from '@angular/core';
 import { defaultColors } from '../../utility/default-colors';
 import { Color } from '../../models/color';
 import { Palette } from '../../types/palette';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { Rgba } from '../../models/rgba';
 import { TextInputComponent } from '../text-input/text-input.component';
@@ -18,6 +23,14 @@ import { TextInputComponent } from '../text-input/text-input.component';
     TextInputComponent,
     ReactiveFormsModule,
   ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PanelComponent),
+      multi: true,
+    },
+  ],
+
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
 })
@@ -40,10 +53,6 @@ export class PanelComponent implements OnInit {
     new FormControl<Rgba | undefined>(this.value);
   public textInputControl: FormControl<Rgba | null | undefined> =
     new FormControl<Rgba | undefined>(this.value);
-
-  public formatString = 'RGBA';
-
-  private availableFormats = ['RGBA', 'HEXA', 'HSVA', 'HSLA', 'CMYK'];
 
   public disabled: boolean = false;
   constructor() {}
@@ -73,23 +82,14 @@ export class PanelComponent implements OnInit {
     }
   }
 
-  public onClickFormat(): void {
-    const index =
-      (this.availableFormats.findIndex((af) => af === this.formatString) + 1) %
-      this.availableFormats.length;
-    if (index === -1) {
-      this.formatString = this.availableFormats[0];
-      return;
-    }
-    this.formatString = this.availableFormats[index];
-  }
-
   public onClickShowSliders() {
     this.showSliders = true;
   }
 
   private selectColor(color: Color) {
     this.selected = color.preview;
+    this.value = color.value;
+    this.onChange(color.preview);
   }
 
   writeValue(obj: Rgba | undefined): void {
