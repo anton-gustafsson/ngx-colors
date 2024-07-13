@@ -17,22 +17,22 @@ describe('OverlayService', () => {
   });
 
   it('should append overlay element to body', () => {
-    service.createOverlay(undefined, undefined);
+    service.createOverlay(undefined, undefined, undefined);
     const overlay =
       document.body.getElementsByTagName('ngx-colors-overlay').length;
     expect(overlay).toBeTruthy();
   });
 
   it('should not append multiple overlays', () => {
-    service.createOverlay(undefined, undefined);
-    service.createOverlay(undefined, undefined);
+    service.createOverlay(undefined, undefined, undefined);
+    service.createOverlay(undefined, undefined, undefined);
     const overlayCount =
       document.body.getElementsByTagName('ngx-colors-overlay').length;
     expect(overlayCount).toBeLessThan(2);
   });
 
   it('should remove overlay from the DOM', () => {
-    service.createOverlay(undefined, undefined);
+    service.createOverlay(undefined, undefined, undefined);
     service.removePanel();
     const overlay =
       document.body.getElementsByTagName('ngx-colors-overlay').length;

@@ -1,5 +1,6 @@
 import {
   Directive,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -25,7 +26,10 @@ import { OverlayService } from '../services/overlay.service';
 export class NgxColorsTriggerDirective
   implements ControlValueAccessor, OnDestroy
 {
-  constructor(private overlayService: OverlayService) {}
+  constructor(
+    private triggerRef: ElementRef<NgxColorsTriggerDirective>,
+    private overlayService: OverlayService
+  ) {}
   @HostListener('click') onClick() {
     this.openPanel();
   }
@@ -38,7 +42,7 @@ export class NgxColorsTriggerDirective
   value: string | undefined | null = undefined;
 
   public openPanel() {
-    let overlayRef = this.overlayService.createOverlay(undefined, 'pepe');
+    let overlayRef = this.overlayService.createOverlay(this, undefined, 'pepe');
     overlayRef.instance.change$.subscribe((r) => {
       this.value = r;
       this.onChange(r);
@@ -51,6 +55,7 @@ export class NgxColorsTriggerDirective
   }
 
   writeValue(obj: string | undefined | null): void {
+    console.log('value trigger', this.value);
     this.value = obj;
     this.change.emit(obj);
   }

@@ -1,10 +1,12 @@
 import {
   ApplicationRef,
   ComponentRef,
+  ElementRef,
   Injectable,
   createComponent,
 } from '@angular/core';
 import { OverlayComponent } from '../components/overlay/overlay.component';
+import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +18,17 @@ export class OverlayService {
   overlay: HTMLElement | undefined;
 
   createOverlay(
+    trigger: NgxColorsTriggerDirective | undefined,
     attachToId: string | undefined,
     overlayClassName: string | undefined
   ): ComponentRef<OverlayComponent> {
+    console.log(trigger);
     if (this.componentRef != undefined) {
       this.removePanel();
     }
 
-    const hostElement: HTMLElement = document.createElement('ngx-colors-overlay');
+    const hostElement: HTMLElement =
+      document.createElement('ngx-colors-overlay');
     if (overlayClassName) {
       hostElement.classList.add(overlayClassName);
     }
@@ -35,6 +40,10 @@ export class OverlayService {
     this.componentRef = createComponent(OverlayComponent, {
       hostElement,
       environmentInjector: injector,
+    });
+
+    this.componentRef.instance.change$.subscribe((changes) => {
+      console.log('panel changes in overlaycomponent', changes);
     });
     this.applicationRef.attachView(this.componentRef.hostView);
     return this.componentRef;
