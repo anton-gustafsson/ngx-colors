@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit, forwardRef } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  forwardRef,
+} from '@angular/core';
 import { defaultColors } from '../../utility/default-colors';
 import { Color } from '../../models/color';
 import { Palette } from '../../types/palette';
@@ -12,7 +18,8 @@ import {
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { Rgba } from '../../models/rgba';
 import { TextInputComponent } from '../text-input/text-input.component';
-import { BehaviorSubject, Subject, merge } from 'rxjs';
+import { BehaviorSubject, Subject, map, merge, takeUntil } from 'rxjs';
+import { Changes } from '../../types/changes';
 
 @Component({
   selector: 'ngx-colors-panel',
@@ -35,12 +42,13 @@ import { BehaviorSubject, Subject, merge } from 'rxjs';
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
 })
-export class PanelComponent implements OnInit {
+export class PanelComponent implements OnInit, OnDestroy {
   @HostListener('click', ['$event'])
   public onClick(event: MouseEvent): void {
     event.stopPropagation();
   }
 
+  private destroy$: Subject<void> = new Subject<void>();
   public palette: Palette = {
     back: undefined,
     list: defaultColors.map((c) => new Color(c)),
@@ -57,37 +65,50 @@ export class PanelComponent implements OnInit {
 
   public disabled: boolean = false;
 
-  public valueEvent: BehaviorSubject<Rgba | null | undefined> | undefined =
-    undefined;
+  public value$: BehaviorSubject<Changes> | undefined = undefined;
   constructor() {}
 
   public ngOnInit(): void {
-    merge(
-      this.textInputControl.valueChanges,
-      this.colorPickerControl.valueChanges
-    ).subscribe((res) => {
-      console.log('[panel] valueChanges text/cpr', res);
-      if (this.valueEvent) {
-        if (res) {
-          console.log(
-            '[panel] (ngOnInit valueChanges text and colorPicker Controls) next valueEvent '
-          );
-          this.valueEvent.next(res);
+    if (this.value$) {
+      merge(
+        this.textInputControl.valueChanges.pipe(
+          map<Rgba | null | undefined, Changes>((newValue) => {
+            return { value: newValue, origin: 'text-input' };
+          })
+        ),
+        this.colorPickerControl.valueChanges.pipe(
+          map<Rgba | null | undefined, Changes>((newValue) => {
+            return { value: newValue, origin: 'color-picker' };
+          })
+        )
+      )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((changes) => {
+          console.log('[panel] valueChanges text/cpr', changes);
+          if (this.value$) {
+            if (changes) {
+              console.log(
+                '[panel] (ngOnInit valueChanges text and colorPicker Controls) next valueEvent '
+              );
+              this.value$.next(changes);
+            }
+          }
+        });
+      this.value$.subscribe((changes) => {
+        console.log('[panel] valueEvent recibed', changes);
+        if (changes.origin != 'text-input') {
+          this.textInputControl.setValue(changes.value, { emitEvent: false });
         }
-      }
-    });
-    // this.textInputControl.valueChanges.subscribe((res) => {
-    //   console.log('[panel] textInput valueChanges', res);
-    // });
-    // this.colorPickerControl.valueChanges.subscribe((res) => {
-    //   console.log('[panel] colorPicker valueChanges', res);
-    // });
-    if (this.valueEvent) {
-      this.valueEvent.subscribe((res) => {
-        console.log('[panel] valueEvent recibed', res);
-        this.textInputControl.setValue(res, { emitEvent: false });
+        if (changes.origin != 'color-picker') {
+          this.colorPickerControl.setValue(changes.value, { emitEvent: false });
+        }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public onClickColor(color: Color): void {
@@ -117,7 +138,7 @@ export class PanelComponent implements OnInit {
     this.selected = color.preview;
     this.value = color.value;
     console.log('[panel] (selectColor) next valueEvent ');
-    this.valueEvent?.next(color.value);
+    this.value$?.next({ value: color.value, origin: 'palette' });
     this.onChange(color.preview);
   }
 

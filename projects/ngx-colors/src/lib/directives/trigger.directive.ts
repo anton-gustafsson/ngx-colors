@@ -14,6 +14,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
 import { Rgba } from '../models/rgba';
 import { Convert } from '../utility/convert';
+import { Changes } from '../types/changes';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -43,14 +44,15 @@ export class NgxColorsTriggerDirective
   destroy$: Subject<void> = new Subject<void>();
 
   value: string | undefined | null = undefined;
-  valueEvent: BehaviorSubject<Rgba | undefined | null> = new BehaviorSubject<
-    Rgba | undefined | null
-  >(undefined);
+  valueEvent: BehaviorSubject<Changes> = new BehaviorSubject<Changes>({
+    value: undefined,
+    origin: 'trigger',
+  });
 
   public ngOnInit(): void {
-    this.valueEvent.subscribe((res) => {
+    this.valueEvent.subscribe((changes) => {
       console.log('[trigger] (onInit) valueEvent recibed ', this.valueEvent);
-      this.value = res?.toString();
+      this.value = changes.value?.toString();
       this.onChange(this.value);
     });
   }
@@ -75,9 +77,15 @@ export class NgxColorsTriggerDirective
   writeValue(obj: string | undefined | null): void {
     console.log('[trigger] writeValue', obj);
     if (obj) {
-      this.valueEvent.next(Convert.stringToRgba(obj));
+      this.valueEvent.next({
+        value: Convert.stringToRgba(obj),
+        origin: 'trigger',
+      });
     } else {
-      this.valueEvent.next(null);
+      this.valueEvent.next({
+        value: null,
+        origin: 'trigger',
+      });
     }
     this.value = obj;
     this.change.emit(obj);

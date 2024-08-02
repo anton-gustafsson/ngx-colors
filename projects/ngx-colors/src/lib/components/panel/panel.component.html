@@ -55,7 +55,8 @@
     </div>
   </div>
   <div style="height: 204px; width: 210px">
-    <ngx-colors-color-picker [(ngModel)]="value"> </ngx-colors-color-picker>
+    <ngx-colors-color-picker [formControl]="colorPickerControl">
+    </ngx-colors-color-picker>
   </div>
   }
   <div class="flex mt-3">

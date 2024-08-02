@@ -9,6 +9,7 @@ import { OverlayComponent } from '../components/overlay/overlay.component';
 import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Rgba } from '../models/rgba';
+import { Changes } from '../types/changes';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class OverlayService {
     trigger: NgxColorsTriggerDirective | undefined,
     attachToId: string | undefined,
     overlayClassName: string | undefined,
-    valueEvent: BehaviorSubject<Rgba | null | undefined>
+    valueEvent: BehaviorSubject<Changes>
   ): ComponentRef<OverlayComponent> {
     console.log(trigger);
     if (this.componentRef != undefined) {
