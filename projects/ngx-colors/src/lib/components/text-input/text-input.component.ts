@@ -79,10 +79,14 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     this.value = obj;
     if (this.value) {
       this.inputControl.setValue(
-        Convert.rgbaToColorModel(this.value, this.selectedColorModel).toString()
+        Convert.rgbaToColorModel(
+          this.value,
+          this.selectedColorModel
+        ).toString(),
+        { emitEvent: false }
       );
     } else {
-      this.inputControl.setValue('');
+      this.inputControl.setValue('', { emitEvent: false });
     }
   }
 

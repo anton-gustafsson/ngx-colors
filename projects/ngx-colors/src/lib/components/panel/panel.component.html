@@ -59,7 +59,9 @@
   </div>
   }
   <div class="flex mt-3">
-    <ngx-colors-text-input [(ngModel)]="value"></ngx-colors-text-input>
+    <ngx-colors-text-input
+      [formControl]="textInputControl"
+    ></ngx-colors-text-input>
     <!-- <div -->
     <!--   class="flex justify-center align-center format hover-effect pointer" -->
     <!--   (click)="onClickFormat()" -->

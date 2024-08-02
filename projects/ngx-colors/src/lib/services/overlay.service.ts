@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { OverlayComponent } from '../components/overlay/overlay.component';
 import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Rgba } from '../models/rgba';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,8 @@ export class OverlayService {
   createOverlay(
     trigger: NgxColorsTriggerDirective | undefined,
     attachToId: string | undefined,
-    overlayClassName: string | undefined
+    overlayClassName: string | undefined,
+    valueEvent: BehaviorSubject<Rgba | null | undefined>
   ): ComponentRef<OverlayComponent> {
     console.log(trigger);
     if (this.componentRef != undefined) {
@@ -42,6 +45,7 @@ export class OverlayService {
       environmentInjector: injector,
     });
 
+    this.componentRef.instance.panel.valueEvent = valueEvent;
     this.componentRef.instance.change$.subscribe((changes) => {
       console.log('panel changes in overlaycomponent', changes);
     });

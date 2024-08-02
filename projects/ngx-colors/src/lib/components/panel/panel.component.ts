@@ -12,6 +12,7 @@ import {
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { Rgba } from '../../models/rgba';
 import { TextInputComponent } from '../text-input/text-input.component';
+import { BehaviorSubject, Subject, merge } from 'rxjs';
 
 @Component({
   selector: 'ngx-colors-panel',
@@ -55,12 +56,38 @@ export class PanelComponent implements OnInit {
     new FormControl<Rgba | undefined>(this.value);
 
   public disabled: boolean = false;
+
+  public valueEvent: BehaviorSubject<Rgba | null | undefined> | undefined =
+    undefined;
   constructor() {}
 
   public ngOnInit(): void {
-    this.textInputControl.valueChanges.subscribe((res) => {
-      console.log(res);
+    merge(
+      this.textInputControl.valueChanges,
+      this.colorPickerControl.valueChanges
+    ).subscribe((res) => {
+      console.log('[panel] valueChanges text/cpr', res);
+      if (this.valueEvent) {
+        if (res) {
+          console.log(
+            '[panel] (ngOnInit valueChanges text and colorPicker Controls) next valueEvent '
+          );
+          this.valueEvent.next(res);
+        }
+      }
     });
+    // this.textInputControl.valueChanges.subscribe((res) => {
+    //   console.log('[panel] textInput valueChanges', res);
+    // });
+    // this.colorPickerControl.valueChanges.subscribe((res) => {
+    //   console.log('[panel] colorPicker valueChanges', res);
+    // });
+    if (this.valueEvent) {
+      this.valueEvent.subscribe((res) => {
+        console.log('[panel] valueEvent recibed', res);
+        this.textInputControl.setValue(res, { emitEvent: false });
+      });
+    }
   }
 
   public onClickColor(color: Color): void {
@@ -89,6 +116,8 @@ export class PanelComponent implements OnInit {
   private selectColor(color: Color) {
     this.selected = color.preview;
     this.value = color.value;
+    console.log('[panel] (selectColor) next valueEvent ');
+    this.valueEvent?.next(color.value);
     this.onChange(color.preview);
   }
 

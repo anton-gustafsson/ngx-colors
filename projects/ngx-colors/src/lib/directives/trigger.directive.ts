@@ -5,12 +5,15 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
+import { Rgba } from '../models/rgba';
+import { Convert } from '../utility/convert';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -24,7 +27,7 @@ import { OverlayService } from '../services/overlay.service';
   ],
 })
 export class NgxColorsTriggerDirective
-  implements ControlValueAccessor, OnDestroy
+  implements ControlValueAccessor, OnDestroy, OnInit
 {
   constructor(
     private triggerRef: ElementRef<NgxColorsTriggerDirective>,
@@ -40,9 +43,24 @@ export class NgxColorsTriggerDirective
   destroy$: Subject<void> = new Subject<void>();
 
   value: string | undefined | null = undefined;
+  valueEvent: BehaviorSubject<Rgba | undefined | null> = new BehaviorSubject<
+    Rgba | undefined | null
+  >(undefined);
 
+  public ngOnInit(): void {
+    this.valueEvent.subscribe((res) => {
+      console.log('[trigger] (onInit) valueEvent recibed ', this.valueEvent);
+      this.value = res?.toString();
+      this.onChange(this.value);
+    });
+  }
   public openPanel() {
-    let overlayRef = this.overlayService.createOverlay(this, undefined, 'pepe');
+    let overlayRef = this.overlayService.createOverlay(
+      this,
+      undefined,
+      'pepe',
+      this.valueEvent
+    );
     overlayRef.instance.change$.subscribe((r) => {
       this.value = r;
       this.onChange(r);
@@ -55,7 +73,12 @@ export class NgxColorsTriggerDirective
   }
 
   writeValue(obj: string | undefined | null): void {
-    console.log('value trigger', this.value);
+    console.log('[trigger] writeValue', obj);
+    if (obj) {
+      this.valueEvent.next(Convert.stringToRgba(obj));
+    } else {
+      this.valueEvent.next(null);
+    }
     this.value = obj;
     this.change.emit(obj);
   }
