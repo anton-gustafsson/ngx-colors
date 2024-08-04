@@ -69,7 +69,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this.setValue(value);
   }
 
-  private setValue(value: Rgba | undefined) {
+  private setValue(value: Rgba | undefined, emitEvent: boolean = true) {
     if (!value) {
       this.preview = 'red';
       this.hue = 'red';
@@ -87,7 +87,9 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this.hueSlider?.setThumbPosition(this._value.h / 360, 0);
     this.alphaSlider?.setThumbPosition(this._value.a, 0);
     this.cdr.detectChanges();
-    this.onChange(this.value);
+    if (emitEvent) {
+      this.onChange(this.value);
+    }
   }
 
   //Fired on change of slider directive.
@@ -143,7 +145,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   }
   writeValue(obj: Rgba | undefined): void {
     this.value = obj;
-    this.setValue(obj);
+    this.setValue(obj, false);
   }
 
   onChange: (value: Rgba | undefined) => void = () => {};
