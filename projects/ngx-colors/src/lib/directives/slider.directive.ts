@@ -68,8 +68,8 @@ export class SliderDirective implements OnInit, OnDestroy {
     this.elRef.nativeElement.style.position = 'relative';
     this._ngZone.runOutsideAngular(() => {
       this.drag$.subscribe(([x, y]: [number, number]) => {
-        this._setThumbPosition(x, y);
-        this.change.emit(this.normalize(x, y));
+        this.setThumbPosition(x, y);
+        this.change.emit([x, y]);
       });
     });
   }
@@ -80,41 +80,26 @@ export class SliderDirective implements OnInit, OnDestroy {
   }
 
   public setThumbPosition(x: number, y: number): void {
-    const [dx, dy] = this.denormalize(x, y);
-    this._setThumbPosition(dx, dy);
-  }
-
-  private _setThumbPosition(x: number, y: number): void {
     if (this.thumb) {
       if (this.thumb.apparence == 'circle') {
-        this.thumb.elementRef.nativeElement.style.top = y + 'px';
+        this.thumb.elementRef.nativeElement.style.top = y * 100 + '%';
       }
-      this.thumb.elementRef.nativeElement.style.left = x + 'px';
+      this.thumb.elementRef.nativeElement.style.left = x * 100 + '%';
     }
   }
+
   private getCoordFromEvent(event: PointerEvent): [number, number] {
     const position = this.elRef.nativeElement.getBoundingClientRect();
     const width = this.elRef.nativeElement.offsetWidth;
     const height = this.elRef.nativeElement.offsetHeight;
     const x = Math.max(
       0,
-      Math.min(event.pageX - position.left - window.scrollX, width)
+      Math.min((event.pageX - position.left - window.scrollX) / width, 1)
     );
     const y = Math.max(
       0,
-      Math.min(event.pageY - position.top - window.scrollY, height)
+      Math.min((event.pageY - position.top - window.scrollY) / height, 1)
     );
     return [x, y];
-  }
-
-  private normalize(x: number, y: number): [number, number] {
-    const width = this.elRef.nativeElement.offsetWidth;
-    const height = this.elRef.nativeElement.offsetHeight;
-    return [x / width, y / height];
-  }
-  private denormalize(x: number, y: number): [number, number] {
-    const width = this.elRef.nativeElement.offsetWidth;
-    const height = this.elRef.nativeElement.offsetHeight;
-    return [x * width, y * height];
   }
 }
