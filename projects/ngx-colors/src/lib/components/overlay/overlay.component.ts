@@ -20,14 +20,5 @@ export class OverlayComponent implements OnInit {
     this.overlayService.removePanel();
   }
 
-  public ngOnInit(): void {
-    this.panelCtrl.valueChanges.subscribe((c) => {
-      console.log('changes in overlay', c);
-    });
-  }
-  panelCtrl: FormControl<string | null | undefined> = new FormControl<
-    string | null | undefined
-  >('');
-
-  change$: Observable<string | null | undefined> = this.panelCtrl.valueChanges;
+  public ngOnInit(): void {}
 }

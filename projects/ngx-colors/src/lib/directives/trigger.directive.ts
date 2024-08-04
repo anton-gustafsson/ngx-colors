@@ -63,10 +63,6 @@ export class NgxColorsTriggerDirective
       'pepe',
       this.valueEvent
     );
-    overlayRef.instance.change$.subscribe((r) => {
-      this.value = r;
-      this.onChange(r);
-    });
   }
 
   ngOnDestroy(): void {
