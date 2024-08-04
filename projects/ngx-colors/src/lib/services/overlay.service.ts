@@ -1,14 +1,12 @@
 import {
   ApplicationRef,
   ComponentRef,
-  ElementRef,
   Injectable,
   createComponent,
 } from '@angular/core';
 import { OverlayComponent } from '../components/overlay/overlay.component';
 import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Rgba } from '../models/rgba';
+import { BehaviorSubject } from 'rxjs';
 import { Changes } from '../types/changes';
 
 @Injectable({
@@ -46,10 +44,7 @@ export class OverlayService {
       environmentInjector: injector,
     });
 
-    this.componentRef.instance.panel.valueEvent = valueEvent;
-    this.componentRef.instance.change$.subscribe((changes) => {
-      console.log('panel changes in overlaycomponent', changes);
-    });
+    this.componentRef.instance.panel.value$ = valueEvent;
     this.applicationRef.attachView(this.componentRef.hostView);
     return this.componentRef;
   }
