@@ -43,8 +43,8 @@ import { Changes } from '../../types/changes';
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
 })
 export class PanelComponent implements OnInit, OnDestroy {
-  @HostListener('click', ['$event'])
-  public onClick(event: MouseEvent): void {
+  @HostListener('pointerdown', ['$event'])
+  public onClick(event: PointerEvent): void {
     event.stopPropagation();
   }
 

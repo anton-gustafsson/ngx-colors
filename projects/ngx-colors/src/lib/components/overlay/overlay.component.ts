@@ -26,6 +26,7 @@ export class OverlayComponent implements OnInit {
   onResize() {
     this.onScreenMovement();
   }
+  @HostListener('pointerdown', ['$event'])
   public onClick(): void {
     this.overlayService.removePanel();
   }
