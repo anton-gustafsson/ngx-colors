@@ -45,6 +45,17 @@ export class OverlayService {
     });
 
     this.componentRef.instance.panel.value$ = valueEvent;
+    this.componentRef.instance.triggerNativeElement =
+      trigger?.triggerRef.nativeElement;
+    if (trigger) {
+      let viewportOffset =
+        trigger.triggerRef.nativeElement.getBoundingClientRect();
+
+      let top = viewportOffset.top + viewportOffset.height;
+      let left = viewportOffset.left;
+      this.componentRef.instance.x = left;
+      this.componentRef.instance.y = top;
+    }
     this.applicationRef.attachView(this.componentRef.hostView);
     return this.componentRef;
   }

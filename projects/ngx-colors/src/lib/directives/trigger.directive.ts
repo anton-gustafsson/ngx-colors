@@ -15,6 +15,7 @@ import { OverlayService } from '../services/overlay.service';
 import { Rgba } from '../models/rgba';
 import { Convert } from '../utility/convert';
 import { Changes } from '../types/changes';
+import { HttpEvent } from '@angular/common/http';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -31,7 +32,7 @@ export class NgxColorsTriggerDirective
   implements ControlValueAccessor, OnDestroy, OnInit
 {
   constructor(
-    private triggerRef: ElementRef<NgxColorsTriggerDirective>,
+    public triggerRef: ElementRef<HTMLElement>,
     private overlayService: OverlayService
   ) {}
   @HostListener('click') onClick() {
@@ -57,6 +58,8 @@ export class NgxColorsTriggerDirective
     });
   }
   public openPanel() {
+    let pepe = this.triggerRef.nativeElement as HTMLElement;
+
     let overlayRef = this.overlayService.createOverlay(
       this,
       undefined,

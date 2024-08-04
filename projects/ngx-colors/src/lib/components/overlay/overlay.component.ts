@@ -12,13 +12,33 @@ import { Observable } from 'rxjs';
   styleUrl: './overlay.component.scss',
 })
 export class OverlayComponent implements OnInit {
+  x: number = 0;
+  y: number = 0;
+  triggerNativeElement: HTMLElement | undefined = undefined;
+
   @ViewChild(PanelComponent, { static: true })
   panel!: PanelComponent;
-  constructor(private overlayService: OverlayService) {}
-  @HostListener('click', ['$event'])
+  @HostListener('document:scroll')
+  onScroll() {
+    this.onScreenMovement();
+  }
+  @HostListener('window:resize')
+  onResize() {
+    this.onScreenMovement();
+  }
   public onClick(): void {
     this.overlayService.removePanel();
   }
+  constructor(private overlayService: OverlayService) {}
 
   public ngOnInit(): void {}
+
+  private onScreenMovement() {
+    if (!this.triggerNativeElement) return;
+    let viewportOffset = this.triggerNativeElement.getBoundingClientRect();
+    let top = viewportOffset.top + viewportOffset.height;
+    let left = viewportOffset.left;
+    this.x = left;
+    this.y = top;
+  }
 }
