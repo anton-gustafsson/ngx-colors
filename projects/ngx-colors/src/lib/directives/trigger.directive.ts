@@ -58,8 +58,6 @@ export class NgxColorsTriggerDirective
     });
   }
   public openPanel() {
-    let pepe = this.triggerRef.nativeElement as HTMLElement;
-
     let overlayRef = this.overlayService.createOverlay(
       this,
       undefined,
