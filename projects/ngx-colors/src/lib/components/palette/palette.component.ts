@@ -7,6 +7,7 @@ import { defaultColors } from '../../utility/default-colors';
 import { PaletteColor } from '../../models/color';
 import { CommonModule } from '@angular/common';
 import { Convert } from '../../utility/convert';
+import { PaletteStack } from '../../models/palette-stack';
 
 @Component({
   selector: 'ngx-colors-palette',
@@ -30,13 +31,11 @@ export class PaletteComponent
   public disabled: boolean = false;
   //Used to highlight the selected color on the palette
   public selected: string | undefined = undefined;
-  public palette: Palette = {
-    back: undefined,
-    list: defaultColors.map((c) => new PaletteColor(c)),
-  };
+  public palette: PaletteStack = new PaletteStack();
 
   public ngOnInit(): void {
-    console.log('PALETTE INIT', this.palette);
+    this.palette.push(defaultColors.map((c) => new PaletteColor(c)));
+    console.log('palette init', this.palette);
   }
 
   public ngOnDestroy(): void {
@@ -45,18 +44,12 @@ export class PaletteComponent
   }
 
   public onClickBack() {
-    if (!this.palette.back) {
-      console.error('The back stack is empty');
-      return;
-    }
-    this.palette.list = this.palette.back.list;
-    this.palette.back = this.palette.back.back;
+    this.palette.pop();
   }
 
   public onClickColor(color: PaletteColor) {
     if (color.childs?.length) {
-      this.palette.back = { ...this.palette };
-      this.palette.list = color.childs;
+      this.palette.push(color.childs);
     } else {
       console.log('[palette] color selected', color);
       this.selected = color.preview;

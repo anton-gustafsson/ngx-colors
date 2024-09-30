@@ -1,6 +1,6 @@
 <div class="palette">
   <div
-    *ngIf="palette.back"
+    *ngIf="palette.size > 1"
     aria-label="back"
     tabindex="0"
     (click)="this.onClickBack()"
@@ -9,7 +9,7 @@
   >
     <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
   </div>
-  @for(color of this.palette.list;track color.preview; let index = $index){
+  @for(color of this.palette.peek;track color.preview; let index = $index){
   <div
     class="circle color-option bg-transparent overflow-h pointer"
     tabindex="0"
@@ -24,7 +24,7 @@
     </div>
   </div>
   }
-  <ng-container *ngIf="!palette.back">
+  <ng-container *ngIf="palette.size <= 1">
     <ng-content></ng-content>
   </ng-container>
 </div>

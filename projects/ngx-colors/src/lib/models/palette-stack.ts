@@ -1,0 +1,28 @@
+import { PaletteColor } from './color';
+export class PaletteStack {
+  items: Array<PaletteColor[]> = [];
+  peek: Array<PaletteColor> = [];
+  size: number = 0;
+  pop() {
+    if (this.items.length <= 1) {
+      return;
+    }
+    let removed = this.items.pop();
+    this.updateState();
+    return removed;
+  }
+
+  push(item: Array<PaletteColor>) {
+    this.items.push(item);
+    this.updateState();
+  }
+
+  last() {
+    return this.items[this.items.length - 1];
+  }
+
+  private updateState() {
+    this.peek = this.last();
+    this.size = this.items.length;
+  }
+}
