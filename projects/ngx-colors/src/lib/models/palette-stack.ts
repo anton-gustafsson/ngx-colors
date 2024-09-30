@@ -3,7 +3,7 @@ export class PaletteStack {
   items: Array<PaletteColor[]> = [];
   peek: Array<PaletteColor> = [];
   size: number = 0;
-  pop() {
+  pop(): Array<PaletteColor> | undefined {
     if (this.items.length <= 1) {
       return;
     }
@@ -17,7 +17,7 @@ export class PaletteStack {
     this.updateState();
   }
 
-  last() {
+  last(): Array<PaletteColor> {
     return this.items[this.items.length - 1];
   }
 

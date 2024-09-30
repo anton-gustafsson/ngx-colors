@@ -18,7 +18,7 @@
     (click)="this.onClickColor(color)"
   >
     <div class="w-100 circle h-100" [style.background]="color.preview">
-      @if(selected === color.preview){
+      @if(indexSelected === index){
       <div class="circle selected"></div>
       }
     </div>

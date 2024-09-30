@@ -27,11 +27,13 @@ export class PaletteComponent
   implements OnInit, ControlValueAccessor, OnDestroy
 {
   private destroy$: Subject<void> = new Subject<void>();
-  public value: Rgba | undefined = undefined;
+  private value: Rgba | undefined = undefined;
   public disabled: boolean = false;
-  //Used to highlight the selected color on the palette
-  public selected: string | undefined = undefined;
   public palette: PaletteStack = new PaletteStack();
+
+  //Used to highlight the selected color on the palette
+  private selected: string | undefined = undefined;
+  public indexSelected: number = -1;
 
   public ngOnInit(): void {
     this.palette.push(defaultColors.map((c) => new PaletteColor(c)));
@@ -45,6 +47,22 @@ export class PaletteComponent
 
   public onClickBack() {
     this.palette.pop();
+    this.indexSelected = this.getIndexSelected(this.selected);
+  }
+
+  private isSelected(color: PaletteColor, selected: string): boolean {
+    return (
+      color.preview == selected ||
+      (!!color.childs?.length &&
+        color.childs.some((child) => this.isSelected(child, selected)))
+    );
+  }
+
+  private getIndexSelected(selected: string | undefined): number {
+    if (selected === undefined) {
+      return -1;
+    }
+    return this.palette.last().findIndex((c) => this.isSelected(c, selected));
   }
 
   public onClickColor(color: PaletteColor) {
@@ -56,6 +74,7 @@ export class PaletteComponent
       this.value = color.value;
       this.onChange(this.value);
     }
+    this.indexSelected = this.getIndexSelected(this.selected);
   }
 
   writeValue(obj: Rgba | undefined): void {
