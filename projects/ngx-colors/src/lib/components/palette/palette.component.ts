@@ -36,8 +36,8 @@ export class PaletteComponent
   public indexSelected: number = -1;
 
   public ngOnInit(): void {
+    console.log('[palette] OnInit');
     this.palette.push(defaultColors.map((c) => new PaletteColor(c)));
-    console.log('palette init', this.palette);
   }
 
   public ngOnDestroy(): void {
@@ -78,9 +78,11 @@ export class PaletteComponent
   }
 
   writeValue(obj: Rgba | undefined): void {
+    console.log('[palette] writeValue');
     this.value = obj;
     if (obj) {
       this.selected = Convert.rgbaToColorModel(obj, 'HEX').toString();
+      this.indexSelected = this.getIndexSelected(this.selected);
     }
   }
 
