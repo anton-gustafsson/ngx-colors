@@ -1,0 +1,43 @@
+<div class="palette">
+  <div
+    *ngIf="palette.back"
+    aria-label="back"
+    tabindex="0"
+    (click)="this.onClickBack()"
+    (keydown.enter)="this.onClickBack()"
+    class="circle color-option overflow-h flex justify-center align-center pointer"
+  >
+    <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
+  </div>
+  @for(color of this.palette.list;track color.preview; let index = $index){
+  <div
+    class="circle color-option bg-transparent overflow-h pointer"
+    tabindex="0"
+    [attr.aria-label]="index"
+    (keydown.enter)="this.onClickColor(color)"
+    (click)="this.onClickColor(color)"
+  >
+    <div class="w-100 circle h-100" [style.background]="color.preview">
+      @if(selected === color.preview){
+      <div class="circle selected"></div>
+      }
+    </div>
+  </div>
+  }
+  <ng-container *ngIf="!palette.back">
+    <ng-content></ng-content>
+  </ng-container>
+</div>
+<ng-template #backIcon>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#5f6368"
+  >
+    <path
+      d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
+    />
+  </svg>
+</ng-template>

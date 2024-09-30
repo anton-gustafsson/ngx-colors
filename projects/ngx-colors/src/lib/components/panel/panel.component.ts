@@ -7,7 +7,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { defaultColors } from '../../utility/default-colors';
-import { Color } from '../../models/color';
+import { PaletteColor } from '../../models/color';
 import { Palette } from '../../types/palette';
 import {
   FormControl,
@@ -20,6 +20,7 @@ import { Rgba } from '../../models/rgba';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { BehaviorSubject, Subject, map, merge, takeUntil } from 'rxjs';
 import { Changes } from '../../types/changes';
+import { PaletteComponent } from '../palette/palette.component';
 
 @Component({
   selector: 'ngx-colors-panel',
@@ -29,6 +30,7 @@ import { Changes } from '../../types/changes';
     FormsModule,
     ColorPickerComponent,
     TextInputComponent,
+    PaletteComponent,
     ReactiveFormsModule,
   ],
   providers: [
@@ -49,11 +51,6 @@ export class PanelComponent implements OnInit, OnDestroy {
   }
 
   private destroy$: Subject<void> = new Subject<void>();
-  public palette: Palette = {
-    back: undefined,
-    list: defaultColors.map((c) => new Color(c)),
-  };
-  public selected: string = '#9575CD';
   public showSliders: boolean = false;
 
   public value: Rgba | undefined = new Rgba(255, 0, 0, 1);
@@ -62,14 +59,17 @@ export class PanelComponent implements OnInit, OnDestroy {
     new FormControl<Rgba | undefined>(this.value);
   public textInputControl: FormControl<Rgba | null | undefined> =
     new FormControl<Rgba | undefined>(this.value);
+  public paletteControl: FormControl<Rgba | null | undefined> = new FormControl<
+    Rgba | undefined
+  >(this.value);
 
   public disabled: boolean = false;
 
-  public value$: BehaviorSubject<Changes> | undefined = undefined;
+  public sharedState$: BehaviorSubject<Changes> | undefined = undefined;
   constructor() {}
 
   public ngOnInit(): void {
-    if (this.value$) {
+    if (this.sharedState$) {
       merge(
         this.textInputControl.valueChanges.pipe(
           map<Rgba | null | undefined, Changes>((newValue) => {
@@ -80,27 +80,33 @@ export class PanelComponent implements OnInit, OnDestroy {
           map<Rgba | null | undefined, Changes>((newValue) => {
             return { value: newValue, origin: 'color-picker' };
           })
+        ),
+        this.paletteControl.valueChanges.pipe(
+          map<Rgba | null | undefined, Changes>((newValue) => {
+            return { value: newValue, origin: 'palette' };
+          })
         )
       )
         .pipe(takeUntil(this.destroy$))
         .subscribe((changes) => {
-          console.log('[panel] valueChanges text/cpr', changes);
-          if (this.value$) {
+          console.log('[panel] mergeControls change');
+          if (this.sharedState$) {
             if (changes) {
-              console.log(
-                '[panel] (ngOnInit valueChanges text and colorPicker Controls) next valueEvent '
-              );
-              this.value$.next(changes);
+              console.log('[panel]', changes.origin, changes.value);
+              this.sharedState$.next(changes);
             }
           }
         });
-      this.value$.subscribe((changes) => {
+      this.sharedState$.subscribe((changes) => {
         console.log('[panel] valueEvent recibed', changes);
         if (changes.origin != 'text-input') {
           this.textInputControl.setValue(changes.value, { emitEvent: false });
         }
         if (changes.origin != 'color-picker') {
           this.colorPickerControl.setValue(changes.value, { emitEvent: false });
+        }
+        if (changes.origin != 'palette') {
+          this.paletteControl.setValue(changes.value, { emitEvent: false });
         }
       });
     }
@@ -111,35 +117,12 @@ export class PanelComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public onClickColor(color: Color): void {
-    if (color.childs?.length) {
-      this.palette.back = { ...this.palette };
-      this.palette.list = color.childs;
-    } else {
-      this.selectColor(color);
-    }
-  }
-
   public onClickBack() {
-    if (this.showSliders) {
-      this.showSliders = false;
-    }
-    if (this.palette.back) {
-      this.palette.list = this.palette.back.list;
-      this.palette.back = this.palette.back.back;
-    }
+    this.showSliders = false;
   }
 
   public onClickShowSliders() {
     this.showSliders = true;
-  }
-
-  private selectColor(color: Color) {
-    this.selected = color.preview;
-    this.value = color.value;
-    console.log('[panel] (selectColor) next valueEvent ');
-    this.value$?.next({ value: color.value, origin: 'palette' });
-    this.onChange(color.preview);
   }
 
   writeValue(obj: Rgba | undefined): void {

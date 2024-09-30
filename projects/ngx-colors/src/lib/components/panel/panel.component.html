@@ -1,33 +1,7 @@
 <div class="elevation-z2 bg-white main flex flex-col">
   @if(!showSliders){
-  <div class="palette">
+  <ngx-colors-palette [formControl]="paletteControl">
     <div
-      *ngIf="palette.back"
-      aria-label="back"
-      tabindex="0"
-      (click)="onClickBack()"
-      (keydown.enter)="onClickBack()"
-      class="circle color-option overflow-h flex justify-center align-center pointer"
-    >
-      <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
-    </div>
-    @for(color of palette.list;track color.preview; let index = $index){
-    <div
-      class="circle color-option bg-transparent overflow-h pointer"
-      tabindex="0"
-      [attr.aria-label]="index"
-      (keydown.enter)="onClickColor(color)"
-      (click)="onClickColor(color)"
-    >
-      <div class="w-100 circle h-100" [style.background]="color.preview">
-        @if(selected === color.preview){
-        <div class="circle selected"></div>
-        }
-      </div>
-    </div>
-    }
-    <div
-      *ngIf="!palette.back"
       class="circle color-option overflow-h flex justify-center align-center pointer"
       aria-label="sliders"
       tabindex="0"
@@ -36,7 +10,7 @@
     >
       <ng-container [ngTemplateOutlet]="sliderIcon"> </ng-container>
     </div>
-  </div>
+  </ngx-colors-palette>
   } @else{
   <!-- Palette Page -->
   <div class="_palette-controls">
@@ -63,18 +37,6 @@
     <ngx-colors-text-input
       [formControl]="textInputControl"
     ></ngx-colors-text-input>
-    <!-- <div -->
-    <!--   class="flex justify-center align-center format hover-effect pointer" -->
-    <!--   (click)="onClickFormat()" -->
-    <!--   aria-label="change format" -->
-    <!--   tabindex="0" -->
-    <!-- > -->
-    <!--   {{this.formatString}} -->
-    <!-- </div> -->
-    <!-- <div class="flex justify-center align-center value bg-white"> -->
-    <!--   <!-- <input [(ngModel)]="selected" /> -->
-    <!--   <ngx-colors-text-input [(ngModel)]="value"></ngx-colors-text-input> -->
-    <!-- </div> -->
   </div>
 </div>
 

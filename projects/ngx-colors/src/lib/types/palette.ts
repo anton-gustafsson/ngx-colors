@@ -1,6 +1,6 @@
-import { Color } from '../models/color';
+import { PaletteColor } from '../models/color';
 
 export type Palette = {
   back?: Palette;
-  list: Array<Color>;
+  list: Array<PaletteColor>;
 };

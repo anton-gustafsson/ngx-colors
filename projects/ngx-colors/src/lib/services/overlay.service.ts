@@ -44,7 +44,7 @@ export class OverlayService {
       environmentInjector: injector,
     });
 
-    this.componentRef.instance.panel.value$ = valueEvent;
+    this.componentRef.instance.panel.sharedState$ = valueEvent;
     this.componentRef.instance.triggerNativeElement =
       trigger?.triggerRef.nativeElement;
     if (trigger) {
