@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -6,20 +5,19 @@ import {
   OnInit,
   forwardRef,
 } from '@angular/core';
-import { defaultColors } from '../../utility/default-colors';
-import { PaletteColor } from '../../models/color';
-import { Palette } from '../../types/palette';
 import {
   FormControl,
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { Rgba } from '../../models/rgba';
-import { TextInputComponent } from '../text-input/text-input.component';
-import { BehaviorSubject, Subject, map, merge, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, map, merge, take, takeUntil } from 'rxjs';
 import { Changes } from '../../types/changes';
+import { StateService } from '../../services/state.service';
+import { CommonModule } from '@angular/common';
+import { ColorPickerComponent } from '../color-picker/color-picker.component';
+import { TextInputComponent } from '../text-input/text-input.component';
 import { PaletteComponent } from '../palette/palette.component';
 
 @Component({
@@ -40,11 +38,11 @@ import { PaletteComponent } from '../palette/palette.component';
       multi: true,
     },
   ],
-
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
 })
 export class PanelComponent implements OnInit, OnDestroy {
+  constructor(private stateService: StateService) {}
   @HostListener('pointerdown', ['$event'])
   public onClick(event: PointerEvent): void {
     event.stopPropagation();
@@ -53,68 +51,85 @@ export class PanelComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   public showSliders: boolean = false;
 
-  public value: Rgba | undefined = new Rgba(255, 0, 0, 1);
-
-  public colorPickerControl: FormControl<Rgba | null | undefined> =
-    new FormControl<Rgba | undefined>(this.value);
-  public textInputControl: FormControl<Rgba | null | undefined> =
-    new FormControl<Rgba | undefined>(this.value);
-  public paletteControl: FormControl<Rgba | null | undefined> = new FormControl<
+  public paletteCtrl: FormControl<Rgba | null | undefined> = new FormControl<
     Rgba | undefined
-  >(this.value);
+  >(undefined);
+  public slidersCtrl: FormControl<Rgba | null | undefined> = new FormControl<
+    Rgba | undefined
+  >(undefined);
+  public textInputCtrl: FormControl<Rgba | null | undefined> = new FormControl<
+    Rgba | undefined
+  >(undefined);
+
+  public tempValue: Rgba | null | undefined = undefined;
 
   public disabled: boolean = false;
 
-  public sharedState$: BehaviorSubject<Changes> | undefined = undefined;
-  constructor() {}
-
   public ngOnInit(): void {
-    if (this.sharedState$) {
-      merge(
-        this.textInputControl.valueChanges.pipe(
-          map<Rgba | null | undefined, Changes>((newValue) => {
-            return { value: newValue, origin: 'text-input' };
-          })
-        ),
-        this.colorPickerControl.valueChanges.pipe(
-          map<Rgba | null | undefined, Changes>((newValue) => {
-            return { value: newValue, origin: 'color-picker' };
-          })
-        ),
-        this.paletteControl.valueChanges.pipe(
-          map<Rgba | null | undefined, Changes>((newValue) => {
-            return { value: newValue, origin: 'palette' };
-          })
-        )
+    merge(
+      this.stateService.state.pipe(
+        map<Rgba | null | undefined, Changes>((newValue) => {
+          return { value: newValue, origin: 'trigger' };
+        })
+      ),
+      this.textInputCtrl.valueChanges.pipe(
+        map<Rgba | null | undefined, Changes>((newValue) => {
+          return { value: newValue, origin: 'text-input' };
+        })
+      ),
+      this.slidersCtrl.valueChanges.pipe(
+        map<Rgba | null | undefined, Changes>((newValue) => {
+          return { value: newValue, origin: 'color-picker' };
+        })
+      ),
+      this.paletteCtrl.valueChanges.pipe(
+        map<Rgba | null | undefined, Changes>((newValue) => {
+          return { value: newValue, origin: 'palette' };
+        })
       )
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((changes) => {
-          console.log('[panel] mergeControls change');
-          if (this.sharedState$) {
-            if (changes) {
-              console.log('[panel]', changes.origin, changes.value);
-              this.sharedState$.next(changes);
-            }
-          }
-        });
-      this.sharedState$.subscribe((changes) => {
-        console.log('[panel] valueEvent recibed', changes);
-        if (changes.origin != 'text-input') {
-          this.textInputControl.setValue(changes.value, { emitEvent: false });
-        }
-        if (changes.origin != 'color-picker') {
-          this.colorPickerControl.setValue(changes.value, { emitEvent: false });
-        }
-        if (changes.origin != 'palette') {
-          this.paletteControl.setValue(changes.value, { emitEvent: false });
-        }
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((changes) => {
+        this.tempValue = changes.value;
+        this.updateCtrlValues(changes.value, changes.origin);
       });
-    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private updateCtrlValues(
+    value: Rgba | null | undefined,
+    origin:
+      | 'text-input'
+      | 'color-picker'
+      | 'trigger'
+      | 'palette'
+      | undefined = undefined
+  ) {
+    if (origin == 'palette') {
+      this.stateService.set(value);
+    }
+    if (origin != 'palette') {
+      this.paletteCtrl.setValue(value, { emitEvent: false });
+    }
+    if (origin != 'text-input') {
+      this.textInputCtrl.setValue(value, { emitEvent: false });
+    }
+    if (origin != 'color-picker') {
+      this.slidersCtrl.setValue(value, { emitEvent: false });
+    }
+  }
+
+  public accept() {
+    this.stateService.set(this.tempValue);
+  }
+  public cancel() {
+    this.stateService.state
+      .pipe(take(1))
+      .subscribe((res) => this.updateCtrlValues(res));
   }
 
   public onClickBack() {
@@ -123,22 +138,5 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   public onClickShowSliders() {
     this.showSliders = true;
-  }
-
-  writeValue(obj: Rgba | undefined): void {
-    this.value = obj;
-  }
-
-  onChange: (value: string | undefined) => void = () => {};
-  onTouch: () => void = () => {};
-
-  registerOnChange(fn: (value: string | undefined) => void): void {
-    this.onChange = fn;
-  }
-  registerOnTouched(fn: () => void): void {
-    this.onTouch = fn;
-  }
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 }

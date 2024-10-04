@@ -1,6 +1,6 @@
 <div class="elevation-z2 bg-white main flex flex-col">
   @if(!showSliders){
-  <ngx-colors-palette [formControl]="paletteControl">
+  <ngx-colors-palette [formControl]="this.paletteCtrl">
     <div
       class="circle color-option overflow-h flex justify-center align-center pointer"
       aria-label="sliders"
@@ -24,18 +24,22 @@
       <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
     </div>
     <div class="_buttons">
-      <button class="pointer hover-effect">ACCEPT</button>
-      <button class="pointer hover-effect">CANCEL</button>
+      <button (click)="this.accept()" class="pointer hover-effect">
+        ACCEPT
+      </button>
+      <button (click)="this.cancel()" class="pointer hover-effect">
+        CANCEL
+      </button>
     </div>
   </div>
   <div style="height: 204px; width: 210px">
-    <ngx-colors-color-picker [formControl]="colorPickerControl">
+    <ngx-colors-color-picker [formControl]="this.slidersCtrl">
     </ngx-colors-color-picker>
   </div>
   }
   <div class="flex mt-3">
     <ngx-colors-text-input
-      [formControl]="textInputControl"
+      [formControl]="this.textInputCtrl"
     ></ngx-colors-text-input>
   </div>
 </div>

@@ -78,11 +78,12 @@ export class PaletteComponent
   }
 
   writeValue(obj: Rgba | undefined): void {
-    console.log('[palette] writeValue');
+    console.log('[palette] writeValue', obj);
     this.value = obj;
-    if (obj) {
-      this.selected = Convert.rgbaToColorModel(obj, 'HEX').toString();
+    if (this.value) {
+      this.selected = Convert.rgbaToColorModel(this.value, 'HEX').toString();
       this.indexSelected = this.getIndexSelected(this.selected);
+      console.log('[palette] selected:', this.selected, this.value);
     }
   }
 

@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
-  ColorPickerComponent,
   NgxColorsComponent,
   NgxColorsTriggerDirective,
-  PanelComponent,
 } from '../../../ngx-colors/src/public-api';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,11 +14,9 @@ import { Rgba } from '../../../ngx-colors/src/lib/models/rgba';
   imports: [
     RouterOutlet,
     NgxColorsComponent,
-    NgxColorsTriggerDirective,
-    ColorPickerComponent,
     ReactiveFormsModule,
+    NgxColorsTriggerDirective,
     FormsModule,
-    PanelComponent,
     CommonModule,
   ],
   templateUrl: './app.component.html',

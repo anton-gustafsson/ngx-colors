@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -12,10 +13,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
-import { Rgba } from '../models/rgba';
 import { Convert } from '../utility/convert';
-import { Changes } from '../types/changes';
-import { HttpEvent } from '@angular/common/http';
+import { StateService } from '../services/state.service';
+import { Rgba } from '../../../../../dist/ngx-colors/lib/models/rgba';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -26,6 +26,8 @@ import { HttpEvent } from '@angular/common/http';
       useExisting: forwardRef(() => NgxColorsTriggerDirective),
       multi: true,
     },
+    OverlayService,
+    StateService,
   ],
 })
 export class NgxColorsTriggerDirective
@@ -33,7 +35,8 @@ export class NgxColorsTriggerDirective
 {
   constructor(
     public triggerRef: ElementRef<HTMLElement>,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private stateService: StateService
   ) {}
   @HostListener('click') onClick() {
     this.openPanel();
@@ -43,26 +46,34 @@ export class NgxColorsTriggerDirective
     string | undefined | null
   >();
   destroy$: Subject<void> = new Subject<void>();
-
   value: string | undefined | null = undefined;
-  valueEvent: BehaviorSubject<Changes> = new BehaviorSubject<Changes>({
-    value: undefined,
-    origin: 'trigger',
-  });
 
   public ngOnInit(): void {
-    this.valueEvent.subscribe((changes) => {
-      console.log('[trigger] (onInit) valueEvent recibed ', this.valueEvent);
-      this.value = changes.value?.toString();
-      this.onChange(this.value);
+    this.stateService.state.subscribe((value) => {
+      console.log('[trigger] currentState', value);
+      if (value) {
+        this.value = value.toString();
+        this.onChange(this.value);
+        this.overlayService.removePanel();
+        return;
+      }
+      this.value = null;
+      this.onChange(null);
     });
   }
   public openPanel() {
+    this.onTouch();
+    const injector = Injector.create({
+      providers: [
+        { provide: StateService, useValue: this.stateService },
+        { provide: OverlayService, useValue: this.overlayService },
+      ],
+    });
     let overlayRef = this.overlayService.createOverlay(
       this,
       undefined,
       'pepe',
-      this.valueEvent
+      injector
     );
   }
 
@@ -72,17 +83,11 @@ export class NgxColorsTriggerDirective
   }
 
   writeValue(obj: string | undefined | null): void {
-    console.log('[trigger] writeValue', obj);
     if (obj) {
-      this.valueEvent.next({
-        value: Convert.stringToRgba(obj),
-        origin: 'trigger',
-      });
+      let rgba = Convert.stringToRgba(obj);
+      this.stateService.set(rgba);
     } else {
-      this.valueEvent.next({
-        value: null,
-        origin: 'trigger',
-      });
+      this.stateService.set(null);
     }
     this.value = obj;
     this.change.emit(obj);

@@ -19,6 +19,7 @@ export class NgxColorsComponent implements OnInit {
     }
     this.triggerDirective.change.subscribe((c) => {
       this.previewColor = c;
+      console.log('magia negra');
     });
   }
 }

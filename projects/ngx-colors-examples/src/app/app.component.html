@@ -1,4 +1,4 @@
-<table>
+<table class="pepe">
   <tr>
     <th>Tipo</th>
     <th>ngx-colors</th>
@@ -19,8 +19,8 @@
       ></ngx-colors>
     </td>
     <td>{{testCtrl.value}}</td>
-    <td>{{testCtrl.dirty}}</td>
     <td>{{testCtrl.touched}}</td>
+    <td>{{testCtrl.dirty}}</td>
     <td>
       <input #inputCtrl id="testInput" />
       <button (click)="testCtrl.setValue(inputCtrl.value)">aplicar</button>
@@ -46,44 +46,45 @@
     </td>
   </tr>
 </table>
-<div *ngFor="let event of events">{{event | json}}</div>
-
-<div>{{pepe | json}}</div>
-<ngx-colors-panel> </ngx-colors-panel>
-<div style="display: flex; gap: 10px">
-  <button (click)="green()">green</button>
-  <button (click)="blue()">blue</button>
-  <button (click)="red()">red</button>
-  <button (click)="undi()">undefined</button>
-  <div
-    style="
-      width: 220px;
-      height: 204px;
-      border: 1px solid black;
-      margin-top: 10px;
-    "
-  >
-    <ngx-colors-color-picker [(value)]="pepe" (valueChange)="log($event)">
-    </ngx-colors-color-picker>
-  </div>
-  <div
-    style="
-      width: 250px;
-      height: 350px;
-      border: 1px solid black;
-      margin-top: 10px;
-    "
-  >
-    <ngx-colors-color-picker> </ngx-colors-color-picker>
-  </div>
-  <div
-    style="
-      width: 350px;
-      height: 350px;
-      border: 1px solid black;
-      margin-top: 10px;
-    "
-  >
-    <ngx-colors-color-picker> </ngx-colors-color-picker>
-  </div>
-</div>
+<!-- <div *ngFor="let event of events">{{event | json}}</div> -->
+<!---->
+<!-- <div>{{pepe | json}}</div> -->
+<!-- <ngx-colors-panel> </ngx-colors-panel> -->
+<!-- <ngx-colors-panel> </ngx-colors-panel> -->
+<!-- <div style="display: flex; gap: 10px"> -->
+<!--   <button (click)="green()">green</button> -->
+<!--   <button (click)="blue()">blue</button> -->
+<!--   <button (click)="red()">red</button> -->
+<!--   <button (click)="undi()">undefined</button> -->
+<!--   <div -->
+<!--     style=" -->
+<!--       width: 220px; -->
+<!--       height: 204px; -->
+<!--       border: 1px solid black; -->
+<!--       margin-top: 10px; -->
+<!--     " -->
+<!--   > -->
+<!--     <ngx-colors-color-picker [(value)]="pepe" (valueChange)="log($event)"> -->
+<!--     </ngx-colors-color-picker> -->
+<!--   </div> -->
+<!--   <div -->
+<!--     style=" -->
+<!--       width: 250px; -->
+<!--       height: 350px; -->
+<!--       border: 1px solid black; -->
+<!--       margin-top: 10px; -->
+<!--     " -->
+<!--   > -->
+<!--     <ngx-colors-color-picker> </ngx-colors-color-picker> -->
+<!--   </div> -->
+<!--   <div -->
+<!--     style=" -->
+<!--       width: 350px; -->
+<!--       height: 350px; -->
+<!--       border: 1px solid black; -->
+<!--       margin-top: 10px; -->
+<!--     " -->
+<!--   > -->
+<!--     <ngx-colors-color-picker> </ngx-colors-color-picker> -->
+<!--   </div> -->
+<!-- </div> -->

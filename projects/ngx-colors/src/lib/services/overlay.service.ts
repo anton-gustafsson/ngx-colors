@@ -1,17 +1,17 @@
 import {
   ApplicationRef,
   ComponentRef,
+  EnvironmentInjector,
   Injectable,
+  Injector,
   createComponent,
 } from '@angular/core';
 import { OverlayComponent } from '../components/overlay/overlay.component';
 import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
 import { BehaviorSubject } from 'rxjs';
-import { Changes } from '../types/changes';
+import { Rgba } from '../models/rgba';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OverlayService {
   constructor(private applicationRef: ApplicationRef) {}
 
@@ -22,7 +22,7 @@ export class OverlayService {
     trigger: NgxColorsTriggerDirective | undefined,
     attachToId: string | undefined,
     overlayClassName: string | undefined,
-    valueEvent: BehaviorSubject<Changes>
+    injector2: Injector
   ): ComponentRef<OverlayComponent> {
     console.log(trigger);
     if (this.componentRef != undefined) {
@@ -42,9 +42,12 @@ export class OverlayService {
     this.componentRef = createComponent(OverlayComponent, {
       hostElement,
       environmentInjector: injector,
+      elementInjector: injector2,
     });
 
-    this.componentRef.instance.panel.sharedState$ = valueEvent;
+    // this.componentRef.instance.clickOutside.subscribe(this.removePanel());
+    // this.componentRef.instance.panel.state$ = state;
+
     this.componentRef.instance.triggerNativeElement =
       trigger?.triggerRef.nativeElement;
     if (trigger) {

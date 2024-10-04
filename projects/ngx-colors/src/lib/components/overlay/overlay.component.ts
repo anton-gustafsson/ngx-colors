@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
   styleUrl: './overlay.component.scss',
 })
 export class OverlayComponent implements OnInit {
+  constructor(private overlayService: OverlayService) {}
+
   x: number = 0;
   y: number = 0;
   triggerNativeElement: HTMLElement | undefined = undefined;
@@ -30,7 +32,6 @@ export class OverlayComponent implements OnInit {
   public onClick(): void {
     this.overlayService.removePanel();
   }
-  constructor(private overlayService: OverlayService) {}
 
   public ngOnInit(): void {}
 
