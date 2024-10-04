@@ -19,7 +19,7 @@ export class OverlayService {
     trigger: NgxColorsTriggerDirective | undefined,
     attachToId: string | undefined,
     overlayClassName: string | undefined,
-    injector2: Injector
+    injector: Injector
   ): ComponentRef<OverlayComponent> {
     console.log(trigger);
     if (this.componentRef != undefined) {
@@ -34,16 +34,13 @@ export class OverlayService {
     (document.getElementById(attachToId ?? '') ?? document.body).appendChild(
       hostElement
     );
-    const injector = this.applicationRef.injector;
+    const environmentInjector = this.applicationRef.injector;
 
     this.componentRef = createComponent(OverlayComponent, {
       hostElement,
-      environmentInjector: injector,
-      elementInjector: injector2,
+      environmentInjector,
+      elementInjector: injector,
     });
-
-    // this.componentRef.instance.clickOutside.subscribe(this.removePanel());
-    // this.componentRef.instance.panel.state$ = state;
 
     this.componentRef.instance.triggerNativeElement =
       trigger?.triggerRef.nativeElement;
