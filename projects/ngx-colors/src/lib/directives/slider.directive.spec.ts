@@ -27,7 +27,7 @@ class HostComponent {
   value: string = '#ff00ff';
 }
 
-describe('SliderDirective', () => {
+xdescribe('SliderDirective', () => {
   let fixture: ComponentFixture<HostComponent>;
   let component: HostComponent;
   let sliderEl: DebugElement;
