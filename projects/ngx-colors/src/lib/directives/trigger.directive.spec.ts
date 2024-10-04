@@ -29,10 +29,10 @@ describe('NgxColorsTriggerDirective', () => {
     elementsWithDirective = fixture.debugElement.queryAll(
       By.directive(NgxColorsTriggerDirective)
     );
-    directives = elementsWithDirective.map((de: any) =>
+    directives = elementsWithDirective.map((de: DebugElement) =>
       de.injector.get(NgxColorsTriggerDirective)
     );
-    ngxColors = elementsWithDirective.map((de: any) =>
+    ngxColors = elementsWithDirective.map((de: DebugElement) =>
       de.injector.get(NgxColorsComponent)
     );
   });
@@ -40,11 +40,12 @@ describe('NgxColorsTriggerDirective', () => {
   it('should create', () => {
     expect(directives.length).toBeTruthy();
   });
-  it('directive 0 should have the value of ngModel', () => {
+  it('directive should have the value of ngModel', () => {
     expect(directives[0].value).toBe('#ff00ff');
   });
   it('ngx-colors should have previewColor equals directive value', () => {
-    expect(directives[0].value).toBe('#ff00ff');
+    directives[0].onChange('#ff00ff');
+    expect(ngxColors[0].previewColor).toBe('#ff00ff');
   });
   it('should open overlay on click', () => {
     elementsWithDirective[0].triggerEventHandler('click', {});

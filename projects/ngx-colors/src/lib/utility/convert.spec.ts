@@ -153,7 +153,8 @@ const mockStrings: Array<ColorEquivalence> = [
   },
 ];
 
-const isColorFormat = (value: any): value is ColorFormat => !!value?.toRounded;
+const isColorFormat = (value: ColorFormat | string): value is ColorFormat =>
+  typeof (value as ColorFormat).toRounded === 'function';
 
 function testFormatToClass(source: ColorModel, target: ColorModel) {
   const keysource = source.toLowerCase();

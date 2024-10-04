@@ -9,7 +9,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ThumbComponent } from '../components/thumb/thumb.component';
-import { Subject } from 'rxjs';
 
 @Component({
   template: `
@@ -27,7 +26,7 @@ class HostComponent {
   value: string = '#ff00ff';
 }
 
-xdescribe('SliderDirective', () => {
+describe('SliderDirective', () => {
   let fixture: ComponentFixture<HostComponent>;
   let component: HostComponent;
   let sliderEl: DebugElement;
@@ -85,20 +84,19 @@ xdescribe('SliderDirective', () => {
     });
     tick(50);
     fixture.detectChanges();
-    expect(thumbComponent.elementRef.nativeElement.style.left).toBe(`50px`);
-    expect(thumbComponent.elementRef.nativeElement.style.top).toBe(`25px`);
+    expect(thumbComponent.elementRef.nativeElement.style.left).toBe(`50%`);
+    expect(thumbComponent.elementRef.nativeElement.style.top).toBe(`25%`);
   }));
 
   it('should set thumb position via setThumbPosition method', () => {
     sliderDirective.setThumbPosition(0.5, 0.2);
     fixture.detectChanges();
-    expect(thumbComponent.elementRef.nativeElement.style.left).toBe(`50px`);
-    expect(thumbComponent.elementRef.nativeElement.style.top).toBe(`20px`);
+    expect(thumbComponent.elementRef.nativeElement.style.left).toBe(`50%`);
+    expect(thumbComponent.elementRef.nativeElement.style.top).toBe(`20%`);
   });
 
-  it('should emit change event on drag', fakeAsync(() => {
-    spyOn(component, 'onChange');
-
+  it('should emit sliderChange event on drag', fakeAsync(() => {
+    const sliderChangeSpy = spyOn(sliderDirective.sliderChange, 'emit'); // Corrected spy to listen to the event emitter
     zone.runOutsideAngular(() => {
       sliderEl.nativeElement.dispatchEvent(pointerdown);
       document.dispatchEvent(pointermove);
@@ -106,11 +104,11 @@ xdescribe('SliderDirective', () => {
     });
     tick(50);
     fixture.detectChanges();
-    expect(component.onChange).toHaveBeenCalledWith([0.5, 0.25]);
+    expect(sliderChangeSpy).toHaveBeenCalledWith([0.5, 0.25]);
   }));
 
   it('should clean up observables on destroy', () => {
-    sliderDirective['destroy$'] = new Subject<void>();
+    // sliderDirective['destroy$'] = new Subject<void>();
     // @ts-expect-error private methods
     const spyNext = spyOn(sliderDirective.destroy$, 'next');
     // @ts-expect-error private methods
