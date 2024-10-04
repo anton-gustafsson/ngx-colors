@@ -1,21 +1,18 @@
 import {
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
 import { Convert } from '../utility/convert';
 import { StateService } from '../services/state.service';
-import { Rgba } from '../../../../../dist/ngx-colors/lib/models/rgba';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -66,12 +63,7 @@ export class NgxColorsTriggerDirective
         { provide: OverlayService, useValue: this.overlayService },
       ],
     });
-    let overlayRef = this.overlayService.createOverlay(
-      this,
-      undefined,
-      'pepe',
-      injector
-    );
+    this.overlayService.createOverlay(this, undefined, 'pepe', injector);
   }
 
   ngOnDestroy(): void {
@@ -81,7 +73,7 @@ export class NgxColorsTriggerDirective
 
   writeValue(obj: string | undefined | null): void {
     if (obj) {
-      let rgba = Convert.stringToRgba(obj);
+      const rgba = Convert.stringToRgba(obj);
       this.stateService.set(rgba);
     } else {
       this.stateService.set(null);

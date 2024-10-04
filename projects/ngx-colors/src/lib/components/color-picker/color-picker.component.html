@@ -3,7 +3,7 @@
     class="_sl-box bg-saturation-lightness mb-4"
     #slSlider
     ngxColorsSlider
-    (change)="onChangeCoord('sl', $event)"
+    (sliderChange)="onChangeCoord('sl', $event)"
     [style.background-color]="hue"
   >
     <ngx-colors-thumb></ngx-colors-thumb>
@@ -32,7 +32,7 @@
         ngxColorsSlider
         #hueSlider
         class="grow-1 bg-hue radius-4 pointer"
-        (change)="onChangeCoord('hue', $event)"
+        (sliderChange)="onChangeCoord('hue', $event)"
       >
         <ngx-colors-thumb apparence="oval"></ngx-colors-thumb>
       </div>
@@ -40,7 +40,7 @@
         <div
           ngxColorsSlider
           #alphaSlider
-          (change)="onChangeCoord('alpha', $event)"
+          (sliderChange)="onChangeCoord('alpha', $event)"
           class="h-100 w-100 radius-4"
           [ngStyle]="alphaGradient"
         >

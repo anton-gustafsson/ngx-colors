@@ -1,8 +1,7 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { PanelComponent } from '../panel/panel.component';
 import { OverlayService } from '../../services/overlay.service';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'ngx-colors-overlay',
@@ -11,7 +10,7 @@ import { Observable } from 'rxjs';
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.scss',
 })
-export class OverlayComponent implements OnInit {
+export class OverlayComponent {
   constructor(private overlayService: OverlayService) {}
 
   x: number = 0;
@@ -33,13 +32,11 @@ export class OverlayComponent implements OnInit {
     this.overlayService.removePanel();
   }
 
-  public ngOnInit(): void {}
-
   private onScreenMovement() {
     if (!this.triggerNativeElement) return;
-    let viewportOffset = this.triggerNativeElement.getBoundingClientRect();
-    let top = viewportOffset.top + viewportOffset.height;
-    let left = viewportOffset.left;
+    const viewportOffset = this.triggerNativeElement.getBoundingClientRect();
+    const top = viewportOffset.top + viewportOffset.height;
+    const left = viewportOffset.left;
     this.x = left;
     this.y = top;
   }

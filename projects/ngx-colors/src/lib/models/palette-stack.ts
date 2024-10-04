@@ -7,7 +7,7 @@ export class PaletteStack {
     if (this.items.length <= 1) {
       return;
     }
-    let removed = this.items.pop();
+    const removed = this.items.pop();
     this.updateState();
     return removed;
   }

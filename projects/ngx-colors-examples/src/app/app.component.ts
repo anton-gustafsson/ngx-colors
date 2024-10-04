@@ -44,10 +44,6 @@ export class AppComponent {
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
-  public log(event: any, who: string | undefined = undefined) {
-    console.log(who, event);
-  }
-
   public green() {
     this.pepe = new Rgba(37, 179, 37, 1);
   }

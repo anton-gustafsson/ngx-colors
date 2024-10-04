@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Rgba } from '../../models/rgba';
-import { Palette } from '../../types/palette';
 import { defaultColors } from '../../utility/default-colors';
 import { PaletteColor } from '../../models/color';
 import { CommonModule } from '@angular/common';

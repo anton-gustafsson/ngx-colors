@@ -28,7 +28,9 @@ import { ThumbComponent } from '../components/thumb/thumb.component';
 })
 export class SliderDirective implements OnInit, OnDestroy {
   @Output()
-  change: EventEmitter<[number, number]> = new EventEmitter<[number, number]>();
+  sliderChange: EventEmitter<[number, number]> = new EventEmitter<
+    [number, number]
+  >();
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -69,7 +71,7 @@ export class SliderDirective implements OnInit, OnDestroy {
     this._ngZone.runOutsideAngular(() => {
       this.drag$.subscribe(([x, y]: [number, number]) => {
         this.setThumbPosition(x, y);
-        this.change.emit([x, y]);
+        this.sliderChange.emit([x, y]);
       });
     });
   }

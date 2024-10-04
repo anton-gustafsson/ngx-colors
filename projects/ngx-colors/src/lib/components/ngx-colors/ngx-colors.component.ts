@@ -1,4 +1,4 @@
-import { Component, Host, OnInit, Optional, Self } from '@angular/core';
+import { Component, Host, OnInit, Self } from '@angular/core';
 import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
 import { NgControl } from '@angular/forms';
 

@@ -135,13 +135,15 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     eyeDropper
       .open()
       .then((result: { sRGBHex: string }) => {
-        let probeColor: Rgba = Convert.stringToRgba(result.sRGBHex);
+        const probeColor: Rgba = Convert.stringToRgba(result.sRGBHex);
         //in unix systems the eyeDropper always return 0 on the alpha channel.
         probeColor.a = 1;
         this.value = probeColor;
         this.setValue(probeColor);
       })
-      .catch((_: any) => {});
+      .catch((err: DOMException) => {
+        console.error(err);
+      });
   }
   writeValue(obj: Rgba | undefined): void {
     this.value = obj;

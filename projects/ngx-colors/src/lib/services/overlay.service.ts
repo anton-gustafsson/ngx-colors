@@ -1,15 +1,12 @@
 import {
   ApplicationRef,
   ComponentRef,
-  EnvironmentInjector,
   Injectable,
   Injector,
   createComponent,
 } from '@angular/core';
 import { OverlayComponent } from '../components/overlay/overlay.component';
 import { NgxColorsTriggerDirective } from '../directives/trigger.directive';
-import { BehaviorSubject } from 'rxjs';
-import { Rgba } from '../models/rgba';
 
 @Injectable()
 export class OverlayService {
@@ -51,11 +48,11 @@ export class OverlayService {
     this.componentRef.instance.triggerNativeElement =
       trigger?.triggerRef.nativeElement;
     if (trigger) {
-      let viewportOffset =
+      const viewportOffset =
         trigger.triggerRef.nativeElement.getBoundingClientRect();
 
-      let top = viewportOffset.top + viewportOffset.height;
-      let left = viewportOffset.left;
+      const top = viewportOffset.top + viewportOffset.height;
+      const left = viewportOffset.left;
       this.componentRef.instance.x = left;
       this.componentRef.instance.y = top;
     }
