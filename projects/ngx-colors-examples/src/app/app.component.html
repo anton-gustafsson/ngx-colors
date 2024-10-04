@@ -14,7 +14,6 @@
         ngxColorsTrigger
         style=""
         [formControl]="testCtrl"
-        (change)="onChange($event, 'control')"
         (ngModelChange)="onModelChanges($event, 'control')"
       ></ngx-colors>
     </td>
@@ -33,7 +32,6 @@
         ngxColorsTrigger
         style=""
         [(ngModel)]="test"
-        (change)="onChange($event,'ngModel')"
         (ngModelChange)="onModelChanges($event,'ngModel')"
       ></ngx-colors>
     </td>

@@ -37,10 +37,8 @@ export class AppComponent {
     value: string | null | undefined;
   }> = [];
 
-  public onChange(value: string | null | undefined, who: string) {
-    this.events.push({ who: who, event: 'change', value: value });
-  }
   public onModelChanges(value: string | undefined, who: string) {
+    console.log('onModelChange', value);
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
