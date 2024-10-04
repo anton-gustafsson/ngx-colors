@@ -42,9 +42,6 @@ export class NgxColorsTriggerDirective
     this.openPanel();
   }
   @Input() disabled: boolean = false;
-  @Output() change: EventEmitter<string | undefined | null> = new EventEmitter<
-    string | undefined | null
-  >();
   destroy$: Subject<void> = new Subject<void>();
   value: string | undefined | null = undefined;
 
@@ -90,7 +87,6 @@ export class NgxColorsTriggerDirective
       this.stateService.set(null);
     }
     this.value = obj;
-    this.change.emit(obj);
   }
 
   onChange: (value: string | undefined | null) => void = () => {};

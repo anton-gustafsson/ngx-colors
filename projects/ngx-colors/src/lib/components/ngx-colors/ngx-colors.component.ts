@@ -1,5 +1,6 @@
-import { Component, Host, OnInit } from '@angular/core';
+import { Component, Host, OnInit, Optional, Self } from '@angular/core';
 import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
+import { NgControl } from '@angular/forms';
 
 @Component({
   selector: 'ngx-colors',
@@ -9,17 +10,23 @@ import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
   styleUrls: ['./ngx-colors.component.scss', '../../shared/shared.scss'],
 })
 export class NgxColorsComponent implements OnInit {
-  constructor(@Host() private triggerDirective: NgxColorsTriggerDirective) {}
+  constructor(
+    @Host() private triggerDirective: NgxColorsTriggerDirective,
+    @Self() private ngControl: NgControl
+  ) {}
   public previewColor: string | null | undefined = 'rgba(255,0,255,0.3)';
 
   ngOnInit(): void {
     if (!this.triggerDirective) {
-      console.error('ngx-colors call without ngx-colors-trigger directive');
+      console.error(
+        'NgxColorsComponent initialization error: The component must be used in conjunction with the NgxColorsTriggerDirective. Ensure that you have the directive included in your template.'
+      );
       return;
     }
-    this.triggerDirective.change.subscribe((c) => {
-      this.previewColor = c;
-      console.log('magia negra');
-    });
+    if (this.ngControl && this.ngControl.control) {
+      this.ngControl.control.valueChanges?.subscribe((color) => {
+        this.previewColor = color;
+      });
+    }
   }
 }
