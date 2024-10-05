@@ -6,7 +6,14 @@ import { Rgba } from '../models/rgba';
 import { ColorModel } from '../types/color-model';
 
 export const HEX_REGEX: RegExp = /#(([0-9a-fA-F]{2}){3,4}|([0-9a-fA-F]){3,4})$/;
-
+export const RGBA_REGEX: RegExp =
+  /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)$/;
+export const HSLA_REGEX: RegExp =
+  /(hsl)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)$/;
+export const HSVA_REGEX: RegExp =
+  /(hsv)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)$/;
+export const CMYK_REGEX: RegExp =
+  /cmyk\(\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?(?:,\s*?(\d+(?:\.\d+)?)\s*%?)?\)$/;
 export class ColorHelper {
   public static rgbaToColorModel(
     rgba: Rgba,
@@ -304,8 +311,7 @@ export class ColorHelper {
       ) => IColorModel | string;
     }> = [
       {
-        regex:
-          /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+        regex: RGBA_REGEX,
         parseFunction: function (execResult: RegExpExecArray, _: string) {
           return new Rgba(
             parseInt(execResult[2], 10),
@@ -316,8 +322,7 @@ export class ColorHelper {
         },
       },
       {
-        regex:
-          /(hsl)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+        regex: HSLA_REGEX,
         parseFunction: function (execResult: RegExpExecArray, _: string) {
           return new Hsla(
             parseInt(execResult[2], 10),
@@ -328,8 +333,7 @@ export class ColorHelper {
         },
       },
       {
-        regex:
-          /(hsv)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+        regex: HSVA_REGEX,
         parseFunction: function (execResult: RegExpExecArray, _: string) {
           return new Hsva(
             parseInt(execResult[2], 10),
@@ -340,8 +344,7 @@ export class ColorHelper {
         },
       },
       {
-        regex:
-          /cmyk\(\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?(?:,\s*?(\d+(?:\.\d+)?)\s*%?)?\)/,
+        regex: CMYK_REGEX,
         parseFunction: function (execResult: RegExpExecArray, _: string) {
           return new Cmyk(
             Number(execResult[1]) / 100,
@@ -371,24 +374,16 @@ export class ColorHelper {
 
   public static getColorModelByString(color: string): ColorModel | 'INVALID' {
     if (color) {
-      color = color.toLowerCase();
-      const regexHEX: RegExp = /(#([\da-f]{3}(?:[\da-f]{3})?(?:[\da-f]{2})?))/;
-      const regexRGBA: RegExp =
-        /(rgba\((\d{1,3},\s?){3}(1|0?\.\d+)\)|rgb\(\d{1,3}(,\s?\d{1,3}){2}\))/;
-      const regexHSLA: RegExp =
-        /(hsla\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|hsl\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/;
-      const regexHSVA: RegExp =
-        /(hsva\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|hsv\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/;
-      const regexCMYK: RegExp = /(cmyk\(\d{1,3}(,\s?\d{1,3}){3}\))/;
-      if (regexHEX.test(color)) {
+      color = color.trim().toLowerCase();
+      if (HEX_REGEX.test(color)) {
         return 'HEX';
-      } else if (regexRGBA.test(color)) {
+      } else if (RGBA_REGEX.test(color)) {
         return 'RGBA';
-      } else if (regexHSLA.test(color)) {
+      } else if (HSLA_REGEX.test(color)) {
         return 'HSLA';
-      } else if (regexHSVA.test(color)) {
+      } else if (HSVA_REGEX.test(color)) {
         return 'HSVA';
-      } else if (regexCMYK.test(color)) {
+      } else if (CMYK_REGEX.test(color)) {
         return 'CMYK';
       }
     }
