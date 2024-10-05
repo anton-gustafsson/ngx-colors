@@ -17,7 +17,11 @@
     (keydown.enter)="this.onClickColor(color)"
     (click)="this.onClickColor(color)"
   >
-    <div class="w-100 circle h-100" [style.background]="color.preview">
+    <div
+      class="w-100 circle h-100"
+      [style.background]="color.preview"
+      [class.null]="!color.preview"
+    >
       @if(indexSelected === index){
       <div class="circle selected"></div>
       }

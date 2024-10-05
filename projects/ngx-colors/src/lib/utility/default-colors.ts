@@ -286,6 +286,7 @@ export const defaultColors: Array<ColorGroup> = [
       '#546E7A',
       '#455A64',
       '#37474F',
+      undefined,
     ],
   },
 ];

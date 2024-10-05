@@ -25,6 +25,7 @@ export class NgxColorsComponent implements OnInit {
     }
     if (this.ngControl && this.ngControl.control) {
       this.ngControl.control.valueChanges?.subscribe((color) => {
+        console.log('[ngx-colors] value', color);
         this.previewColor = color;
       });
     }
