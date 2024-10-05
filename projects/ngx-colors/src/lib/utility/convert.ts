@@ -5,6 +5,8 @@ import { Hsva } from '../models/hsva';
 import { Rgba } from '../models/rgba';
 import { ColorModel } from '../types/color-model';
 
+export const HEX_REGEX: RegExp = /#(([0-9a-fA-F]{2}){3,4}|([0-9a-fA-F]){3,4})$/;
+
 export class ColorHelper {
   public static rgbaToColorModel(
     rgba: Rgba,
@@ -25,8 +27,6 @@ export class ColorHelper {
         throw 'Invalid output format';
     }
   }
-
-  static HEX_REGEX: RegExp = /#(([0-9a-fA-F]{2}){3,4}|([0-9a-fA-F]){3,4})$/;
 
   //rgba to everything
   public static rgba2Hsla(rgba: Rgba): Hsla {
@@ -215,7 +215,7 @@ export class ColorHelper {
   }
 
   public static hex2Rgba(hex: string): Rgba {
-    const re = this.HEX_REGEX;
+    const re = HEX_REGEX;
     const match: RegExpExecArray | null = re.exec(hex.trim());
     let r: string;
     let g: string;
@@ -352,7 +352,7 @@ export class ColorHelper {
         },
       },
       {
-        regex: this.HEX_REGEX,
+        regex: HEX_REGEX,
         parseFunction: function (_: RegExpExecArray, originalValue: string) {
           return originalValue;
         },
