@@ -1,11 +1,11 @@
-.palette {
+._palette {
   padding-top: 14px;
   display: grid;
   grid-template-columns: repeat(5, 34px);
   box-sizing: border-box;
   gap: 6px 10px;
 }
-.color-option {
+._color-option {
   width: 34px;
   box-sizing: border-box;
   height: 34px;
@@ -15,7 +15,7 @@
     padding: 1px;
   }
 }
-.selected {
+._selected {
   border: 7px solid rgba(255, 255, 255, 0.6);
   box-sizing: border-box;
   width: 100%;

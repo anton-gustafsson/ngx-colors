@@ -2,7 +2,7 @@
   @if(!showSliders){
   <ngx-colors-palette [formControl]="this.paletteCtrl">
     <div
-      class="circle color-option overflow-h flex justify-center align-center pointer"
+      class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
       aria-label="sliders"
       tabindex="0"
       (click)="onClickShowSliders()"
@@ -19,7 +19,7 @@
       tabindex="0"
       (click)="onClickBack()"
       (keydown.enter)="onClickBack()"
-      class="circle color-option overflow-h flex justify-center align-center pointer hover-effect"
+      class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
     >
       <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
     </div>

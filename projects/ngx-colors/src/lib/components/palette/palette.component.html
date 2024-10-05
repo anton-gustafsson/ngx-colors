@@ -1,17 +1,17 @@
-<div class="palette">
+<div class="_palette">
   <div
-    *ngIf="palette.size > 1"
+    *ngIf="this.paletteStack.size > 1"
     aria-label="back"
     tabindex="0"
     (click)="this.onClickBack()"
     (keydown.enter)="this.onClickBack()"
-    class="circle color-option overflow-h flex justify-center align-center pointer"
+    class="circle _color-option overflow-h flex justify-center align-center pointer"
   >
     <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
   </div>
-  @for(color of this.palette.peek;track color.preview; let index = $index){
+  @for(color of this.paletteStack.peek;track color.preview; let index = $index){
   <div
-    class="circle color-option bg-transparent overflow-h pointer"
+    class="circle _color-option bg-transparent overflow-h pointer"
     tabindex="0"
     [attr.aria-label]="index"
     (keydown.enter)="this.onClickColor(color)"
@@ -23,12 +23,12 @@
       [class.null]="!color.preview"
     >
       @if(indexSelected === index){
-      <div class="circle selected"></div>
+      <div class="circle _selected"></div>
       }
     </div>
   </div>
   }
-  <ng-container *ngIf="palette.size <= 1">
+  <ng-container *ngIf="this.paletteStack.size <= 1">
     <ng-content></ng-content>
   </ng-container>
 </div>

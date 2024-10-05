@@ -28,7 +28,7 @@ export class PaletteComponent
   private destroy$: Subject<void> = new Subject<void>();
   private value: Rgba | undefined = undefined;
   public disabled: boolean = false;
-  public palette: PaletteStack = new PaletteStack();
+  public paletteStack: PaletteStack = new PaletteStack();
 
   //Used to highlight the selected color on the palette
   private selected: string | undefined = undefined;
@@ -36,7 +36,7 @@ export class PaletteComponent
 
   public ngOnInit(): void {
     console.log('[palette] OnInit');
-    this.palette.push(defaultColors.map((c) => new PaletteColor(c)));
+    this.paletteStack.push(defaultColors.map((c) => new PaletteColor(c)));
   }
 
   public ngOnDestroy(): void {
@@ -45,7 +45,7 @@ export class PaletteComponent
   }
 
   public onClickBack() {
-    this.palette.pop();
+    this.paletteStack.pop();
     this.indexSelected = this.getIndexSelected(this.selected);
   }
 
@@ -61,12 +61,14 @@ export class PaletteComponent
     if (selected === undefined) {
       return -1;
     }
-    return this.palette.last().findIndex((c) => this.isSelected(c, selected));
+    return this.paletteStack
+      .last()
+      .findIndex((c) => this.isSelected(c, selected));
   }
 
   public onClickColor(color: PaletteColor) {
     if (color.childs?.length) {
-      this.palette.push(color.childs);
+      this.paletteStack.push(color.childs);
     } else {
       console.log('[palette] color selected', color);
       this.selected = color.preview;
