@@ -310,7 +310,7 @@ export class ColorHelper {
   private static parseAlpha(alphaString: string): number {
     let alpha;
     if (alphaString) {
-      let percIndex = alphaString.indexOf('%');
+      const percIndex = alphaString.indexOf('%');
       if (percIndex > 0) {
         alpha = parseFloat(alphaString.substring(0, percIndex)) / 100;
       } else {

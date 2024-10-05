@@ -5,7 +5,6 @@ import { Hsla } from '../models/hsla';
 import { Cmyk } from '../models/cmyk';
 import { IColorModel } from '../interfaces/color-format';
 import { ColorModel } from '../types/color-model';
-import { Convert } from '../../../../../dist/ngx-colors/lib/utility/convert';
 
 export type ColorEquivalence = {
   [x: string]: string | Array<string>;
