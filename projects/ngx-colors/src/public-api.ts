@@ -7,3 +7,4 @@ export * from './lib/components/color-picker/color-picker.component';
 export * from './lib/components/text-input/text-input.component';
 export * from './lib/components/palette/palette.component';
 export * from './lib/directives/trigger.directive';
+export * from './lib/utility/color-helper';
