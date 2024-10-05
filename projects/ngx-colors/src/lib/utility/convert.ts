@@ -14,6 +14,7 @@ export const HSVA_REGEX: RegExp =
   /(hsv)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(\d*(?:\.\d+)?%?)\s*)?\)$/;
 export const CMYK_REGEX: RegExp =
   /cmyk\(\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?,\s*(\d+(?:\.\d+)?)\s*%?(?:,\s*?(\d+(?:\.\d+)?)\s*%?)?\)$/;
+
 export class ColorHelper {
   public static rgbaToColorModel(
     rgba: Rgba,
@@ -31,7 +32,9 @@ export class ColorHelper {
       case 'RGBA':
         return rgba;
       default:
-        throw 'Invalid output format';
+        throw new Error(
+          `Invalid output format: '${format}'. Available formats are: HEX, HSLA, HSVA, CMYK, RGBA.`
+        );
     }
   }
 
@@ -229,7 +232,9 @@ export class ColorHelper {
     let b: string;
     let a: string;
     if (!match) {
-      throw 'Not a valid hex';
+      throw new Error(
+        `Invalid hex color format: "${hex}". Please ensure it follows the format #RRGGBB,#RGB, #RGBA or #RRGGBBAA.`
+      );
     }
     if (match[1].length > 4) {
       r = match[1].substring(0, 2);
@@ -287,7 +292,7 @@ export class ColorHelper {
     } else if (value instanceof Rgba) {
       return value;
     } else {
-      throw 'The input value is not a Color';
+      throw new Error('The input value is not a valid ColorModel');
     }
   }
 
@@ -383,7 +388,9 @@ export class ColorHelper {
         return parser.parseFunction(match, value);
       }
     }
-    throw 'String no valida';
+    throw new Error(
+      `Invalid color string: "${value}". Expected formats: RGBA, HSLA, HSVA, CMYK or HEX.`
+    );
   }
 
   public static getColorModelByString(color: string): ColorModel | 'INVALID' {
