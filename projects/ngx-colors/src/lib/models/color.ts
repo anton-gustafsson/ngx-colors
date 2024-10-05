@@ -1,5 +1,5 @@
 import { ColorGroup } from '../interfaces/color-group';
-import { ColorHelper } from '../utility/convert';
+import { ColorHelper } from '../utility/color-helper';
 import { Rgba } from './rgba';
 
 export class PaletteColor {

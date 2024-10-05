@@ -1,4 +1,4 @@
-import { ColorHelper } from './convert';
+import { ColorHelper } from './color-helper';
 import { Hsva } from '../models/hsva';
 import { Rgba } from '../models/rgba';
 import { Hsla } from '../models/hsla';

@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Rgba } from '../../models/rgba';
-import { ColorHelper } from '../../utility/convert';
+import { ColorHelper } from '../../utility/color-helper';
 import { ColorModel } from '../../types/color-model';
 import { ColorValidator } from '../../validators/color-validator';
 

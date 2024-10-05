@@ -11,7 +11,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
-import { ColorHelper } from '../utility/convert';
+import { ColorHelper } from '../utility/color-helper';
 import { StateService } from '../services/state.service';
 
 @Directive({

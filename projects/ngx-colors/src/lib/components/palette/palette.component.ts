@@ -5,7 +5,7 @@ import { Rgba } from '../../models/rgba';
 import { defaultColors } from '../../utility/default-colors';
 import { PaletteColor } from '../../models/color';
 import { CommonModule } from '@angular/common';
-import { ColorHelper } from '../../utility/convert';
+import { ColorHelper } from '../../utility/color-helper';
 import { PaletteStack } from '../../models/palette-stack';
 
 @Component({

@@ -14,7 +14,7 @@ import {
 import { SliderDirective } from '../../directives/slider.directive';
 import { ThumbComponent } from '../thumb/thumb.component';
 import { Hsva } from '../../models/hsva';
-import { ColorHelper } from '../../utility/convert';
+import { ColorHelper } from '../../utility/color-helper';
 import { Rgba } from '../../models/rgba';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 

@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ColorHelper } from '../utility/convert';
+import { ColorHelper } from '../utility/color-helper';
 
 export function ColorValidator(): ValidatorFn {
   return (control: AbstractControl<string>): ValidationErrors | null => {
