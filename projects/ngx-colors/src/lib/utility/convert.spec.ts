@@ -126,7 +126,11 @@ const mockStrings: Array<ColorEquivalence> = [
   },
   {
     hex: ['#ff640080', '#ff660080'],
-    rgba: ['rgba(255, 100, 0, 0.50)', 'rgba(255, 102, 0, 0.50)'],
+    rgba: [
+      'rgba(255, 100, 0, 50%)',
+      'rgba(255, 100, 0, 0.50)',
+      'rgba(255, 102, 0, 0.50)',
+    ],
     hsla: 'hsla(24, 100%, 50%, 0.50)',
     hsva: 'hsva(24, 100%, 100%, 0.5)',
     cmyk: '',
@@ -219,7 +223,7 @@ describe('Convert string to CYMK string', () => {
   iterateTests(keys, convertTo, 'CMYK');
 });
 
-describe('Convert string to CYMK string', () => {
+describe('Convert string to HSVA string', () => {
   const keys = ['rgba', 'hsla', 'hex', 'hsva'];
   const convertTo = 'hsva';
   iterateTests(keys, convertTo, 'HSVA');
