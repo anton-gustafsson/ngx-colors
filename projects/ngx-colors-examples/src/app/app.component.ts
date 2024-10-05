@@ -24,12 +24,10 @@ import { Rgba } from '../../../ngx-colors/src/lib/models/rgba';
 })
 export class AppComponent {
   title = 'ngx-colors-examples';
-  test: string = 'rgba(255,0,255,0.5)';
+  test: string | undefined | null = 'rgba(255,0,255,0.5)';
   testCtrl: FormControl<string | undefined | null> = new FormControl<
     string | undefined | null
   >('rgba(0,255,100,0.9)');
-
-  pepe: Rgba | undefined = new Rgba(255, 0, 0, 1);
 
   events: Array<{
     who: string;
@@ -42,17 +40,25 @@ export class AppComponent {
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
-  public green() {
-    this.pepe = new Rgba(37, 179, 37, 1);
+  public setBlue() {
+    const newValue = new Rgba(0, 0, 255, 1).toString();
+    this.testCtrl.setValue(newValue);
+    this.test = newValue;
   }
-  public blue() {
-    this.pepe = new Rgba(0, 0, 255, 1);
+  public setRed() {
+    const newValue = new Rgba(255, 0, 0, 1).toString();
+    this.testCtrl.setValue(newValue);
+    this.test = newValue;
   }
-  public red() {
-    this.pepe = new Rgba(255, 0, 0, 0.5);
+  public setAlphaRed() {
+    const newValue = new Rgba(255, 0, 0, 0.5).toString();
+    this.testCtrl.setValue(newValue);
+    this.test = newValue;
   }
-  public undi() {
-    this.pepe = undefined;
+  public setUndefined() {
+    const newValue = undefined;
+    this.testCtrl.setValue(newValue);
+    this.test = newValue;
   }
 
   public changeValue() {

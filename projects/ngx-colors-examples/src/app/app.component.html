@@ -1,49 +1,92 @@
-<table class="pepe">
-  <tr>
-    <th>Tipo</th>
-    <th>ngx-colors</th>
-    <th>Value</th>
-    <th>Touched</th>
-    <th>Dirty</th>
-    <th>set value</th>
-  </tr>
-  <tr>
-    <td>Control</td>
-    <td>
-      <ngx-colors
-        ngxColorsTrigger
-        style=""
-        [formControl]="testCtrl"
-        (ngModelChange)="onModelChanges($event, 'control')"
-      ></ngx-colors>
-    </td>
-    <td>{{testCtrl.value}}</td>
-    <td>{{testCtrl.touched}}</td>
-    <td>{{testCtrl.dirty}}</td>
-    <td>
-      <input #inputCtrl id="testInput" />
-      <button (click)="testCtrl.setValue(inputCtrl.value)">aplicar</button>
-    </td>
-  </tr>
-  <tr>
-    <td>NgModel</td>
-    <td>
-      <ngx-colors
-        ngxColorsTrigger
-        style=""
-        [(ngModel)]="test"
-        (ngModelChange)="onModelChanges($event,'ngModel')"
-      ></ngx-colors>
-    </td>
-    <td>{{test}}</td>
-    <td>-</td>
-    <td>-</td>
-    <td>
-      <input #inputModel />
-      <button (click)="test = inputModel.value">aplicar</button>
-    </td>
-  </tr>
-</table>
+<div class="d-flex">
+  <div class="flex-column">
+    <table class="pepe">
+      <tr>
+        <th>Tipo</th>
+        <th>ngx-colors</th>
+        <th>Value</th>
+        <th>Touched</th>
+        <th>Dirty</th>
+        <th>set value</th>
+      </tr>
+      <tr>
+        <td>Control</td>
+        <td>
+          <ngx-colors
+            ngxColorsTrigger
+            style=""
+            [formControl]="testCtrl"
+            (ngModelChange)="onModelChanges($event, 'control')"
+          ></ngx-colors>
+        </td>
+        <td>{{testCtrl.value}}</td>
+        <td>{{testCtrl.touched}}</td>
+        <td>{{testCtrl.dirty}}</td>
+        <td>
+          <input #inputCtrl id="testInput" />
+          <button (click)="testCtrl.setValue(inputCtrl.value)">aplicar</button>
+        </td>
+      </tr>
+      <tr>
+        <td>NgModel</td>
+        <td>
+          <ngx-colors
+            ngxColorsTrigger
+            style=""
+            [(ngModel)]="test"
+            (ngModelChange)="onModelChanges($event,'ngModel')"
+          ></ngx-colors>
+        </td>
+        <td>{{test}}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>
+          <input #inputModel />
+          <button (click)="test = inputModel.value">aplicar</button>
+        </td>
+      </tr>
+    </table>
+    <div class="d-flex">
+      <button (click)="this.setBlue()">Blue</button>
+      <button (click)="this.setRed()">Red</button>
+      <button (click)="this.setAlphaRed()">Alpha Red</button>
+      <button (click)="this.setUndefined()">Undefined</button>
+    </div>
+  </div>
+  <div
+    style="border: 1px solid gray; padding: 3px; height: 500px; overflow: auto"
+  >
+    <div class="d-flex flex-column-reverse">
+      <div
+        class="d-flex align-items-center"
+        style="padding: 1px 0"
+        *ngFor="let event of this.events"
+      >
+        <div
+          style="
+            background: #ffc107;
+            padding: 4px 6px;
+            border-radius: 4px;
+            margin-right: 3px;
+          "
+        >
+          {{event.who}}
+        </div>
+        <div
+          style="
+            background: pink;
+            padding: 4px 6px;
+            border-radius: 4px;
+            margin-right: 3px;
+          "
+        >
+          {{event.event}}
+        </div>
+        <div>{{event.value}}</div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- <div *ngFor="let event of events">{{event | json}}</div> -->
 <!---->
 <!-- <div>{{pepe | json}}</div> -->
