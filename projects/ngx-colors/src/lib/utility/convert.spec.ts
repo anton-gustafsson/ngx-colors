@@ -5,6 +5,7 @@ import { Hsla } from '../models/hsla';
 import { Cmyk } from '../models/cmyk';
 import { IColorModel } from '../interfaces/color-format';
 import { ColorModel } from '../types/color-model';
+import { Convert } from '../../../../../dist/ngx-colors/lib/utility/convert';
 
 export type ColorEquivalence = {
   [x: string]: string | Array<string>;
@@ -152,6 +153,30 @@ const mockStrings: Array<ColorEquivalence> = [
     cmyk: ['cmyk(24.77%, 0%, 99.1%, 12.94%)', 'cmyk(24.75%, 0%, 99%, 13%)'],
   },
 ];
+const mockTipos = [
+  //HEX
+  { valor: '#ff00ff', resultado: 'HEX' },
+  { valor: '#ff0', resultado: 'HEX' },
+  { valor: '#ff00ff', resultado: 'HEX' },
+  { valor: '#ff00', resultado: 'HEX' },
+  //RGBA
+  { valor: 'rgb(255, 0, 255)', resultado: 'RGBA' },
+  { valor: 'rgba(255, 0, 255, 0.5)', resultado: 'RGBA' },
+  { valor: 'rgba(255, 0, 255, 50%)', resultado: 'RGBA' },
+  //HSLA
+  { valor: 'hsl(300, 100%, 50%)', resultado: 'HSLA' },
+  { valor: 'hsla(300, 100%, 50%, 0.5)', resultado: 'HSLA' },
+  { valor: 'hsla(300, 100%, 50%, 50%)', resultado: 'HSLA' },
+  //HSVA
+  { valor: 'hsv(300, 100%, 100%)', resultado: 'HSVA' },
+  { valor: 'hsva(300, 100%, 100%, 0.5)', resultado: 'HSVA' },
+  { valor: 'hsva(300, 100%, 100%, 50%)', resultado: 'HSVA' },
+  //CMYK
+  { valor: 'cmyk(24.75%, 0%, 99%, 13%)', resultado: 'CMYK' },
+  //INVALID
+  { valor: '#ff00f', resultado: 'INVALID' },
+  { valor: '#ff0r', resultado: 'INVALID' },
+];
 
 const isColorFormat = (value: IColorModel | string): value is IColorModel =>
   typeof (value as IColorModel).toRounded === 'function';
@@ -199,6 +224,15 @@ describe('Convert string to CYMK string', () => {
   const convertTo = 'hsva';
   iterateTests(keys, convertTo, 'HSVA');
 });
+
+describe('Get ColorModel from string', () => {
+  mockTipos.forEach((mt) => {
+    it(`string: ${mt.valor} to be of type ${mt.resultado}`, () => {
+      expect(ColorHelper.getColorModelByString(mt.valor)).toEqual(mt.resultado);
+    });
+  });
+});
+
 // FROM ANY TO RGBA
 describe('Convert Class HSVA to Class RGBA', () => {
   testFormatToClass('HSVA', 'RGBA');
