@@ -96,21 +96,21 @@ const mockClases: Array<{ [x: string]: IColorModel | string }> = [
 
 const mockStrings: Array<ColorEquivalence> = [
   {
-    hex: '#ffffff',
+    hex: ['#fff', '#ffffff'],
     rgba: 'rgb(255, 255, 255)',
     hsla: 'hsl(0, 0%, 100%)',
     hsva: 'hsv(0, 0%, 100%)',
     cmyk: 'cmyk(0%, 0%, 0%, 0%)',
   },
   {
-    hex: '#000000',
+    hex: ['#000', '#000000'],
     rgba: 'rgb(0, 0, 0)',
     hsla: 'hsl(0, 0%, 0%)',
     hsva: 'hsv(0, 0%, 0%)',
     cmyk: 'cmyk(0%, 0%, 0%, 100%)',
   },
   {
-    hex: '#ffffff00',
+    hex: ['#fff0', '#ffffff00'],
     rgba: 'rgba(255, 255, 255, 0.0)',
     hsla: 'hsla(0, 0%, 100%, 0.0)',
     hsva: 'hsva(0, 0%, 100%, 0)',

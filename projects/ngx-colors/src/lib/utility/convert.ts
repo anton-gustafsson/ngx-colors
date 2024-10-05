@@ -26,6 +26,8 @@ export class ColorHelper {
     }
   }
 
+  static HEX_REGEX: RegExp = /#(([0-9a-fA-F]{2}){3,4}|([0-9a-fA-F]){3,4})$/;
+
   //rgba to everything
   public static rgba2Hsla(rgba: Rgba): Hsla {
     const rNorm = rgba.r / 255;
@@ -213,18 +215,33 @@ export class ColorHelper {
   }
 
   public static hex2Rgba(hex: string): Rgba {
-    const re: RegExp =
-      /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})?$/;
-    const match: RegExpExecArray | null = re.exec(hex);
-    if (match != null) {
-      return new Rgba(
-        parseInt(match[1], 16),
-        parseInt(match[2], 16),
-        parseInt(match[3], 16),
-        parseInt(match[4] || 'FF', 16) / 255
-      );
+    const re = this.HEX_REGEX;
+    const match: RegExpExecArray | null = re.exec(hex.trim());
+    let r: string;
+    let g: string;
+    let b: string;
+    let a: string;
+    if (!match) {
+      throw 'Not a valid hex';
     }
-    return new Rgba(0, 0, 0, 0);
+    if (match[1].length > 4) {
+      r = match[1].substring(0, 2);
+      g = match[1].substring(2, 4);
+      b = match[1].substring(4, 6);
+      a = match[1].substring(6, 8);
+    } else {
+      r = match[1][0] + match[1][0];
+      g = match[1][1] + match[1][1];
+      b = match[1][2] + match[1][2];
+      a = (match[1][3] ?? 'F') + (match[1][3] ?? 'F');
+    }
+    a = a === '' ? 'FF' : a;
+    return new Rgba(
+      parseInt(r, 16),
+      parseInt(g, 16),
+      parseInt(b, 16),
+      parseInt(a, 16) / 255
+    );
   }
 
   public static cmykToRgb(cmyk: Cmyk): Rgba {
@@ -335,8 +352,7 @@ export class ColorHelper {
         },
       },
       {
-        regex:
-          /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})?$/,
+        regex: this.HEX_REGEX,
         parseFunction: function (_: RegExpExecArray, originalValue: string) {
           return originalValue;
         },
