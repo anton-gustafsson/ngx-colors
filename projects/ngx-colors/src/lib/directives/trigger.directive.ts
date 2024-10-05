@@ -11,7 +11,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
-import { Convert } from '../utility/convert';
+import { ColorHelper } from '../utility/convert';
 import { StateService } from '../services/state.service';
 
 @Directive({
@@ -73,7 +73,7 @@ export class NgxColorsTriggerDirective
 
   writeValue(obj: string | undefined | null): void {
     if (obj) {
-      const rgba = Convert.stringToRgba(obj);
+      const rgba = ColorHelper.stringToRgba(obj);
       this.stateService.set(rgba);
     } else {
       this.stateService.set(null);

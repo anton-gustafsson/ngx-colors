@@ -14,7 +14,7 @@ import {
 import { SliderDirective } from '../../directives/slider.directive';
 import { ThumbComponent } from '../thumb/thumb.component';
 import { Hsva } from '../../models/hsva';
-import { Convert } from '../../utility/convert';
+import { ColorHelper } from '../../utility/convert';
 import { Rgba } from '../../models/rgba';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -77,10 +77,10 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
       this._hue = new Hsva(1, 1, 1, 1);
     }
     if (value instanceof Rgba) {
-      this._value = Convert.rgbaToColorModel(value, 'HSVA') as Hsva;
+      this._value = ColorHelper.rgbaToColorModel(value, 'HSVA') as Hsva;
       this._hue.h = this._value.h;
       this.preview = value.toString();
-      this.hue = Convert.hsva2Rgba(this._hue).toString();
+      this.hue = ColorHelper.hsva2Rgba(this._hue).toString();
       this.alphaGradient = this.getAlphaGradient(this.value!);
     }
     this.slSlider?.setThumbPosition(this._value.s, 1 - this._value.v);
@@ -101,7 +101,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     if (sliderCode === 'hue') {
       this._hue.h = x * 360;
       this._value.h = x * 360;
-      this.hue = Convert.hsva2Rgba(this._hue).toString();
+      this.hue = ColorHelper.hsva2Rgba(this._hue).toString();
     }
     if (sliderCode === 'sl') {
       this._value.s = x;
@@ -110,7 +110,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     if (sliderCode === 'alpha') {
       this._value.a = x;
     }
-    this.value = Convert.hsva2Rgba(this._value);
+    this.value = ColorHelper.hsva2Rgba(this._value);
     this.preview = this.value.toString();
     this.alphaGradient = this.getAlphaGradient(this.value);
     this.onChange(this.value);
@@ -135,7 +135,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     eyeDropper
       .open()
       .then((result: { sRGBHex: string }) => {
-        const probeColor: Rgba = Convert.stringToRgba(result.sRGBHex);
+        const probeColor: Rgba = ColorHelper.stringToRgba(result.sRGBHex);
         //in unix systems the eyeDropper always return 0 on the alpha channel.
         probeColor.a = 1;
         this.value = probeColor;

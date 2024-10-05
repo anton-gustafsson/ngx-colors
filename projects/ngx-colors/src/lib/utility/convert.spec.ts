@@ -1,9 +1,9 @@
-import { Convert } from './convert';
+import { ColorHelper } from './convert';
 import { Hsva } from '../models/hsva';
 import { Rgba } from '../models/rgba';
 import { Hsla } from '../models/hsla';
 import { Cmyk } from '../models/cmyk';
-import { ColorFormat } from '../interfaces/color-format';
+import { IColorModel } from '../interfaces/color-format';
 import { ColorModel } from '../types/color-model';
 
 export type ColorEquivalence = {
@@ -31,7 +31,7 @@ const iterateTests = (
         break;
       }
       it(`${originalValue} -> [${test[convertTo]}]`, () => {
-        const result = Convert.stringToColorModelString(
+        const result = ColorHelper.stringToColorModelString(
           originalValue,
           colorFormat
         );
@@ -49,7 +49,7 @@ const iterateTests = (
     }
   }
 };
-const mockClases: Array<{ [x: string]: ColorFormat | string }> = [
+const mockClases: Array<{ [x: string]: IColorModel | string }> = [
   {
     rgba: new Rgba(255, 255, 255, 1),
     hsla: new Hsla(0, 0, 1, 1),
@@ -153,17 +153,17 @@ const mockStrings: Array<ColorEquivalence> = [
   },
 ];
 
-const isColorFormat = (value: ColorFormat | string): value is ColorFormat =>
-  typeof (value as ColorFormat).toRounded === 'function';
+const isColorFormat = (value: IColorModel | string): value is IColorModel =>
+  typeof (value as IColorModel).toRounded === 'function';
 
 function testFormatToClass(source: ColorModel, target: ColorModel) {
   const keysource = source.toLowerCase();
   const keytarget = target.toLowerCase();
   for (let i = 0; i < mockClases.length; i++) {
     const test = mockClases[i];
-    const source: ColorFormat | string = test[keysource];
-    const spectedResult: ColorFormat | string = test[keytarget];
-    let result: ColorFormat | string = Convert.colorToColorModel(
+    const source: IColorModel | string = test[keysource];
+    const spectedResult: IColorModel | string = test[keytarget];
+    let result: IColorModel | string = ColorHelper.colorToColorModel(
       source,
       target
     );

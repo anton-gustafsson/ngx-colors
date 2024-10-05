@@ -1,4 +1,4 @@
-export interface ColorFormat {
+export interface IColorModel {
   toString(): string;
-  toRounded(): ColorFormat;
+  toRounded(): IColorModel;
 }

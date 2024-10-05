@@ -1,7 +1,7 @@
-import { ColorFormat } from '../interfaces/color-format';
+import { IColorModel } from '../interfaces/color-format';
 import { round } from '../utility/round';
 
-export class Rgba implements ColorFormat {
+export class Rgba implements IColorModel {
   constructor(
     public r: number,
     public g: number,

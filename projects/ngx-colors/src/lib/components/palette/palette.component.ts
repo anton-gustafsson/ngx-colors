@@ -5,7 +5,7 @@ import { Rgba } from '../../models/rgba';
 import { defaultColors } from '../../utility/default-colors';
 import { PaletteColor } from '../../models/color';
 import { CommonModule } from '@angular/common';
-import { Convert } from '../../utility/convert';
+import { ColorHelper } from '../../utility/convert';
 import { PaletteStack } from '../../models/palette-stack';
 
 @Component({
@@ -80,7 +80,10 @@ export class PaletteComponent
     console.log('[palette] writeValue', obj);
     this.value = obj;
     if (this.value) {
-      this.selected = Convert.rgbaToColorModel(this.value, 'HEX').toString();
+      this.selected = ColorHelper.rgbaToColorModel(
+        this.value,
+        'HEX'
+      ).toString();
       this.indexSelected = this.getIndexSelected(this.selected);
       console.log('[palette] selected:', this.selected, this.value);
     }

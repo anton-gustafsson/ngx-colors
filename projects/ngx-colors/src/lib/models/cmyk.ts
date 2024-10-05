@@ -1,7 +1,7 @@
-import { ColorFormat } from '../interfaces/color-format';
+import { IColorModel } from '../interfaces/color-format';
 import { round } from '../utility/round';
 
-export class Cmyk implements ColorFormat {
+export class Cmyk implements IColorModel {
   constructor(
     public c: number,
     public m: number,

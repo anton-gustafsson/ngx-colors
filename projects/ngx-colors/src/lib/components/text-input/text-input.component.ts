@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Rgba } from '../../models/rgba';
-import { Convert } from '../../utility/convert';
+import { ColorHelper } from '../../utility/convert';
 import { ColorModel } from '../../types/color-model';
 import { ColorValidator } from '../../validators/color-validator';
 
@@ -48,10 +48,10 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.inputControl.valueChanges.subscribe((changes) => {
       if (typeof changes === 'string') {
-        if (Convert.getColorModelByString(changes) === 'INVALID') {
+        if (ColorHelper.getColorModelByString(changes) === 'INVALID') {
           return;
         }
-        this.value = Convert.stringToRgba(changes);
+        this.value = ColorHelper.stringToRgba(changes);
         this.onChange(this.value);
       }
     });
@@ -69,7 +69,10 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     this.selectedColorModel = this.availableModels[index];
     if (this.value) {
       this.inputControl.setValue(
-        Convert.rgbaToColorModel(this.value, this.selectedColorModel).toString()
+        ColorHelper.rgbaToColorModel(
+          this.value,
+          this.selectedColorModel
+        ).toString()
       );
     }
   }
@@ -79,7 +82,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
     this.value = obj;
     if (this.value) {
       this.inputControl.setValue(
-        Convert.rgbaToColorModel(
+        ColorHelper.rgbaToColorModel(
           this.value,
           this.selectedColorModel
         ).toString(),

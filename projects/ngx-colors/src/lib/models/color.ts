@@ -1,5 +1,5 @@
 import { ColorGroup } from '../interfaces/color-group';
-import { Convert } from '../utility/convert';
+import { ColorHelper } from '../utility/convert';
 import { Rgba } from './rgba';
 
 export class PaletteColor {
@@ -14,7 +14,7 @@ export class PaletteColor {
     }
     if (typeof color == 'string') {
       this.preview = color.toLowerCase();
-      this.value = Convert.stringToRgba(color);
+      this.value = ColorHelper.stringToRgba(color);
       return;
     }
     if (!color.color) {
@@ -27,6 +27,6 @@ export class PaletteColor {
       this.childs = color.childs.map((c) => new PaletteColor(c));
       return;
     }
-    this.value = Convert.stringToRgba(color.color);
+    this.value = ColorHelper.stringToRgba(color.color);
   }
 }

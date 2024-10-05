@@ -1,7 +1,7 @@
-import { ColorFormat } from '../interfaces/color-format';
+import { IColorModel } from '../interfaces/color-format';
 import { round } from '../utility/round';
 
-export class Hsla implements ColorFormat {
+export class Hsla implements IColorModel {
   constructor(
     public h: number,
     public s: number,

@@ -1,15 +1,15 @@
-import { ColorFormat } from '../interfaces/color-format';
+import { IColorModel } from '../interfaces/color-format';
 import { Cmyk } from '../models/cmyk';
 import { Hsla } from '../models/hsla';
 import { Hsva } from '../models/hsva';
 import { Rgba } from '../models/rgba';
 import { ColorModel } from '../types/color-model';
 
-export class Convert {
+export class ColorHelper {
   public static rgbaToColorModel(
     rgba: Rgba,
     format: ColorModel
-  ): ColorFormat | string {
+  ): IColorModel | string {
     switch (format) {
       case 'HEX':
         return this.rgba2Hex(rgba);
@@ -237,21 +237,21 @@ export class Convert {
   public static stringToColorModel(
     value: string,
     colorModel: ColorModel
-  ): ColorFormat | string {
+  ): IColorModel | string {
     const color = this.stringToColor(value);
     const rgba = this.colorToRgba(color);
     return this.rgbaToColorModel(rgba, colorModel);
   }
 
   public static colorToColorModel(
-    value: ColorFormat | string,
+    value: IColorModel | string,
     colorModel: ColorModel
-  ): ColorFormat | string {
+  ): IColorModel | string {
     const rgba = this.colorToRgba(value);
     return this.rgbaToColorModel(rgba, colorModel);
   }
 
-  public static colorToRgba(value: ColorFormat | string) {
+  public static colorToRgba(value: IColorModel | string) {
     if (value instanceof Hsla) {
       return this.hsla2Rgba(value);
     } else if (value instanceof Hsva) {
@@ -278,13 +278,13 @@ export class Convert {
     return this.stringToColorModel(value, colorModel).toString();
   }
 
-  public static stringToColor(value: string): ColorFormat | string {
+  public static stringToColor(value: string): IColorModel | string {
     const stringParsers: Array<{
       regex: RegExp;
       parseFunction: (
         execResult: RegExpExecArray,
         originalValue: string
-      ) => ColorFormat | string;
+      ) => IColorModel | string;
     }> = [
       {
         regex:
