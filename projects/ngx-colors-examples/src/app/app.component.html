@@ -14,6 +14,7 @@
         <td>
           <ngx-colors
             ngxColorsTrigger
+            [palette]="this.request"
             style=""
             [formControl]="testCtrl"
             (ngModelChange)="onModelChanges($event, 'control')"
@@ -51,6 +52,8 @@
       <button (click)="this.setRed()">Red</button>
       <button (click)="this.setAlphaRed()">Alpha Red</button>
       <button (click)="this.setUndefined()">Undefined</button>
+      <button (click)="this.setRequest('3A02A9')">#3A02A9</button>
+      <button (click)="this.setRequest('24B1E0')">#24B1E0</button>
     </div>
   </div>
   <div
