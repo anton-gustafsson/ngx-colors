@@ -42,7 +42,7 @@ import { PaletteComponent } from '../palette/palette.component';
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
 })
 export class PanelComponent implements OnInit, OnDestroy {
-  constructor(private stateService: StateService) {}
+  constructor(public stateService: StateService) {}
   @HostListener('pointerdown', ['$event'])
   public onClick(event: PointerEvent): void {
     event.stopPropagation();

@@ -1,6 +1,9 @@
 <div class="elevation-z2 bg-white main flex flex-col">
   @if(!showSliders){
-  <ngx-colors-palette [formControl]="this.paletteCtrl">
+  <ngx-colors-palette
+    [palette$]="this.stateService.palette$"
+    [formControl]="this.paletteCtrl"
+  >
     <div
       class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
       aria-label="sliders"

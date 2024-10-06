@@ -4,15 +4,19 @@ import {
   HostListener,
   Injector,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject, delay, of, shareReplay } from 'rxjs';
 import { OverlayService } from '../services/overlay.service';
 import { ColorHelper } from '../utility/color-helper';
 import { StateService } from '../services/state.service';
+import { ColorGroup } from '../interfaces/color-group';
+import { defaultColors } from '../utility/default-colors';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -28,7 +32,7 @@ import { StateService } from '../services/state.service';
   ],
 })
 export class NgxColorsTriggerDirective
-  implements ControlValueAccessor, OnDestroy, OnInit
+  implements ControlValueAccessor, OnDestroy, OnInit, OnChanges
 {
   constructor(
     public triggerRef: ElementRef<HTMLElement>,
@@ -41,10 +45,15 @@ export class NgxColorsTriggerDirective
   @Input() disabled: boolean = false;
   destroy$: Subject<void> = new Subject<void>();
   value: string | undefined | null = undefined;
+  @Input()
+  public palette:
+    | Observable<Array<ColorGroup | string>>
+    | Array<ColorGroup | string>
+    | undefined = defaultColors;
 
   public ngOnInit(): void {
+    this.setPalette(this.palette);
     this.stateService.state.subscribe((value) => {
-      console.log('[trigger] currentState', value);
       if (value) {
         this.value = value.toString();
         this.onChange(this.value);
@@ -55,6 +64,18 @@ export class NgxColorsTriggerDirective
       this.onChange(null);
     });
   }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['palette']) {
+      this.setPalette(changes['palette'].currentValue);
+    }
+    console.log('[trigger] changes', changes);
+  }
+
   public openPanel() {
     this.onTouch();
     const injector = Injector.create({
@@ -66,9 +87,20 @@ export class NgxColorsTriggerDirective
     this.overlayService.createOverlay(this, undefined, 'pepe', injector);
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private setPalette(
+    palette:
+      | Observable<Array<ColorGroup | string>>
+      | Array<ColorGroup | string>
+      | undefined
+  ) {
+    if (!palette) return;
+    if (Array.isArray(this.palette)) {
+      this.stateService.palette$ = of(this.palette);
+    } else if (this.palette instanceof Observable) {
+      this.stateService.palette$ = this.palette.pipe(shareReplay());
+    } else {
+      throw new Error('The palette provided is not of a valid type');
+    }
   }
 
   writeValue(obj: string | undefined | null): void {

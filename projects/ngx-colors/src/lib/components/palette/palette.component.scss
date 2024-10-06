@@ -21,3 +21,26 @@
   width: 100%;
   height: 100%;
 }
+
+.skeleton {
+  background: #efefef;
+  overflow: hidden;
+  border: unset !important;
+  cursor: progress;
+  background-image: linear-gradient(
+    115deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-position: right -100% top 0;
+  animation: shine 2s ease infinite;
+}
+@keyframes shine {
+  to {
+    // Move shine from left to right, with offset on the right based on the width of the shine - see background-size
+    background-position: left -100% top 0;
+  }
+}

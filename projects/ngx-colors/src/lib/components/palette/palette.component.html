@@ -9,6 +9,9 @@
   >
     <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
   </div>
+  <ng-container *ngIf="this.loading">
+    <ng-container [ngTemplateOutlet]="skeleton"></ng-container>
+  </ng-container>
   @for(color of this.paletteStack.peek;track color.preview; let index = $index){
   <div
     class="circle _color-option bg-transparent overflow-h pointer"
@@ -44,4 +47,15 @@
       d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
     />
   </svg>
+</ng-template>
+
+<ng-template #skeleton>
+  <div
+    *ngFor="let color of [].constructor(14)"
+    class="circle _color-option overflow-h"
+    (keydown.enter)="this.onClickColor(color)"
+    (click)="this.onClickColor(color)"
+  >
+    <div class="w-100 circle h-100 skeleton"></div>
+  </div>
 </ng-template>

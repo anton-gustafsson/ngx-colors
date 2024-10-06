@@ -3,7 +3,7 @@ export class PaletteStack {
   items: Array<PaletteColor[]> = [];
   peek: Array<PaletteColor> = [];
   size: number = 0;
-  pop(): Array<PaletteColor> | undefined {
+  public pop(): Array<PaletteColor> | undefined {
     if (this.items.length <= 1) {
       return;
     }
@@ -12,13 +12,17 @@ export class PaletteStack {
     return removed;
   }
 
-  push(item: Array<PaletteColor>) {
+  public push(item: Array<PaletteColor>) {
     this.items.push(item);
     this.updateState();
   }
 
-  last(): Array<PaletteColor> {
+  public last(): Array<PaletteColor> {
     return this.items[this.items.length - 1];
+  }
+
+  public clear(): void {
+    this.items.length = 0;
   }
 
   private updateState() {
