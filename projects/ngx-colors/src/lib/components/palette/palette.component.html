@@ -14,17 +14,18 @@
   </ng-container>
   @for(color of this.paletteStack.peek;track color.preview; let index = $index){
   <div
-    class="circle _color-option bg-transparent overflow-h pointer"
+    class="circle _color-option bg-transparent pointer"
     tabindex="0"
     [attr.aria-label]="index"
     (keydown.enter)="this.onClickColor(color)"
     (click)="this.onClickColor(color)"
   >
     <div
-      class="w-100 circle h-100"
+      class="w-100 circle h-100 _tooltip-trigger"
       [style.background]="color.preview"
       [class.null]="!color.preview"
     >
+      <div class="_tooltip" *ngIf="color.name?.length">{{color.name}}</div>
       @if(indexSelected === index){
       <div class="circle _selected"></div>
       }

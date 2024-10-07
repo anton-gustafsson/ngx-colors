@@ -1,10 +1,9 @@
 import { ColorOption } from '../types/color-option';
 
 export const defaultColors: Array<ColorOption> = [
-  '#E57373',
-  undefined,
   {
     color: '#E57373',
+    name: 'Reds',
     childs: [
       {
         color: '#E57373',
@@ -38,6 +37,7 @@ export const defaultColors: Array<ColorOption> = [
   },
   {
     color: '#F06292',
+    name: 'ROSAS',
     childs: [
       '#FCE4EC',
       '#F8BBD0',
@@ -52,6 +52,7 @@ export const defaultColors: Array<ColorOption> = [
   },
   {
     color: '#BA68C8',
+    name: 'Tooltipslargos',
     childs: [
       '#F3E5F5',
       '#E1BEE7',

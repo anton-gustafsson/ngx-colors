@@ -22,6 +22,7 @@ export class PaletteColor {
       return;
     }
     this.preview = color.color.toLowerCase();
+    this.name = color.name;
     if (color.childs?.length) {
       this.childs = color.childs.map((c) => new PaletteColor(c));
       return;
