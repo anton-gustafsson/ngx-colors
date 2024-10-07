@@ -18,6 +18,9 @@ export type ColorsApiColorType = {
   hex: {
     value: string;
   };
+  name: {
+    value: string;
+  };
 };
 export type ColorsApiResponseType = {
   colors: Array<ColorsApiColorType>;
@@ -61,12 +64,12 @@ export class AppComponent implements OnInit {
   public setRequest(hex: string) {
     this.request = this.http
       .get<ColorsApiResponseType>(
-        `https://www.thecolorapi.com/scheme?hex=${hex}&mode=analogic-complement&count=19`
+        `https://www.thecolorapi.com/scheme?hex=${hex}&mode=analogic&count=19`
       )
       .pipe(
         map((r: ColorsApiResponseType) => {
           return r.colors.map((c: ColorsApiColorType) => {
-            return c.hex.value;
+            return { color: c.hex.value, name: c.name.value };
           });
         })
       );
