@@ -1,4 +1,4 @@
-<div class="_palette">
+<div class="_palette" [@paletteAnimation]="this.paletteStack.peek">
   <div
     *ngIf="this.paletteStack.size > 1"
     aria-label="back"
@@ -12,15 +12,17 @@
   <ng-container *ngIf="this.loading">
     <ng-container [ngTemplateOutlet]="skeleton"></ng-container>
   </ng-container>
-  @for(color of this.paletteStack.peek;track color.preview; let index = $index){
+  @for(color of this.paletteStack.peek;track color; let index = $index){
   <div
     class="circle _color-option bg-transparent pointer"
+    [ngClass]="this.animation"
     tabindex="0"
     [attr.aria-label]="index"
     (keydown.enter)="this.onClickColor(color)"
     (click)="this.onClickColor(color)"
   >
     <div
+      [ngClass]="this.animation"
       class="w-100 circle h-100 _tooltip-trigger"
       [style.background]="color.preview"
       [class.null]="!color.preview"
