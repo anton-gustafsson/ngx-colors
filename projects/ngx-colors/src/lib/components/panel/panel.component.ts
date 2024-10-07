@@ -10,9 +10,10 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Rgba } from '../../models/rgba';
-import { Subject, map, merge, take, takeUntil } from 'rxjs';
+import { Subject, map, merge, take, takeUntil, tap } from 'rxjs';
 import { Changes } from '../../types/changes';
 import { StateService } from '../../services/state.service';
 import { CommonModule } from '@angular/common';
@@ -54,9 +55,8 @@ export class PanelComponent implements OnInit, OnDestroy {
   public paletteCtrl: FormControl<Rgba | null | undefined> = new FormControl<
     Rgba | undefined
   >(undefined);
-  public slidersCtrl: FormControl<Rgba | null | undefined> = new FormControl<
-    Rgba | undefined
-  >(undefined);
+  public slidersCtrl: FormControl<Rgba | null | undefined> =
+    new FormControl<Rgba | null>(null);
   public textInputCtrl: FormControl<Rgba | null | undefined> = new FormControl<
     Rgba | undefined
   >(undefined);
@@ -78,6 +78,9 @@ export class PanelComponent implements OnInit, OnDestroy {
         })
       ),
       this.slidersCtrl.valueChanges.pipe(
+        tap((value) => {
+          this.stateService.sliderChange$.emit(value);
+        }),
         map<Rgba | null | undefined, Changes>((newValue) => {
           return { value: newValue, origin: 'color-picker' };
         })

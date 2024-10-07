@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, shareReplay, tap } from 'rxjs';
 import { Rgba } from '../models/rgba';
 import { ColorOption } from '../types/color-option';
 
@@ -15,4 +15,7 @@ export class StateService {
   }
 
   public palette$: Observable<ColorOption[]> | undefined = undefined;
+
+  public sliderChange$: EventEmitter<Rgba | null> =
+    new EventEmitter<Rgba | null>();
 }

@@ -1,12 +1,14 @@
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   HostListener,
   Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
   forwardRef,
 } from '@angular/core';
@@ -17,6 +19,7 @@ import { ColorHelper } from '../utility/color-helper';
 import { StateService } from '../services/state.service';
 import { ColorOption } from '../types/color-option';
 import { defaultColors } from '../utility/default-colors';
+import { Rgba } from '../models/rgba';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -48,9 +51,12 @@ export class NgxColorsTriggerDirective
   @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
-
+  @Output()
+  public onSliderChange: EventEmitter<Rgba | null> =
+    this.stateService.sliderChange$;
   public ngOnInit(): void {
     this.setPalette(this.palette);
+
     this.stateService.state.subscribe((value) => {
       if (value) {
         this.value = value.toString();

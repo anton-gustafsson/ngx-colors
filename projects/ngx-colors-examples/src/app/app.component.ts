@@ -93,6 +93,10 @@ export class AppComponent implements OnInit {
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
+  public logEvent(value: any) {
+    console.log(value);
+  }
+
   public setBlue() {
     const newValue = new Rgba(0, 0, 255, 1).toString();
     this.testCtrl.setValue(newValue);
