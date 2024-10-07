@@ -60,7 +60,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   public disabled: boolean = false;
 
   @Input()
-  public eyeDropper: boolean = true;
+  public eyeDropper: boolean = false;
   //@ts-expect-error eyedroper is a experimental feature.
   public eyeDropperSupport: boolean = !!window.EyeDropper;
 
