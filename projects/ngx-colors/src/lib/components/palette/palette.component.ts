@@ -1,21 +1,13 @@
 import { Component, Input, OnDestroy, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  Observable,
-  Subject,
-  delay,
-  map,
-  of,
-  shareReplay,
-  takeUntil,
-} from 'rxjs';
+import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { Rgba } from '../../models/rgba';
 import { defaultColors } from '../../utility/default-colors';
 import { PaletteColor } from '../../models/color';
 import { CommonModule } from '@angular/common';
 import { ColorHelper } from '../../utility/color-helper';
 import { PaletteStack } from '../../models/palette-stack';
-import { ColorGroup } from '../../interfaces/color-group';
+import { ColorOption } from '../../types/color-option';
 
 @Component({
   selector: 'ngx-colors-palette',
@@ -46,7 +38,7 @@ export class PaletteComponent
   public loading = false;
 
   @Input()
-  public palette$: Observable<Array<ColorGroup | string>> | undefined =
+  public palette$: Observable<Array<ColorOption>> | undefined =
     of(defaultColors);
 
   public ngOnInit(): void {
@@ -64,12 +56,7 @@ export class PaletteComponent
     this.indexSelected = this.getIndexSelected(this.selected);
   }
 
-  private getPalette(
-    palette:
-      | Observable<Array<ColorGroup | string>>
-      | Array<ColorGroup | string>
-      | undefined
-  ) {
+  private getPalette(palette: Observable<Array<ColorOption>> | undefined) {
     if (!palette) return;
     if (this.palette$ instanceof Observable) {
       if (this.paletteStack.size == 0) {

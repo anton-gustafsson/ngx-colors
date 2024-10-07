@@ -1,6 +1,8 @@
-import { ColorGroup } from '../interfaces/color-group';
+import { ColorOption } from '../types/color-option';
 
-export const defaultColors: Array<ColorGroup> = [
+export const defaultColors: Array<ColorOption> = [
+  '#E57373',
+  undefined,
   {
     color: '#E57373',
     childs: [
@@ -286,7 +288,6 @@ export const defaultColors: Array<ColorGroup> = [
       '#546E7A',
       '#455A64',
       '#37474F',
-      undefined,
     ],
   },
 ];

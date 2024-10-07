@@ -10,9 +10,9 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Rgba } from '../../../ngx-colors/src/lib/models/rgba';
 import { Observable, delay, map, of } from 'rxjs';
-import { ColorGroup } from '../../../ngx-colors/src/lib/interfaces/color-group';
 import { defaultColors } from '../../../ngx-colors/src/lib/utility/default-colors';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ColorOption } from '../../../ngx-colors/src/public-api';
 
 export type ColorsApiColorType = {
   hex: {
@@ -56,8 +56,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.setRequest('3A02A9');
   }
-  public request: Observable<Array<ColorGroup | string>> | undefined =
-    undefined;
+  public request: Observable<Array<ColorOption>> | undefined = undefined;
 
   public setRequest(hex: string) {
     this.request = this.http
@@ -73,11 +72,11 @@ export class AppComponent implements OnInit {
       );
   }
 
-  public getColorsMock1: Observable<Array<ColorGroup | string>> = of(
+  public getColorsMock1: Observable<Array<ColorOption>> = of(
     defaultColors
   ).pipe(delay(5000));
 
-  public getColorsMock2: Observable<Array<ColorGroup | string>> = of(
+  public getColorsMock2: Observable<Array<ColorOption>> = of(
     defaultColors
   ).pipe(delay(5000));
 

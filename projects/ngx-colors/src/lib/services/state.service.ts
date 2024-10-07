@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
 import { Rgba } from '../models/rgba';
-import { ColorGroup } from '../interfaces/color-group';
+import { ColorOption } from '../types/color-option';
 
 @Injectable()
 export class StateService {
@@ -14,6 +14,5 @@ export class StateService {
     this._state.next(value);
   }
 
-  public palette$: Observable<Array<ColorGroup | string>> | undefined =
-    undefined;
+  public palette$: Observable<ColorOption[]> | undefined = undefined;
 }

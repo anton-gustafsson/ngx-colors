@@ -1,15 +1,14 @@
-import { ColorGroup } from '../interfaces/color-group';
+import { ColorOption } from '../types/color-option';
 import { ColorHelper } from '../utility/color-helper';
 import { Rgba } from './rgba';
 
 export class PaletteColor {
   public preview: string | undefined;
+  public name: string | undefined;
   public value: Rgba | undefined;
   public childs: Array<PaletteColor> | undefined;
-  constructor(color: string | ColorGroup | undefined) {
+  constructor(color: ColorOption) {
     if (!color) {
-      this.value = undefined;
-      this.preview = undefined;
       return;
     }
     if (typeof color == 'string') {
