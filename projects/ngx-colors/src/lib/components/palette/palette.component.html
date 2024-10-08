@@ -14,6 +14,7 @@
   </ng-container>
   @for(color of this.paletteStack.peek;track color; let index = $index){
   <div
+    (mouseenter)="this.onMouseEnter(color)"
     class="circle _color-option bg-transparent pointer"
     [ngClass]="this.animation"
     tabindex="0"

@@ -18,4 +18,6 @@ export class StateService {
 
   public sliderChange$: EventEmitter<Rgba | null> =
     new EventEmitter<Rgba | null>();
+  public paleteColorHover$: EventEmitter<Rgba | null> =
+    new EventEmitter<Rgba | null>();
 }

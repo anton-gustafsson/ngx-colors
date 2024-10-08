@@ -1,4 +1,12 @@
-import { Component, Input, OnDestroy, OnInit, forwardRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { Rgba } from '../../models/rgba';
@@ -92,6 +100,10 @@ export class PaletteComponent
 
   public loading = false;
 
+  @Output() onColorHover: EventEmitter<Rgba | undefined> = new EventEmitter<
+    Rgba | undefined
+  >();
+
   @Input()
   public palette$: Observable<Array<ColorOption>> | undefined =
     of(defaultColors);
@@ -109,6 +121,10 @@ export class PaletteComponent
   public onClickBack() {
     this.paletteStack.pop();
     this.indexSelected = this.getIndexSelected(this.selected);
+  }
+
+  public onMouseEnter(color: PaletteColor) {
+    this.onColorHover.emit(color.value);
   }
 
   private getPalette(palette: Observable<Array<ColorOption>> | undefined) {

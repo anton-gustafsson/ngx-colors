@@ -54,6 +54,10 @@ export class NgxColorsTriggerDirective
   @Output()
   public onSliderChange: EventEmitter<Rgba | null> =
     this.stateService.sliderChange$;
+  @Output()
+  public onColorHover: EventEmitter<Rgba | null> =
+    this.stateService.paleteColorHover$;
+
   public ngOnInit(): void {
     this.setPalette(this.palette);
 

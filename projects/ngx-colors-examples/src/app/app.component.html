@@ -19,6 +19,7 @@
             [formControl]="testCtrl"
             (ngModelChange)="onModelChanges($event, 'control')"
             (onSliderChange)="logEvent($event)"
+            (onColorHover)="logEvent($event)"
           ></ngx-colors>
         </td>
         <td>{{testCtrl.value}}</td>

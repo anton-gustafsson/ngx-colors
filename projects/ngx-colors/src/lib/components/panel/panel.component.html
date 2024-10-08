@@ -1,6 +1,7 @@
 <div class="elevation-z2 bg-white main flex flex-col">
   @if(!showSliders){
   <ngx-colors-palette
+    (onColorHover)="this.onPaletteColorHover($event)"
     [palette$]="this.stateService.palette$"
     [formControl]="this.paletteCtrl"
   >

@@ -103,6 +103,9 @@ export class PanelComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public onPaletteColorHover(color: Rgba | undefined) {
+    this.stateService.paleteColorHover$.emit(color);
+  }
   private updateCtrlValues(
     value: Rgba | null | undefined,
     origin:
