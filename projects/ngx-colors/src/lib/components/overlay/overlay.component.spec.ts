@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayComponent } from './overlay.component';
 import { OverlayService } from '../../services/overlay.service';
 import { StateService } from '../../services/state.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('OverlayComponent', () => {
   let component: OverlayComponent;
@@ -10,7 +11,7 @@ describe('OverlayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OverlayComponent],
+      imports: [OverlayComponent, BrowserAnimationsModule],
       providers: [OverlayService, StateService],
     }).compileComponents();
 
