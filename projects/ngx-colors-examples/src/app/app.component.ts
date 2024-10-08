@@ -13,6 +13,15 @@ import { Observable, delay, map, of } from 'rxjs';
 import { defaultColors } from '../../../ngx-colors/src/lib/utility/default-colors';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ColorOption } from '../../../ngx-colors/src/public-api';
+import {
+  transition,
+  trigger,
+  stagger,
+  animate,
+  style,
+  query,
+  keyframes,
+} from '@angular/animations';
 
 export type ColorsApiColorType = {
   hex: {
@@ -41,11 +50,27 @@ export type ColorsApiResponseType = {
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  animations: [
+    trigger('logIn', [
+      transition('* <=> *', [
+        query(
+          ':enter',
+          [
+            style({ background: 'red' }),
+            stagger(100, [animate('1s ease-out', style({}))]),
+          ],
+          { optional: true }
+        ),
+      ]),
+    ]),
+  ],
 })
 export class AppComponent implements OnInit {
   constructor(public http: HttpClient) {}
   title = 'ngx-colors-examples';
+
   test: string | undefined | null = 'rgba(255,0,255,0.5)';
+
   testCtrl: FormControl<string | undefined | null> = new FormControl<
     string | undefined | null
   >('rgba(0,255,100,0.9)');
@@ -75,14 +100,6 @@ export class AppComponent implements OnInit {
       );
   }
 
-  public getColorsMock1: Observable<Array<ColorOption>> = of(
-    defaultColors
-  ).pipe(delay(5000));
-
-  public getColorsMock2: Observable<Array<ColorOption>> = of(
-    defaultColors
-  ).pipe(delay(5000));
-
   public onModelChanges(value: string | undefined, who: string) {
     console.log('onModelChange', value);
     if (who == 'control' && value) {
@@ -93,33 +110,27 @@ export class AppComponent implements OnInit {
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
-  public logEvent(value: any) {
-    console.log(value);
+  public logEvent(who: string, event: string, value: any) {
+    this.events.push({ who, event, value: value.toString() });
+  }
+  public clearLog() {
+    this.events.length = 0;
   }
 
   public setBlue() {
-    const newValue = new Rgba(0, 0, 255, 1).toString();
-    this.testCtrl.setValue(newValue);
-    this.test = newValue;
+    this.testCtrl.setValue('rgba(0,0,255,1)');
+    this.test = 'rgba(0,0,255,1)';
   }
   public setRed() {
-    const newValue = new Rgba(255, 0, 0, 1).toString();
-    this.testCtrl.setValue(newValue);
-    this.test = newValue;
+    this.testCtrl.setValue('rgb(255, 0, 0)');
+    this.test = 'rgba(255,0,0,1)';
   }
   public setAlphaRed() {
-    const newValue = new Rgba(255, 0, 0, 0.5).toString();
-    this.testCtrl.setValue(newValue);
-    this.test = newValue;
+    // this.testCtrl.setValue('rgba(255, 0, 0, 0.5)');
+    this.test = 'rgba(255, 0, 0, 0.5)';
   }
   public setUndefined() {
-    const newValue = undefined;
-    this.testCtrl.setValue(newValue);
-    this.test = newValue;
-  }
-
-  public changeValue() {
-    this.test = '#000';
-    this.testCtrl.setValue('#000');
+    this.testCtrl.setValue(undefined);
+    this.test = undefined;
   }
 }

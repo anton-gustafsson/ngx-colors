@@ -17,9 +17,9 @@
             [palette]="this.request"
             style=""
             [formControl]="testCtrl"
-            (ngModelChange)="onModelChanges($event, 'control')"
-            (onSliderChange)="logEvent($event)"
-            (onColorHover)="logEvent($event)"
+            (ngModelChange)="logEvent('control','ngModelChange',$event)"
+            (onSliderChange)="logEvent('control','onSliderChange',$event)"
+            (onColorHover)="logEvent('control','onColorHover',$event)"
           ></ngx-colors>
         </td>
         <td>{{testCtrl.value}}</td>
@@ -37,7 +37,7 @@
             ngxColorsTrigger
             style=""
             [(ngModel)]="test"
-            (ngModelChange)="onModelChanges($event,'ngModel')"
+            (ngModelChange)="logEvent('ngModel','ngModelChange',$event)"
           ></ngx-colors>
         </td>
         <td>{{test}}</td>
@@ -61,9 +61,10 @@
   <div
     style="border: 1px solid gray; padding: 3px; height: 500px; overflow: auto"
   >
-    <div class="d-flex flex-column-reverse">
+    <button (click)="this.clearLog()">clear</button>
+    <div class="d-flex flex-column-reverse" [@logIn]="this.events.length">
       <div
-        class="d-flex align-items-center"
+        class="d-flex align-items-center magia"
         style="padding: 1px 0"
         *ngFor="let event of this.events"
       >
