@@ -2,15 +2,22 @@
   font-family: sans-serif;
   display: inline-block;
 }
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
 .main {
-  padding: 0 20px 14px 20px;
+  /* padding: 0 20px 14px 20px; */
+  padding: 15px;
   border-radius: 4px;
+  gap: 15px;
 }
 ._palette-controls {
   display: flex;
-  justify-content: space-between;
-  margin: 4px -16px;
+  justify-content: center;
+  margin: -10px -10px;
   align-items: center;
+  ._navigation {
+    flex-grow: 1;
+    justify-content: flex-start;
+  }
   ._buttons {
     display: flex;
     gap: 4px;

@@ -20,6 +20,8 @@ import { CommonModule } from '@angular/common';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { PaletteComponent } from '../palette/palette.component';
+import { Configuration } from '../../types/configuration';
+import { DEFAULT_CONFIGURATION } from '../../utility/defaults';
 
 @Component({
   selector: 'ngx-colors-panel',
@@ -64,6 +66,10 @@ export class PanelComponent implements OnInit, OnDestroy {
   public tempValue: Rgba | null | undefined = undefined;
 
   public disabled: boolean = false;
+
+  public configuration: Configuration = DEFAULT_CONFIGURATION;
+  public currentPage: 'sliders' | 'palette' = 'palette';
+  public needConfirmation = 1;
 
   public ngOnInit(): void {
     merge(
@@ -139,10 +145,10 @@ export class PanelComponent implements OnInit, OnDestroy {
   }
 
   public onClickBack() {
-    this.showSliders = false;
+    this.currentPage = 'palette';
   }
 
   public onClickShowSliders() {
-    this.showSliders = true;
+    this.currentPage = 'sliders';
   }
 }

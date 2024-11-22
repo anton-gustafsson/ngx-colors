@@ -1,32 +1,19 @@
 <div class="elevation-z2 bg-white main flex flex-col">
-  @if(!showSliders){
-  <ngx-colors-palette
-    (onColorHover)="this.onPaletteColorHover($event)"
-    [palette$]="this.stateService.palette$"
-    [formControl]="this.paletteCtrl"
-  >
-    <div
-      class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
-      aria-label="sliders"
-      tabindex="0"
-      (click)="onClickShowSliders()"
-      (keydown.enter)="onClickShowSliders()"
-    >
-      <ng-container [ngTemplateOutlet]="sliderIcon"> </ng-container>
-    </div>
-  </ngx-colors-palette>
-  } @else{
-  <!-- Palette Page -->
+  @if(this.needConfirmation){
   <div class="_palette-controls">
-    <div
-      aria-label="back"
-      tabindex="0"
-      (click)="onClickBack()"
-      (keydown.enter)="onClickBack()"
-      class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
-    >
-      <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
+    @if(this.currentPage === 'sliders'){
+    <div class="_navigation">
+      <div
+        aria-label="back"
+        tabindex="0"
+        (click)="onClickBack()"
+        (keydown.enter)="onClickBack()"
+        class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
+      >
+        <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
+      </div>
     </div>
+    }
     <div class="_buttons">
       <button (click)="this.accept()" class="pointer hover-effect">
         ACCEPT
@@ -36,16 +23,37 @@
       </button>
     </div>
   </div>
-  <div style="height: 204px; width: 210px">
+  } @if( ['full-vertical',
+  'full-horizontal'].includes(this.configuration.layout) || this.currentPage ===
+  'sliders'){
+  <div style="height: 204px; width: 220px">
     <ngx-colors-color-picker [formControl]="this.slidersCtrl">
     </ngx-colors-color-picker>
   </div>
-  }
-  <div class="flex mt-3">
-    <ngx-colors-text-input
-      [formControl]="this.textInputCtrl"
-    ></ngx-colors-text-input>
+  } @if(this.currentPage === 'palette'){
+  <div style="width: 220px">
+    <ngx-colors-palette
+      (onColorHover)="this.onPaletteColorHover($event)"
+      [palette$]="this.stateService.palette$"
+      [formControl]="this.paletteCtrl"
+    >
+      <div
+        class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
+        aria-label="sliders"
+        tabindex="0"
+        (click)="onClickShowSliders()"
+        (keydown.enter)="onClickShowSliders()"
+      >
+        <ng-container [ngTemplateOutlet]="sliderIcon"> </ng-container>
+      </div>
+    </ngx-colors-palette>
   </div>
+  } @if(configuration.display.text) {
+
+  <ngx-colors-text-input
+    [formControl]="this.textInputCtrl"
+  ></ngx-colors-text-input>
+  }
 </div>
 
 <ng-template #sliderIcon>
