@@ -69,7 +69,6 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   public configuration: Configuration = DEFAULT_CONFIGURATION;
   public currentPage: 'sliders' | 'palette' = 'palette';
-  public needConfirmation = 1;
 
   public ngOnInit(): void {
     merge(

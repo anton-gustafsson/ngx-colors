@@ -1,7 +1,7 @@
 <div class="elevation-z2 bg-white main flex flex-col">
-  @if(this.needConfirmation){
-  <div class="_palette-controls">
-    @if(this.currentPage === 'sliders'){
+  @if ( this.configuration.layout == "pages" && this.currentPage == "sliders" )
+  {
+  <div class="_palette-controls px-3">
     <div class="_navigation">
       <div
         aria-label="back"
@@ -13,46 +13,55 @@
         <ng-container [ngTemplateOutlet]="backIcon"> </ng-container>
       </div>
     </div>
-    }
-    <div class="_buttons">
-      <button (click)="this.accept()" class="pointer hover-effect">
-        ACCEPT
-      </button>
-      <button (click)="this.cancel()" class="pointer hover-effect">
-        CANCEL
-      </button>
+    <ng-container [ngTemplateOutlet]="confirmation"></ng-container>
+  </div>
+  }
+  <div
+    class="flex gap-3"
+    [class.flex-col]="this.configuration.layout === 'full-vertical'"
+  >
+    @if (this.configuration.layout != "pages" || this.currentPage === "sliders")
+    {
+    <div style="height: 204px; width: 220px">
+      <ngx-colors-color-picker [formControl]="this.slidersCtrl">
+      </ngx-colors-color-picker>
     </div>
-  </div>
-  } @if( ['full-vertical',
-  'full-horizontal'].includes(this.configuration.layout) || this.currentPage ===
-  'sliders'){
-  <div style="height: 204px; width: 220px">
-    <ngx-colors-color-picker [formControl]="this.slidersCtrl">
-    </ngx-colors-color-picker>
-  </div>
-  } @if(this.currentPage === 'palette'){
-  <div style="width: 220px">
-    <ngx-colors-palette
-      (onColorHover)="this.onPaletteColorHover($event)"
-      [palette$]="this.stateService.palette$"
-      [formControl]="this.paletteCtrl"
-    >
-      <div
-        class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
-        aria-label="sliders"
-        tabindex="0"
-        (click)="onClickShowSliders()"
-        (keydown.enter)="onClickShowSliders()"
+    } @if (this.configuration.layout != "pages" || this.currentPage ===
+    "palette") {
+    <div style="width: 220px">
+      <ngx-colors-palette
+        (onColorHover)="this.onPaletteColorHover($event)"
+        [palette$]="this.stateService.palette$"
+        [formControl]="this.paletteCtrl"
       >
-        <ng-container [ngTemplateOutlet]="sliderIcon"> </ng-container>
-      </div>
-    </ngx-colors-palette>
+        <div
+          class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
+          aria-label="sliders"
+          tabindex="0"
+          (click)="onClickShowSliders()"
+          (keydown.enter)="onClickShowSliders()"
+        >
+          <ng-container
+            *ngIf="
+              this.configuration.layout == 'pages' &&
+              this.configuration.display.sliders
+            "
+            [ngTemplateOutlet]="sliderIcon"
+          >
+          </ng-container>
+        </div>
+      </ngx-colors-palette>
+    </div>
+    }
   </div>
-  } @if(configuration.display.text) {
-
+  @if (this.configuration.display.text) {
   <ngx-colors-text-input
     [formControl]="this.textInputCtrl"
   ></ngx-colors-text-input>
+  } @if(this.configuration.layout !== 'pages'){
+  <div class="_palette-controls">
+    <ng-container [ngTemplateOutlet]="confirmation"></ng-container>
+  </div>
   }
 </div>
 
@@ -82,4 +91,10 @@
       d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
     />
   </svg>
+</ng-template>
+<ng-template #confirmation>
+  <div class="_buttons">
+    <button (click)="this.accept()" class="pointer hover-effect">ACCEPT</button>
+    <button (click)="this.cancel()" class="pointer hover-effect">CANCEL</button>
+  </div>
 </ng-template>
