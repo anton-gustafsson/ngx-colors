@@ -1,5 +1,10 @@
 <div class="elevation-z2 bg-white main flex flex-col">
-  @if (this.configuration.layout == "pages" && this.currentPage == "sliders") {
+  magia
+  {{ this.stateService.configuration.alphaChannel }}
+  @if (
+    this.stateService.configuration.layout == "pages" &&
+    this.currentPage == "sliders"
+  ) {
     <div class="_palette-controls px-3">
       <div class="_navigation">
         <div
@@ -17,10 +22,13 @@
   }
   <div
     class="flex gap-3"
-    [class.flex-col]="this.configuration.layout === 'full-vertical'"
+    [class.flex-col]="
+      this.stateService.configuration.layout === 'full-vertical'
+    "
   >
     @if (
-      this.configuration.layout != "pages" || this.currentPage === "sliders"
+      this.stateService.configuration.layout != "pages" ||
+      this.currentPage === "sliders"
     ) {
       <div style="height: 204px; width: 220px">
         <ngx-colors-color-picker [formControl]="this.slidersCtrl">
@@ -28,7 +36,8 @@
       </div>
     }
     @if (
-      this.configuration.layout != "pages" || this.currentPage === "palette"
+      this.stateService.configuration.layout != "pages" ||
+      this.currentPage === "palette"
     ) {
       <div style="width: 220px">
         <ngx-colors-palette
@@ -45,8 +54,8 @@
           >
             <ng-container
               *ngIf="
-                this.configuration.layout == 'pages' &&
-                this.configuration.display.sliders
+                this.stateService.configuration.layout == 'pages' &&
+                this.stateService.configuration.display.sliders
               "
               [ngTemplateOutlet]="sliderIcon"
             >
@@ -56,12 +65,12 @@
       </div>
     }
   </div>
-  @if (this.configuration.display.text) {
+  @if (this.stateService.configuration.display.text) {
     <ngx-colors-text-input
       [formControl]="this.textInputCtrl"
     ></ngx-colors-text-input>
   }
-  @if (this.configuration.layout !== "pages") {
+  @if (this.stateService.configuration.layout !== "pages") {
     <div class="_palette-controls">
       <ng-container [ngTemplateOutlet]="confirmation"></ng-container>
     </div>

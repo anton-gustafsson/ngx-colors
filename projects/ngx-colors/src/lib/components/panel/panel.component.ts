@@ -21,7 +21,6 @@ import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { PaletteComponent } from '../palette/palette.component';
 import { Configuration } from '../../types/configuration';
-import { DEFAULT_CONFIGURATION } from '../../utility/defaults';
 
 @Component({
   selector: 'ngx-colors-panel',
@@ -67,7 +66,6 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   public disabled: boolean = false;
 
-  public configuration: Configuration = DEFAULT_CONFIGURATION;
   public currentPage: 'sliders' | 'palette' = 'palette';
 
   public ngOnInit(): void {
@@ -75,12 +73,12 @@ export class PanelComponent implements OnInit, OnDestroy {
       this.stateService.state.pipe(
         map<Rgba | null | undefined, Changes>((newValue) => {
           return { value: newValue, origin: 'trigger' };
-        })
+        }),
       ),
       this.textInputCtrl.valueChanges.pipe(
         map<Rgba | null | undefined, Changes>((newValue) => {
           return { value: newValue, origin: 'text-input' };
-        })
+        }),
       ),
       this.slidersCtrl.valueChanges.pipe(
         tap((value) => {
@@ -88,13 +86,13 @@ export class PanelComponent implements OnInit, OnDestroy {
         }),
         map<Rgba | null | undefined, Changes>((newValue) => {
           return { value: newValue, origin: 'color-picker' };
-        })
+        }),
       ),
       this.paletteCtrl.valueChanges.pipe(
         map<Rgba | null | undefined, Changes>((newValue) => {
           return { value: newValue, origin: 'palette' };
-        })
-      )
+        }),
+      ),
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe((changes) => {
@@ -118,7 +116,7 @@ export class PanelComponent implements OnInit, OnDestroy {
       | 'color-picker'
       | 'trigger'
       | 'palette'
-      | undefined = undefined
+      | undefined = undefined,
   ) {
     if (origin == 'palette') {
       this.stateService.set(value);
