@@ -2,6 +2,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, shareReplay, tap } from 'rxjs';
 import { Rgba } from '../models/rgba';
 import { ColorOption } from '../types/color-option';
+import { Configuration } from '../types/configuration';
+import { DEFAULT_CONFIGURATION } from '../utility/defaults';
 
 @Injectable()
 export class StateService {
@@ -20,4 +22,5 @@ export class StateService {
     new EventEmitter<Rgba | null>();
   public paleteColorHover$: EventEmitter<Rgba | null> =
     new EventEmitter<Rgba | null>();
+  public configuration: Configuration = structuredClone(DEFAULT_CONFIGURATION);
 }

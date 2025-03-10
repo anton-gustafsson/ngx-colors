@@ -1,4 +1,3 @@
-import { outputAst } from '@angular/compiler';
 import { ColorOption } from './color-option';
 
 export type DisplayOptions = {
@@ -15,16 +14,17 @@ export type AnimationOptions = 'popup' | 'slideIn';
 export type Configuration = {
   display: DisplayOptions;
   layout: LayoutOptions;
-  slidersMode?: slidersModeOptions;
-  outputModel?: ModelOptions | 'auto';
-  allowedModels?: Array<ModelOptions>;
-  alphaChannel?: boolean;
-  eyedroper?: boolean;
-  palette?: Array<ColorOption>;
-  animation?: AnimationOptions;
-  overlayClass?: string;
-  attachTo?: string;
-  labels?: {
+  slidersMode: slidersModeOptions;
+  outputModel: ModelOptions | 'auto';
+  allowedModels: Array<ModelOptions>;
+  alphaChannel: boolean;
+  eyedroper: boolean;
+  palette: Array<ColorOption>;
+  animation: AnimationOptions;
+  animationFn: Function | undefined;
+  overlayClass: string | undefined;
+  attachTo: string | undefined;
+  labels: {
     accept: string;
     cancel: string;
   };

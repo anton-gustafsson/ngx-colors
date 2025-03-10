@@ -7,7 +7,7 @@ import {
   slidersModeOptions,
 } from '../types/configuration';
 
-export interface Configuration {
+export interface NgxColorsConfiguration {
   display?: DisplayOptions;
   layout?: LayoutOptions;
   slidersMode?: slidersModeOptions;
