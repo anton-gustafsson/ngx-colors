@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   ColorHelper,
+  NGX_COLORS_CONFIG,
   NgxColorsComponent,
+  NgxColorsConfiguration,
   NgxColorsTriggerDirective,
   PaletteComponent,
 } from '../../../ngx-colors/src/public-api';
@@ -48,6 +50,14 @@ export type ColorsApiResponseType = {
     CommonModule,
     HttpClientModule,
   ],
+  providers: [
+    {
+      provide: NGX_COLORS_CONFIG,
+      useValue: {
+        alphaChannel: false,
+      },
+    },
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   animations: [
@@ -59,7 +69,7 @@ export type ColorsApiResponseType = {
             style({ background: 'red' }),
             stagger(100, [animate('1s ease-out', style({}))]),
           ],
-          { optional: true }
+          { optional: true },
         ),
       ]),
     ]),
@@ -89,14 +99,14 @@ export class AppComponent implements OnInit {
   public setRequest(hex: string) {
     this.request = this.http
       .get<ColorsApiResponseType>(
-        `https://www.thecolorapi.com/scheme?hex=${hex}&mode=analogic&count=19`
+        `https://www.thecolorapi.com/scheme?hex=${hex}&mode=analogic&count=19`,
       )
       .pipe(
         map((r: ColorsApiResponseType) => {
           return r.colors.map((c: ColorsApiColorType) => {
             return { color: c.hex.value, name: c.name.value };
           });
-        })
+        }),
       );
   }
 

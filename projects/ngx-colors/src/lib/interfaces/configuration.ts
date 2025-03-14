@@ -1,3 +1,7 @@
+export const NGX_COLORS_CONFIG = new InjectionToken<NgxColorsConfiguration>(
+  'NgxColorsConfiguration',
+);
+import { InjectionToken } from '@angular/core';
 import { ColorOption } from '../types/color-option';
 import {
   AnimationOptions,
@@ -17,9 +21,9 @@ export interface NgxColorsConfiguration {
   eyedroper?: boolean;
   palette?: Array<ColorOption>;
   animation?: AnimationOptions;
-  animationFn?: Function;
-  overlayClass?: string;
-  attachTo?: string;
+  animationFn?: Function | undefined;
+  overlayClass?: string | undefined;
+  attachTo?: string | undefined;
   labels?: {
     accept: string;
     cancel: string;

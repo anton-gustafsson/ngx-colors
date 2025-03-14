@@ -3,11 +3,13 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Inject,
   Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   SimpleChanges,
   forwardRef,
@@ -20,6 +22,10 @@ import { StateService } from '../services/state.service';
 import { ColorOption } from '../types/color-option';
 import { defaultColors } from '../utility/default-colors';
 import { Rgba } from '../models/rgba';
+import {
+  NGX_COLORS_CONFIG,
+  NgxColorsConfiguration,
+} from '../interfaces/configuration';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -40,7 +46,10 @@ export class NgxColorsTriggerDirective
   constructor(
     public triggerRef: ElementRef<HTMLElement>,
     private overlayService: OverlayService,
-    private stateService: StateService
+    private stateService: StateService,
+    @Optional()
+    @Inject(NGX_COLORS_CONFIG)
+    private config: NgxColorsConfiguration,
   ) {}
   @HostListener('click') onClick() {
     this.openPanel();
@@ -48,15 +57,19 @@ export class NgxColorsTriggerDirective
   @Input() disabled: boolean = false;
   destroy$: Subject<void> = new Subject<void>();
   value: string | undefined | null = undefined;
-  @Input()
-  public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
-    defaultColors;
   @Output()
   public onSliderChange: EventEmitter<Rgba | null> =
     this.stateService.sliderChange$;
   @Output()
   public onColorHover: EventEmitter<Rgba | null> =
     this.stateService.paleteColorHover$;
+
+  //config
+  @Input()
+  public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
+    defaultColors;
+  @Input()
+  public alphaChannel: boolean | undefined;
 
   public ngOnInit(): void {
     this.setPalette(this.palette);
@@ -71,6 +84,68 @@ export class NgxColorsTriggerDirective
       this.value = null;
       this.onChange(null);
     });
+    this.applyConfig();
+  }
+
+  private applyConfig() {
+    const providedConfig = this.generateConfig(this.config);
+    const inputConfig = this.generateConfig(this);
+    this.stateService.configuration = {
+      ...this.stateService.configuration,
+      ...providedConfig,
+      ...inputConfig,
+    };
+  }
+
+  private generateConfig(parent: any): NgxColorsConfiguration {
+    let config: NgxColorsConfiguration = {};
+    console.log(config);
+    if (!parent) return config;
+
+    if (parent.alphaChannel !== undefined) {
+      config.alphaChannel = parent.alphaChannel;
+    }
+    if (parent.eyedroper !== undefined) {
+      config.eyedroper = parent.eyedroper;
+    }
+    if (parent.slidersMode) {
+      config.slidersMode = parent.slidersMode;
+    }
+    if (parent.outputModel) {
+      config.outputModel = parent.outputModel;
+    }
+    if (parent.allowedModels?.length) {
+      config.allowedModels = parent.allowedModels;
+    }
+    if (parent.palette?.length) {
+      config.palette = parent.palette;
+    }
+    if (parent.display) {
+      config.display = parent.display;
+    }
+    if (parent.layout) {
+      config.layout = parent.layout;
+    }
+    if (parent.animation) {
+      config.animation = parent.animation;
+    }
+    if (parent.animationFn) {
+      config.animationFn = parent.animationFn;
+    }
+    if (parent.overlayClass) {
+      config.overlayClass = parent.overlayClass;
+    }
+    if (parent.attachTo) {
+      config.attachTo = parent.attachTo;
+    }
+    if (parent.labels) {
+      config.labels = {
+        accept: parent.labels.accept || '',
+        cancel: parent.labels.cancel || '',
+      };
+    }
+
+    return config;
   }
 
   public ngOnDestroy(): void {
@@ -81,7 +156,6 @@ export class NgxColorsTriggerDirective
     if (changes['palette']) {
       this.setPalette(changes['palette'].currentValue);
     }
-    console.log('[trigger] changes', changes);
   }
 
   public openPanel() {
@@ -96,7 +170,7 @@ export class NgxColorsTriggerDirective
   }
 
   private setPalette(
-    palette: Observable<ColorOption[]> | ColorOption[] | undefined
+    palette: Observable<ColorOption[]> | ColorOption[] | undefined,
   ) {
     if (!palette) return;
     if (Array.isArray(this.palette)) {
