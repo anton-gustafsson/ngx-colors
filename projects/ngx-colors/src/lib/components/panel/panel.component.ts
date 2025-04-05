@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { PaletteComponent } from '../palette/palette.component';
-import { Configuration } from '../../types/configuration';
 
 @Component({
   selector: 'ngx-colors-panel',

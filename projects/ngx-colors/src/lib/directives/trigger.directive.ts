@@ -26,6 +26,7 @@ import {
   NGX_COLORS_CONFIG,
   NgxColorsConfiguration,
 } from '../interfaces/configuration';
+import { Configuration } from '../models/configuration';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -41,7 +42,12 @@ import {
   ],
 })
 export class NgxColorsTriggerDirective
-  implements ControlValueAccessor, OnDestroy, OnInit, OnChanges
+  implements
+    ControlValueAccessor,
+    OnDestroy,
+    OnInit,
+    OnChanges,
+    NgxColorsConfiguration
 {
   constructor(
     public triggerRef: ElementRef<HTMLElement>,
@@ -88,64 +94,7 @@ export class NgxColorsTriggerDirective
   }
 
   private applyConfig() {
-    const providedConfig = this.generateConfig(this.config);
-    const inputConfig = this.generateConfig(this);
-    this.stateService.configuration = {
-      ...this.stateService.configuration,
-      ...providedConfig,
-      ...inputConfig,
-    };
-  }
-
-  private generateConfig(parent: any): NgxColorsConfiguration {
-    let config: NgxColorsConfiguration = {};
-    console.log(config);
-    if (!parent) return config;
-
-    if (parent.alphaChannel !== undefined) {
-      config.alphaChannel = parent.alphaChannel;
-    }
-    if (parent.eyedroper !== undefined) {
-      config.eyedroper = parent.eyedroper;
-    }
-    if (parent.slidersMode) {
-      config.slidersMode = parent.slidersMode;
-    }
-    if (parent.outputModel) {
-      config.outputModel = parent.outputModel;
-    }
-    if (parent.allowedModels?.length) {
-      config.allowedModels = parent.allowedModels;
-    }
-    if (parent.palette?.length) {
-      config.palette = parent.palette;
-    }
-    if (parent.display) {
-      config.display = parent.display;
-    }
-    if (parent.layout) {
-      config.layout = parent.layout;
-    }
-    if (parent.animation) {
-      config.animation = parent.animation;
-    }
-    if (parent.animationFn) {
-      config.animationFn = parent.animationFn;
-    }
-    if (parent.overlayClass) {
-      config.overlayClass = parent.overlayClass;
-    }
-    if (parent.attachTo) {
-      config.attachTo = parent.attachTo;
-    }
-    if (parent.labels) {
-      config.labels = {
-        accept: parent.labels.accept || '',
-        cancel: parent.labels.cancel || '',
-      };
-    }
-
-    return config;
+    this.stateService.configuration = new Configuration(this.config, this);
   }
 
   public ngOnDestroy(): void {

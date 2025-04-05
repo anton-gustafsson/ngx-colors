@@ -10,6 +10,7 @@ import {
   ModelOptions,
   slidersModeOptions,
 } from '../types/configuration';
+import { Observable } from 'rxjs';
 
 export interface NgxColorsConfiguration {
   display?: DisplayOptions;
@@ -19,7 +20,7 @@ export interface NgxColorsConfiguration {
   allowedModels?: Array<ModelOptions>;
   alphaChannel?: boolean;
   eyedroper?: boolean;
-  palette?: Array<ColorOption>;
+  palette?: Observable<ColorOption[]> | ColorOption[] | undefined;
   animation?: AnimationOptions;
   animationFn?: Function | undefined;
   overlayClass?: string | undefined;
