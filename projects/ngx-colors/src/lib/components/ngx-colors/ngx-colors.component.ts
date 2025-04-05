@@ -1,4 +1,4 @@
-import { Component, Host, OnInit, Self } from '@angular/core';
+import { Component, Host, OnInit, Optional, Self } from '@angular/core';
 import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
 import { NgControl } from '@angular/forms';
 
@@ -12,14 +12,14 @@ import { NgControl } from '@angular/forms';
 export class NgxColorsComponent implements OnInit {
   constructor(
     @Host() private triggerDirective: NgxColorsTriggerDirective,
-    @Self() private ngControl: NgControl
+    @Self() @Optional() private ngControl: NgControl,
   ) {}
   public previewColor: string | null | undefined = 'rgba(255,0,255,0.3)';
 
   ngOnInit(): void {
     if (!this.triggerDirective) {
       console.error(
-        'NgxColorsComponent initialization error: The component must be used in conjunction with the NgxColorsTriggerDirective. Ensure that you have the directive included in your template.'
+        'NgxColorsComponent initialization error: The component must be used in conjunction with the NgxColorsTriggerDirective. Ensure that you have the directive included in your template.',
       );
       return;
     }
@@ -28,6 +28,13 @@ export class NgxColorsComponent implements OnInit {
         console.log('[ngx-colors] value', color);
         this.previewColor = color;
       });
+    } else {
+      //fallback when is not used on a ngControl
+      let old = this.triggerDirective.onChange;
+      this.triggerDirective.onChange = (value) => {
+        this.previewColor = value;
+        old(value);
+      };
     }
   }
 }
