@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   OnDestroy,
@@ -40,6 +41,7 @@ import { PaletteComponent } from '../palette/palette.component';
   ],
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PanelComponent implements OnInit, OnDestroy {
   constructor(public stateService: StateService) {}
