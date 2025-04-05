@@ -27,7 +27,7 @@ import {
   NgxColorsConfiguration,
 } from '../interfaces/configuration';
 import { Configuration } from '../models/configuration';
-import { DisplayOptions } from '../types/configuration';
+import { DisplayOptions, LayoutOptions } from '../types/configuration';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -74,6 +74,8 @@ export class NgxColorsTriggerDirective
   // CONFIGURATION
   @Input()
   public display: DisplayOptions | undefined;
+  @Input()
+  public layout: LayoutOptions | undefined;
   @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;

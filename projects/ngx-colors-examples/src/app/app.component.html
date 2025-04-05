@@ -58,10 +58,15 @@
       <button (click)="this.setRequest('3A02A9')">#3A02A9</button>
       <button (click)="this.setRequest('24B1E0')">#24B1E0</button>
     </div>
-    <ngx-colors ngxColorsTrigger></ngx-colors>
+    <ngx-colors ngxColorsTrigger layout="full-horizontal"></ngx-colors>
+    <ngx-colors ngxColorsTrigger layout="pages"></ngx-colors>
     <ngx-colors ngxColorsTrigger [display]="{ sliders: false }"></ngx-colors>
     <ngx-colors ngxColorsTrigger [display]="{ palette: false }"></ngx-colors>
-    <ngx-colors ngxColorsTrigger [display]="{ text: true }"></ngx-colors>
+    <ngx-colors
+      ngxColorsTrigger
+      [display]="{ text: true }"
+      layout="pages"
+    ></ngx-colors>
   </div>
   <div
     style="border: 1px solid gray; padding: 3px; height: 500px; overflow: auto"

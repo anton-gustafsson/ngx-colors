@@ -60,6 +60,7 @@ export type ColorsApiResponseType = {
           sliders: true,
           palette: true,
         },
+        layout: 'full-vertical',
       },
     },
   ],
