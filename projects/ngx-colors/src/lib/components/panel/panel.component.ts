@@ -10,7 +10,6 @@ import {
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { Rgba } from '../../models/rgba';
 import { Subject, map, merge, take, takeUntil, tap } from 'rxjs';
