@@ -27,6 +27,7 @@ import {
   NgxColorsConfiguration,
 } from '../interfaces/configuration';
 import { Configuration } from '../models/configuration';
+import { DisplayOptions } from '../types/configuration';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -70,7 +71,9 @@ export class NgxColorsTriggerDirective
   public onColorHover: EventEmitter<Rgba | null> =
     this.stateService.paleteColorHover$;
 
-  //config
+  // CONFIGURATION
+  @Input()
+  public display: DisplayOptions | undefined;
   @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;

@@ -1,6 +1,4 @@
 <div class="elevation-z2 bg-white main flex flex-col">
-  magia
-  {{ this.stateService.configuration.alphaChannel }}
   @if (
     this.stateService.configuration.layout == "pages" &&
     this.currentPage == "sliders"
@@ -8,6 +6,7 @@
     <div class="_palette-controls px-3">
       <div class="_navigation">
         <div
+          *ngIf="this.stateService.configuration.display.palette"
           aria-label="back"
           tabindex="0"
           (click)="onClickBack()"
@@ -36,8 +35,9 @@
       </div>
     }
     @if (
-      this.stateService.configuration.layout != "pages" ||
-      this.currentPage === "palette"
+      (this.stateService.configuration.layout != "pages" ||
+        this.currentPage === "palette") &&
+      this.stateService.configuration.display.palette
     ) {
       <div style="width: 220px">
         <ngx-colors-palette
@@ -48,18 +48,15 @@
           <div
             class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
             aria-label="sliders"
+            *ngIf="
+              this.stateService.configuration.layout == 'pages' &&
+              this.stateService.configuration.display.sliders
+            "
             tabindex="0"
             (click)="onClickShowSliders()"
             (keydown.enter)="onClickShowSliders()"
           >
-            <ng-container
-              *ngIf="
-                this.stateService.configuration.layout == 'pages' &&
-                this.stateService.configuration.display.sliders
-              "
-              [ngTemplateOutlet]="sliderIcon"
-            >
-            </ng-container>
+            <ng-container [ngTemplateOutlet]="sliderIcon"> </ng-container>
           </div>
         </ngx-colors-palette>
       </div>

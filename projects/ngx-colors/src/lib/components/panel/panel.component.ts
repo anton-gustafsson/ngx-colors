@@ -97,6 +97,16 @@ export class PanelComponent implements OnInit, OnDestroy {
         this.tempValue = changes.value;
         this.updateCtrlValues(changes.value, changes.origin);
       });
+    //CONFIG AUX
+    if (this.stateService.configuration.display.palette === false) {
+      this.currentPage = 'sliders';
+    }
+    // WARNING:
+    // for debuggin only
+    console.log(
+      'config on init panel',
+      structuredClone(this.stateService.configuration),
+    );
   }
 
   ngOnDestroy(): void {
