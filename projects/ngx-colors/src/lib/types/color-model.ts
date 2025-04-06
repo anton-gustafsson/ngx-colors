@@ -1,1 +1,1 @@
-export type ColorModel = 'RGBA' | 'HSVA' | 'HSLA' | 'CMYK' | 'HEX';
+export type ColorModel = 'RGBA' | 'HSVA' | 'HSLA' | 'CMYK' | 'HEXA';

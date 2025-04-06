@@ -11,5 +11,4 @@ export type LockValuesOptions = {
   brightness?: number | undefined;
   alpha?: number | undefined;
 };
-export type ModelOptions = 'hexa' | 'rgba' | 'cmyk' | 'hsva' | 'hsla';
 export type AnimationOptions = 'popup' | 'slideIn';

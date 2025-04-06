@@ -5,10 +5,10 @@ import {
   AnimationOptions,
   DisplayOptions,
   LayoutOptions,
-  ModelOptions,
   LockValuesOptions,
 } from '../types/configuration';
 import { defaultColors } from '../utility/default-colors';
+import { ColorModel } from '../types/color-model';
 
 export class Configuration implements NgxColorsConfiguration {
   public display: DisplayOptions = {
@@ -23,13 +23,13 @@ export class Configuration implements NgxColorsConfiguration {
     brightness: undefined,
     saturation: undefined,
   };
-  public outputModel: ModelOptions | 'auto' = 'auto';
-  public allowedModels: Array<ModelOptions> = [
-    'hexa',
-    'rgba',
-    'cmyk',
-    'hsva',
-    'hsla',
+  public outputModel: ColorModel | 'AUTO' = 'AUTO';
+  public allowedModels: Array<ColorModel> = [
+    'HEXA',
+    'RGBA',
+    'CMYK',
+    'HSVA',
+    'HSLA',
   ];
   public alphaChannel: boolean = true;
   public eyedroper: boolean = false;

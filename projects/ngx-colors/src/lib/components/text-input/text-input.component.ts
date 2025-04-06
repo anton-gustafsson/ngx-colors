@@ -39,7 +39,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
 
   private availableModels: Array<ColorModel> = [
     'RGBA',
-    'HEX',
+    'HEXA',
     'HSVA',
     'HSLA',
     'CMYK',
@@ -71,8 +71,8 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
       this.inputControl.setValue(
         ColorHelper.rgbaToColorModel(
           this.value,
-          this.selectedColorModel
-        ).toString()
+          this.selectedColorModel,
+        ).toString(),
       );
     }
   }
@@ -84,9 +84,9 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
       this.inputControl.setValue(
         ColorHelper.rgbaToColorModel(
           this.value,
-          this.selectedColorModel
+          this.selectedColorModel,
         ).toString(),
-        { emitEvent: false }
+        { emitEvent: false },
       );
     } else {
       this.inputControl.setValue('', { emitEvent: false });

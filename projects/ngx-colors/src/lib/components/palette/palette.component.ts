@@ -52,11 +52,11 @@ import {
                 keyframes([
                   style({ opacity: 1, transform: 'scale(1.2)', offset: 0.8 }),
                   style({ opacity: 1, transform: 'scale(1)', offset: 1 }),
-                ])
+                ]),
               ),
             ]),
           ],
-          { optional: true }
+          { optional: true },
         ),
         query(
           'div.slide-in:enter',
@@ -76,11 +76,11 @@ import {
                     transform: 'translatex(0) scale(1)',
                     offset: 1,
                   }),
-                ])
+                ]),
               ),
             ]),
           ],
-          { optional: true }
+          { optional: true },
         ),
       ]),
     ]),
@@ -185,7 +185,7 @@ export class PaletteComponent
     if (this.value) {
       this.selected = ColorHelper.rgbaToColorModel(
         this.value,
-        'HEX'
+        'HEXA',
       ).toString();
       this.indexSelected = this.getIndexSelected(this.selected);
       console.log('[palette] selected:', this.selected, this.value);

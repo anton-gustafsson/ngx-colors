@@ -7,17 +7,17 @@ import {
   AnimationOptions,
   DisplayOptions,
   LayoutOptions,
-  ModelOptions,
   LockValuesOptions,
 } from '../types/configuration';
 import { Observable } from 'rxjs';
+import { ColorModel } from '../types/color-model';
 
 export interface NgxColorsConfiguration {
   display?: DisplayOptions;
   layout?: LayoutOptions;
   lockValues?: LockValuesOptions;
-  outputModel?: ModelOptions | 'auto';
-  allowedModels?: Array<ModelOptions>;
+  outputModel?: ColorModel | 'AUTO';
+  allowedModels?: Array<ColorModel>;
   alphaChannel?: boolean;
   eyedroper?: boolean;
   palette?: Observable<ColorOption[]> | ColorOption[] | undefined;

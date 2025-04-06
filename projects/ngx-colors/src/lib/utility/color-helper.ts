@@ -18,10 +18,10 @@ export const CMYK_REGEX: RegExp =
 export class ColorHelper {
   public static rgbaToColorModel(
     rgba: Rgba,
-    format: ColorModel
+    format: ColorModel,
   ): IColorModel | string {
     switch (format) {
-      case 'HEX':
+      case 'HEXA':
         return this.rgba2Hex(rgba);
       case 'HSLA':
         return this.rgba2Hsla(rgba);
@@ -33,7 +33,7 @@ export class ColorHelper {
         return rgba;
       default:
         throw new Error(
-          `Invalid output format: '${format}'. Available formats are: HEX, HSLA, HSVA, CMYK, RGBA.`
+          `Invalid output format: '${format}'. Available formats are: HEX, HSLA, HSVA, CMYK, RGBA.`,
         );
     }
   }
@@ -233,7 +233,7 @@ export class ColorHelper {
     let a: string;
     if (!match) {
       throw new Error(
-        `Invalid hex color format: "${hex}". Please ensure it follows the format #RRGGBB,#RGB, #RGBA or #RRGGBBAA.`
+        `Invalid hex color format: "${hex}". Please ensure it follows the format #RRGGBB,#RGB, #RGBA or #RRGGBBAA.`,
       );
     }
     if (match[1].length > 4) {
@@ -252,7 +252,7 @@ export class ColorHelper {
       parseInt(r, 16),
       parseInt(g, 16),
       parseInt(b, 16),
-      parseInt(a, 16) / 255
+      parseInt(a, 16) / 255,
     );
   }
 
@@ -265,7 +265,7 @@ export class ColorHelper {
 
   public static stringToColorModel(
     value: string,
-    colorModel: ColorModel
+    colorModel: ColorModel,
   ): IColorModel | string {
     const color = this.stringToColor(value);
     const rgba = this.colorToRgba(color);
@@ -274,7 +274,7 @@ export class ColorHelper {
 
   public static colorToColorModel(
     value: IColorModel | string,
-    colorModel: ColorModel
+    colorModel: ColorModel,
   ): IColorModel | string {
     const rgba = this.colorToRgba(value);
     return this.rgbaToColorModel(rgba, colorModel);
@@ -302,7 +302,7 @@ export class ColorHelper {
 
   public static stringToColorModelString(
     value: string,
-    colorModel: ColorModel
+    colorModel: ColorModel,
   ): string {
     return this.stringToColorModel(value, colorModel).toString();
   }
@@ -326,7 +326,7 @@ export class ColorHelper {
       regex: RegExp;
       parseFunction: (
         execResult: RegExpExecArray,
-        originalValue: string
+        originalValue: string,
       ) => IColorModel | string;
     }> = [
       {
@@ -336,7 +336,7 @@ export class ColorHelper {
             parseInt(execResult[2], 10),
             parseInt(execResult[3], 10),
             parseInt(execResult[4], 10),
-            parseAlpha(execResult[5])
+            parseAlpha(execResult[5]),
           );
         },
       },
@@ -347,7 +347,7 @@ export class ColorHelper {
             parseInt(execResult[2], 10),
             parseInt(execResult[3], 10) / 100,
             parseInt(execResult[4], 10) / 100,
-            parseAlpha(execResult[5])
+            parseAlpha(execResult[5]),
           );
         },
       },
@@ -358,7 +358,7 @@ export class ColorHelper {
             parseInt(execResult[2], 10),
             parseInt(execResult[3], 10) / 100,
             parseInt(execResult[4], 10) / 100,
-            isNaN(parseFloat(execResult[5])) ? 1 : parseFloat(execResult[5])
+            isNaN(parseFloat(execResult[5])) ? 1 : parseFloat(execResult[5]),
           );
         },
       },
@@ -369,7 +369,7 @@ export class ColorHelper {
             Number(execResult[1]) / 100,
             Number(execResult[2]) / 100,
             Number(execResult[3]) / 100,
-            Number(execResult[4]) / 100
+            Number(execResult[4]) / 100,
           );
         },
       },
@@ -389,7 +389,7 @@ export class ColorHelper {
       }
     }
     throw new Error(
-      `Invalid color string: "${value}". Expected formats: RGBA, HSLA, HSVA, CMYK or HEX.`
+      `Invalid color string: "${value}". Expected formats: RGBA, HSLA, HSVA, CMYK or HEX.`,
     );
   }
 
@@ -397,7 +397,7 @@ export class ColorHelper {
     if (color) {
       color = color.trim().toLowerCase();
       if (HEX_REGEX.test(color)) {
-        return 'HEX';
+        return 'HEXA';
       } else if (RGBA_REGEX.test(color)) {
         return 'RGBA';
       } else if (HSLA_REGEX.test(color)) {
