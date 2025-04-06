@@ -8,14 +8,14 @@ import {
   DisplayOptions,
   LayoutOptions,
   ModelOptions,
-  slidersModeOptions,
+  LockValuesOptions,
 } from '../types/configuration';
 import { Observable } from 'rxjs';
 
 export interface NgxColorsConfiguration {
   display?: DisplayOptions;
   layout?: LayoutOptions;
-  slidersMode?: slidersModeOptions;
+  lockValues?: LockValuesOptions;
   outputModel?: ModelOptions | 'auto';
   allowedModels?: Array<ModelOptions>;
   alphaChannel?: boolean;

@@ -1,9 +1,13 @@
 <div class="flex flex-col h-100">
   <div
+    *ngIf="
+      this.stateService.configuration.lockValues.saturation == undefined &&
+      this.stateService.configuration.lockValues.brightness == undefined
+    "
     class="_sl-box bg-saturation-lightness mb-4"
     #slSlider
     ngxColorsSlider
-    (sliderChange)="onChangeCoord('sl', $event)"
+    (sliderChange)="onChangeCoord('sv', $event)"
     [style.background-color]="hue"
   >
     <ngx-colors-thumb></ngx-colors-thumb>
@@ -13,36 +17,75 @@
       class="justify-center align-center flex ml-4"
       [class.ml-4]="!eyeDropperSupport || !eyeDropper"
     >
-      @if(eyeDropperSupport && eyeDropper){
-      <div
-        class="_eyeDropper circle hover-effect flex justify-center align-center pointer mr-1 p-1"
-        tabindex="0"
-        (click)="onClickEyeDropper()"
-        (keydown.enter)="onClickEyeDropper()"
-      >
-        <ng-container [ngTemplateOutlet]="eyeDropperIcon"></ng-container>
-      </div>
+      @if (eyeDropperSupport && eyeDropper) {
+        <div
+          class="_eyeDropper circle hover-effect flex justify-center align-center pointer mr-1 p-1"
+          tabindex="0"
+          (click)="onClickEyeDropper()"
+          (keydown.enter)="onClickEyeDropper()"
+        >
+          <ng-container [ngTemplateOutlet]="eyeDropperIcon"></ng-container>
+        </div>
       }
       <div class="_preview circle elevation bg-transparent overflow-h">
         <div class="h-100 w-100" [style.background-color]="preview"></div>
       </div>
     </div>
-    <div class="flex flex-col grow-1 mr-4 ml-4 _hue-alpha-box">
+    <div class="flex flex-col grow-1 mr-4 ml-4 _hue-alpha-box justify-center">
       <div
+        *ngIf="this.stateService.configuration.lockValues.hue == undefined"
         ngxColorsSlider
         #hueSlider
-        class="grow-1 bg-hue radius-4 pointer"
-        (sliderChange)="onChangeCoord('hue', $event)"
+        class="grow-1 bg-hue radius-4 pointer _horizontal-slider"
+        (sliderChange)="onChangeCoord('h', $event)"
       >
         <ngx-colors-thumb apparence="oval"></ngx-colors-thumb>
       </div>
-      <div class="grow-1 radius-4 bg-transparent pointer">
+      <div
+        *ngIf="
+          this.stateService.configuration.lockValues.saturation == undefined &&
+          this.stateService.configuration.lockValues.brightness != undefined
+        "
+        ngxColorsSlider
+        #sSlider
+        [ngStyle]="this.bgs"
+        class="grow-1 radius-4 pointe _horizontal-slider"
+        (sliderChange)="onChangeCoord('s', $event)"
+      >
+        <ngx-colors-thumb apparence="oval"></ngx-colors-thumb>
+      </div>
+      <div
+        class="grow-1 radius-4 pointer _horizontal-slider"
+        [style.background]="this.bgv"
+        *ngIf="
+          this.stateService.configuration.lockValues.brightness == undefined &&
+          this.stateService.configuration.lockValues.saturation != undefined
+        "
+      >
+        <div
+          *ngIf="
+            this.stateService.configuration.lockValues.brightness ==
+              undefined &&
+            this.stateService.configuration.lockValues.saturation != undefined
+          "
+          ngxColorsSlider
+          #vSlider
+          class="h-100 w-100 bg-vGradient radius-4"
+          (sliderChange)="onChangeCoord('v', $event)"
+        >
+          <ngx-colors-thumb apparence="oval"></ngx-colors-thumb>
+        </div>
+      </div>
+      <div
+        class="grow-1 radius-4 bg-transparent pointer _horizontal-slider"
+        *ngIf="this.stateService.configuration.lockValues.alpha == undefined"
+      >
         <div
           ngxColorsSlider
           #alphaSlider
-          (sliderChange)="onChangeCoord('alpha', $event)"
+          (sliderChange)="onChangeCoord('a', $event)"
           class="h-100 w-100 radius-4"
-          [ngStyle]="alphaGradient"
+          [ngStyle]="this.alphaGradient"
         >
           <ngx-colors-thumb apparence="oval"></ngx-colors-thumb>
         </div>

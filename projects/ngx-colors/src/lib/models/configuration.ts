@@ -6,7 +6,7 @@ import {
   DisplayOptions,
   LayoutOptions,
   ModelOptions,
-  slidersModeOptions,
+  LockValuesOptions,
 } from '../types/configuration';
 import { defaultColors } from '../utility/default-colors';
 
@@ -17,7 +17,12 @@ export class Configuration implements NgxColorsConfiguration {
     palette: true,
   };
   public layout: LayoutOptions = 'pages';
-  public slidersMode: slidersModeOptions = 'normal';
+  public lockValues: LockValuesOptions = {
+    hue: undefined,
+    alpha: undefined,
+    brightness: undefined,
+    saturation: undefined,
+  };
   public outputModel: ModelOptions | 'auto' = 'auto';
   public allowedModels: Array<ModelOptions> = [
     'hexa',
@@ -50,8 +55,8 @@ export class Configuration implements NgxColorsConfiguration {
       if (overwrite.layout !== undefined) {
         this.layout = overwrite.layout;
       }
-      if (overwrite.slidersMode !== undefined) {
-        this.slidersMode = overwrite.slidersMode;
+      if (overwrite.lockValues !== undefined) {
+        this.lockValues = { ...this.lockValues, ...overwrite.lockValues };
       }
       if (overwrite.outputModel !== undefined) {
         this.outputModel = overwrite.outputModel;

@@ -61,6 +61,9 @@ export type ColorsApiResponseType = {
           palette: true,
         },
         layout: 'full-vertical',
+        lockValues: {
+          alpha: 1,
+        },
       },
     },
   ],
