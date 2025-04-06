@@ -11,6 +11,7 @@ import { Rgba } from '../../models/rgba';
 import { ColorHelper } from '../../utility/color-helper';
 import { ColorModel } from '../../types/color-model';
 import { ColorValidator } from '../../validators/color-validator';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'ngx-colors-text-input',
@@ -27,6 +28,7 @@ import { ColorValidator } from '../../validators/color-validator';
   styleUrls: ['./text-input.component.scss', '../../shared/shared.scss'],
 })
 export class TextInputComponent implements ControlValueAccessor, OnInit {
+  constructor(private stateService: StateService) {}
   value: Rgba | undefined = undefined;
 
   inputControl: FormControl<string | null | undefined> = new FormControl<
@@ -55,6 +57,8 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
         this.onChange(this.value);
       }
     });
+
+    this.selectedColorModel = this.stateService.colorModel;
   }
 
   public onClickColorModel(): void {
@@ -67,6 +71,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
       return;
     }
     this.selectedColorModel = this.availableModels[index];
+    this.stateService.colorModel = this.selectedColorModel;
     if (this.value) {
       this.inputControl.setValue(
         ColorHelper.rgbaToColorModel(

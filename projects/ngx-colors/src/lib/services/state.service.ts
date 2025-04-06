@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Rgba } from '../models/rgba';
 import { ColorOption } from '../types/color-option';
 import { Configuration } from '../models/configuration';
+import { ColorModel } from '../types/color-model';
 
 @Injectable()
 export class StateService {
@@ -22,4 +23,5 @@ export class StateService {
   public paleteColorHover$: EventEmitter<Rgba | null> =
     new EventEmitter<Rgba | null>();
   public configuration: Configuration = new Configuration();
+  public colorModel: ColorModel = 'RGBA';
 }

@@ -56,7 +56,7 @@ export type ColorsApiResponseType = {
       useValue: {
         alphaChannel: false,
         display: {
-          text: false,
+          text: true,
           sliders: true,
           palette: true,
         },

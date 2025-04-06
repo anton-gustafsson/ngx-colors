@@ -103,12 +103,6 @@ export class PanelComponent implements OnInit, OnDestroy {
     if (this.stateService.configuration.display.palette === false) {
       this.currentPage = 'sliders';
     }
-    // WARNING:
-    // for debuggin only
-    console.log(
-      'config on init panel',
-      structuredClone(this.stateService.configuration),
-    );
   }
 
   ngOnDestroy(): void {

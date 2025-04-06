@@ -32,6 +32,8 @@ import {
   LayoutOptions,
   LockValuesOptions,
 } from '../types/configuration';
+import { ColorModel } from '../types/color-model';
+import { IColorModel } from '../interfaces/color-format';
 
 @Directive({
   selector: '[ngxColorsTrigger]',
@@ -83,6 +85,8 @@ export class NgxColorsTriggerDirective
   @Input()
   public lockValues: LockValuesOptions | undefined;
   @Input()
+  public outputModel: ColorModel | undefined;
+  @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
   @Input()
@@ -93,7 +97,19 @@ export class NgxColorsTriggerDirective
 
     this.stateService.state.subscribe((value) => {
       if (value) {
-        this.value = value.toString();
+        let color: IColorModel | string = value;
+        if (this.stateService.configuration.outputModel == 'AUTO') {
+          color = ColorHelper.rgbaToColorModel(
+            value,
+            this.stateService.colorModel,
+          );
+        } else {
+          color = ColorHelper.rgbaToColorModel(
+            value,
+            this.stateService.configuration.outputModel,
+          );
+        }
+        this.value = color.toString();
         this.onChange(this.value);
         this.overlayService.removePanel();
         return;
@@ -142,14 +158,19 @@ export class NgxColorsTriggerDirective
     }
   }
 
-  writeValue(obj: string | undefined | null): void {
-    if (obj) {
-      const rgba = ColorHelper.stringToRgba(obj);
+  writeValue(value: string | undefined | null): void {
+    if (value) {
+      const model: ColorModel | 'INVALID' =
+        ColorHelper.getColorModelByString(value);
+      if (model != 'INVALID') {
+        this.stateService.colorModel = model;
+      }
+      const rgba = ColorHelper.stringToRgba(value);
       this.stateService.set(rgba);
     } else {
       this.stateService.set(null);
     }
-    this.value = obj;
+    this.value = value;
   }
 
   onChange: (value: string | undefined | null) => void = () => {};

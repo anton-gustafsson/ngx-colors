@@ -16,6 +16,7 @@
             ngxColorsTrigger
             [palette]="this.request"
             style=""
+            outputModel="HSVA"
             [formControl]="testCtrl"
             (ngModelChange)="logEvent('control', 'ngModelChange', $event)"
             (onSliderChange)="logEvent('control', 'onSliderChange', $event)"
