@@ -54,6 +54,7 @@ export type ColorsApiResponseType = {
     {
       provide: NGX_COLORS_CONFIG,
       useValue: {
+        eyedropper: true,
         display: {
           text: true,
           sliders: true,

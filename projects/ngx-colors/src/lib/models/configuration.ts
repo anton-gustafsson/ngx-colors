@@ -31,7 +31,7 @@ export class Configuration implements NgxColorsConfiguration {
     'HSVA',
     'HSLA',
   ];
-  public eyedroper: boolean = false;
+  public eyedropper: boolean = false;
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
   public animation: AnimationOptions = 'popup';
@@ -63,8 +63,8 @@ export class Configuration implements NgxColorsConfiguration {
       if (overwrite.allowedModels !== undefined) {
         this.allowedModels = overwrite.allowedModels;
       }
-      if (overwrite.eyedroper !== undefined) {
-        this.eyedroper = overwrite.eyedroper;
+      if (overwrite.eyedropper !== undefined) {
+        this.eyedropper = overwrite.eyedropper;
       }
       if (overwrite.palette !== undefined) {
         this.palette = overwrite.palette;

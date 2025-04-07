@@ -72,8 +72,6 @@ export class ColorPickerComponent
 
   public disabled: boolean = false;
 
-  @Input()
-  public eyeDropper: boolean = false;
   //@ts-expect-error eyedroper is a experimental feature.
   public eyeDropperSupport: boolean = !!window.EyeDropper;
 

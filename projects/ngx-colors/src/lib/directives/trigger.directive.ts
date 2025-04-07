@@ -89,6 +89,8 @@ export class NgxColorsTriggerDirective
   @Input()
   public allowedModels: Array<ColorModel> | undefined;
   @Input()
+  public eyedropper: boolean | undefined;
+  @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
 

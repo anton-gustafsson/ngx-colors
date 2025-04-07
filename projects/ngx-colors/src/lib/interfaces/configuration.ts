@@ -18,7 +18,7 @@ export interface NgxColorsConfiguration {
   lockValues?: LockValuesOptions;
   outputModel?: ColorModel | 'AUTO';
   allowedModels?: Array<ColorModel>;
-  eyedroper?: boolean;
+  eyedropper?: boolean;
   palette?: Observable<ColorOption[]> | ColorOption[] | undefined;
   animation?: AnimationOptions;
   animationFn?: Function | undefined;

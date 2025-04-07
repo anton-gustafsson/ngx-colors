@@ -15,9 +15,11 @@
   <div class="flex grow-1">
     <div
       class="justify-center align-center flex ml-4"
-      [class.ml-4]="!eyeDropperSupport || !eyeDropper"
+      [class.ml-4]="
+        !eyeDropperSupport || !this.stateService.configuration.eyedropper
+      "
     >
-      @if (eyeDropperSupport && eyeDropper) {
+      @if (eyeDropperSupport && this.stateService.configuration.eyedropper) {
         <div
           class="_eyeDropper circle hover-effect flex justify-center align-center pointer mr-1 p-1"
           tabindex="0"
