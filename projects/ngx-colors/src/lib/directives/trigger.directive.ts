@@ -91,8 +91,6 @@ export class NgxColorsTriggerDirective
   @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
-  @Input()
-  public alphaChannel: boolean | undefined;
 
   public ngOnInit(): void {
     this.setPalette(this.palette);

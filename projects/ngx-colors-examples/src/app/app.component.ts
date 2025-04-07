@@ -54,7 +54,6 @@ export type ColorsApiResponseType = {
     {
       provide: NGX_COLORS_CONFIG,
       useValue: {
-        alphaChannel: false,
         display: {
           text: true,
           sliders: true,

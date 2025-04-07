@@ -31,7 +31,6 @@ export class Configuration implements NgxColorsConfiguration {
     'HSVA',
     'HSLA',
   ];
-  public alphaChannel: boolean = true;
   public eyedroper: boolean = false;
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
@@ -63,9 +62,6 @@ export class Configuration implements NgxColorsConfiguration {
       }
       if (overwrite.allowedModels !== undefined) {
         this.allowedModels = overwrite.allowedModels;
-      }
-      if (overwrite.alphaChannel !== undefined) {
-        this.alphaChannel = overwrite.alphaChannel;
       }
       if (overwrite.eyedroper !== undefined) {
         this.eyedroper = overwrite.eyedroper;
