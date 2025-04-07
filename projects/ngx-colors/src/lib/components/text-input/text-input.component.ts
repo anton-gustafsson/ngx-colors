@@ -37,9 +37,9 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
 
   disabled: boolean = false;
 
-  public selectedColorModel: ColorModel = 'RGBA';
+  public colorModelIndex: number = 0;
 
-  private availableModels: Array<ColorModel> = [
+  public availableModels: Array<ColorModel> = [
     'RGBA',
     'HEXA',
     'HSVA',
@@ -57,26 +57,22 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
         this.onChange(this.value);
       }
     });
-
-    this.selectedColorModel = this.stateService.colorModel;
+    this.availableModels = this.stateService.configuration.allowedModels;
+    const currentModelIndex = this.availableModels.findIndex(
+      (model) => model === this.stateService.colorModel,
+    );
+    this.colorModelIndex = currentModelIndex >= 0 ? currentModelIndex : 0;
   }
 
   public onClickColorModel(): void {
-    const index =
-      (this.availableModels.findIndex((af) => af === this.selectedColorModel) +
-        1) %
-      this.availableModels.length;
-    if (index === -1) {
-      this.selectedColorModel = this.availableModels[0];
-      return;
-    }
-    this.selectedColorModel = this.availableModels[index];
-    this.stateService.colorModel = this.selectedColorModel;
+    this.colorModelIndex =
+      (this.colorModelIndex + 1) % this.availableModels.length;
+    this.stateService.colorModel = this.availableModels[this.colorModelIndex];
     if (this.value) {
       this.inputControl.setValue(
         ColorHelper.rgbaToColorModel(
           this.value,
-          this.selectedColorModel,
+          this.availableModels[this.colorModelIndex],
         ).toString(),
       );
     }
@@ -89,7 +85,7 @@ export class TextInputComponent implements ControlValueAccessor, OnInit {
       this.inputControl.setValue(
         ColorHelper.rgbaToColorModel(
           this.value,
-          this.selectedColorModel,
+          this.availableModels[this.colorModelIndex],
         ).toString(),
         { emitEvent: false },
       );
