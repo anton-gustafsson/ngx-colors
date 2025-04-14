@@ -28,6 +28,7 @@ import {
 } from '../interfaces/configuration';
 import { Configuration } from '../models/configuration';
 import {
+  AnimationOptions,
   DisplayOptions,
   LayoutOptions,
   LockValuesOptions,
@@ -93,6 +94,8 @@ export class NgxColorsTriggerDirective
   @Input()
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
+  @Input()
+  public animation: AnimationOptions | undefined;
 
   public ngOnInit(): void {
     this.setPalette(this.palette);

@@ -48,6 +48,7 @@
           <div
             class="icon-button circle overflow-h flex justify-center align-center pointer hover-effect"
             aria-label="sliders"
+            [ngClass]="this.stateService.configuration.animation"
             *ngIf="
               this.stateService.configuration.layout == 'pages' &&
               this.stateService.configuration.display.sliders

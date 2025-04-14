@@ -11,4 +11,4 @@ export type LockValuesOptions = {
   brightness?: number | undefined;
   alpha?: number | undefined;
 };
-export type AnimationOptions = 'popup' | 'slideIn';
+export type AnimationOptions = 'popup' | 'slide';

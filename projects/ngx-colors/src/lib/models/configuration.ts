@@ -35,7 +35,6 @@ export class Configuration implements NgxColorsConfiguration {
   public palette: Observable<ColorOption[]> | ColorOption[] | undefined =
     defaultColors;
   public animation: AnimationOptions = 'popup';
-  public animationFn: Function | undefined = undefined;
   public overlayClass: string | undefined = undefined;
   public attachTo: string | undefined = undefined;
   public labels: {
@@ -71,9 +70,6 @@ export class Configuration implements NgxColorsConfiguration {
       }
       if (overwrite.animation !== undefined) {
         this.animation = overwrite.animation;
-      }
-      if (overwrite.animationFn !== undefined) {
-        this.animationFn = overwrite.animationFn;
       }
       if (overwrite.overlayClass !== undefined) {
         this.overlayClass = overwrite.overlayClass;

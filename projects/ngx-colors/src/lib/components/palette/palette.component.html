@@ -12,28 +12,27 @@
   <ng-container *ngIf="this.loading">
     <ng-container [ngTemplateOutlet]="skeleton"></ng-container>
   </ng-container>
-  @for(color of this.paletteStack.peek;track color; let index = $index){
-  <div
-    (mouseenter)="this.onMouseEnter(color)"
-    class="circle _color-option bg-transparent pointer"
-    [ngClass]="this.animation"
-    tabindex="0"
-    [attr.aria-label]="index"
-    (keydown.enter)="this.onClickColor(color)"
-    (click)="this.onClickColor(color)"
-  >
+  @for (color of this.paletteStack.peek; track color; let index = $index) {
     <div
-      [ngClass]="this.animation"
-      class="w-100 circle h-100 _tooltip-trigger"
-      [style.background]="color.preview"
-      [class.null]="!color.preview"
+      (mouseenter)="this.onMouseEnter(color)"
+      class="circle _color-option bg-transparent pointer"
+      [ngClass]="this.stateService.configuration.animation"
+      tabindex="0"
+      [attr.aria-label]="index"
+      (keydown.enter)="this.onClickColor(color)"
+      (click)="this.onClickColor(color)"
     >
-      <div class="_tooltip" *ngIf="color.name?.length">{{color.name}}</div>
-      @if(indexSelected === index){
-      <div class="circle _selected"></div>
-      }
+      <div
+        class="w-100 circle h-100 _tooltip-trigger"
+        [style.background]="color.preview"
+        [class.null]="!color.preview"
+      >
+        <div class="_tooltip" *ngIf="color.name?.length">{{ color.name }}</div>
+        @if (indexSelected === index) {
+          <div class="circle _selected"></div>
+        }
+      </div>
     </div>
-  </div>
   }
   <ng-container *ngIf="this.paletteStack.size <= 1">
     <ng-content></ng-content>

@@ -21,7 +21,6 @@ export interface NgxColorsConfiguration {
   eyedropper?: boolean;
   palette?: Observable<ColorOption[]> | ColorOption[] | undefined;
   animation?: AnimationOptions;
-  animationFn?: Function | undefined;
   overlayClass?: string | undefined;
   attachTo?: string | undefined;
   labels?: {
