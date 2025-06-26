@@ -1,29 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import {
-  ColorHelper,
-  NGX_COLORS_CONFIG,
-  NgxColorsComponent,
-  NgxColorsConfiguration,
-  NgxColorsTriggerDirective,
-  PaletteComponent,
-} from '../../../ngx-colors/src/public-api';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Rgba } from '../../../ngx-colors/src/lib/models/rgba';
-import { Observable, delay, map, of } from 'rxjs';
-import { defaultColors } from '../../../ngx-colors/src/lib/utility/default-colors';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ColorOption } from '../../../ngx-colors/src/public-api';
-import {
+  animate,
+  query,
+  stagger,
+  style,
   transition,
   trigger,
-  stagger,
-  animate,
-  style,
-  query,
-  keyframes,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable, map } from 'rxjs';
+import {
+  ColorHelper,
+  ColorOption,
+  NGX_COLORS_CONFIG,
+  NgxColorsComponent,
+  NgxColorsTriggerDirective
+} from '../../../ngx-colors/src/public-api';
 
 export type ColorsApiColorType = {
   hex: {
@@ -41,15 +35,12 @@ export type ColorsApiResponseType = {
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
     NgxColorsComponent,
     ReactiveFormsModule,
-    PaletteComponent,
     NgxColorsTriggerDirective,
     FormsModule,
-    CommonModule,
-    HttpClientModule,
-  ],
+    CommonModule
+],
   providers: [
     {
       provide: NGX_COLORS_CONFIG,
@@ -122,13 +113,14 @@ export class AppComponent implements OnInit {
   public onModelChanges(value: string | undefined, who: string) {
     console.log('onModelChange', value);
     if (who == 'control' && value) {
-      let rgba = ColorHelper.stringToRgba(value);
-      let hex = ColorHelper.rgba2Hex(rgba).replace('#', '');
+      const rgba = ColorHelper.stringToRgba(value);
+      const hex = ColorHelper.rgba2Hex(rgba).replace('#', '');
       this.setRequest(hex);
     }
     this.events.push({ who: who, event: 'ngModelChange', value: value });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public logEvent(who: string, event: string, value: any) {
     this.events.push({ who, event, value: value.toString() });
   }
