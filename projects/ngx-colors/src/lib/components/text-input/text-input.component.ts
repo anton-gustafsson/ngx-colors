@@ -14,18 +14,17 @@ import { ColorValidator } from '../../validators/color-validator';
 import { StateService } from '../../services/state.service';
 
 @Component({
-  selector: 'ngx-colors-text-input',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextInputComponent),
-      multi: true,
-    },
-  ],
-  templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.scss', '../../shared/shared.scss'],
+    selector: 'ngx-colors-text-input',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TextInputComponent),
+            multi: true,
+        },
+    ],
+    templateUrl: './text-input.component.html',
+    styleUrls: ['./text-input.component.scss', '../../shared/shared.scss']
 })
 export class TextInputComponent implements ControlValueAccessor, OnInit {
   constructor(private stateService: StateService) {}

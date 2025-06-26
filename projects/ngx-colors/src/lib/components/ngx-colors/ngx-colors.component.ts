@@ -3,11 +3,10 @@ import { NgxColorsTriggerDirective } from '../../directives/trigger.directive';
 import { NgControl } from '@angular/forms';
 
 @Component({
-  selector: 'ngx-colors',
-  standalone: true,
-  imports: [],
-  templateUrl: './ngx-colors.component.html',
-  styleUrls: ['./ngx-colors.component.scss', '../../shared/shared.scss'],
+    selector: 'ngx-colors',
+    imports: [],
+    templateUrl: './ngx-colors.component.html',
+    styleUrls: ['./ngx-colors.component.scss', '../../shared/shared.scss']
 })
 export class NgxColorsComponent implements OnInit {
   constructor(

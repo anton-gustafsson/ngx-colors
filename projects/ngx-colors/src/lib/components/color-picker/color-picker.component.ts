@@ -21,19 +21,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { StateService } from '../../services/state.service';
 
 @Component({
-  selector: 'ngx-colors-color-picker',
-  standalone: true,
-  imports: [CommonModule, SliderDirective, ThumbComponent],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ColorPickerComponent),
-      multi: true,
-    },
-  ],
-  templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.scss', '../../shared/shared.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-colors-color-picker',
+    imports: [CommonModule, SliderDirective, ThumbComponent],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ColorPickerComponent),
+            multi: true,
+        },
+    ],
+    templateUrl: './color-picker.component.html',
+    styleUrls: ['./color-picker.component.scss', '../../shared/shared.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorPickerComponent
   implements OnChanges, ControlValueAccessor, OnInit
