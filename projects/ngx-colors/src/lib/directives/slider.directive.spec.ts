@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { ThumbComponent } from '../components/thumb/thumb.component';
 
 @Component({
-  template: `
+    template: `
     <div
       ngxColorsSlider
       style="width:100px; height:100px;"
@@ -20,6 +20,7 @@ import { ThumbComponent } from '../components/thumb/thumb.component';
       <ngx-colors-thumb></ngx-colors-thumb>
     </div>
   `,
+    standalone: false
 })
 class HostComponent {
   onChange(_: [number, number]) {}

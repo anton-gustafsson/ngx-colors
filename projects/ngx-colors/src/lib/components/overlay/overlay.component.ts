@@ -4,11 +4,10 @@ import { OverlayService } from '../../services/overlay.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'ngx-colors-overlay',
-  standalone: true,
-  imports: [PanelComponent, FormsModule, ReactiveFormsModule],
-  templateUrl: './overlay.component.html',
-  styleUrl: './overlay.component.scss',
+    selector: 'ngx-colors-overlay',
+    imports: [PanelComponent, FormsModule, ReactiveFormsModule],
+    templateUrl: './overlay.component.html',
+    styleUrl: './overlay.component.scss'
 })
 export class OverlayComponent {
   constructor(private overlayService: OverlayService) {}

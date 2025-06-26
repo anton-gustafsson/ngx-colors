@@ -20,19 +20,18 @@ import { paletteAnimation } from '../../utility/animations';
 import { StateService } from '../../services/state.service';
 
 @Component({
-  selector: 'ngx-colors-palette',
-  standalone: true,
-  imports: [CommonModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PaletteComponent),
-      multi: true,
-    },
-  ],
-  templateUrl: './palette.component.html',
-  styleUrls: ['./palette.component.scss', '../../shared/shared.scss'],
-  animations: [paletteAnimation],
+    selector: 'ngx-colors-palette',
+    imports: [CommonModule],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PaletteComponent),
+            multi: true,
+        },
+    ],
+    templateUrl: './palette.component.html',
+    styleUrls: ['./palette.component.scss', '../../shared/shared.scss'],
+    animations: [paletteAnimation]
 })
 export class PaletteComponent
   implements OnInit, ControlValueAccessor, OnDestroy

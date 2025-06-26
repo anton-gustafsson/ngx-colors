@@ -32,48 +32,43 @@ export type ColorsApiResponseType = {
 };
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    NgxColorsComponent,
-    ReactiveFormsModule,
-    NgxColorsTriggerDirective,
-    FormsModule,
-    CommonModule
-],
-  providers: [
-    {
-      provide: NGX_COLORS_CONFIG,
-      useValue: {
-        eyedropper: true,
-        display: {
-          text: true,
-          sliders: true,
-          palette: true,
+    selector: 'app-root',
+    imports: [
+        NgxColorsComponent,
+        ReactiveFormsModule,
+        NgxColorsTriggerDirective,
+        FormsModule,
+        CommonModule
+    ],
+    providers: [
+        {
+            provide: NGX_COLORS_CONFIG,
+            useValue: {
+                eyedropper: true,
+                display: {
+                    text: true,
+                    sliders: true,
+                    palette: true,
+                },
+                layout: 'full-vertical',
+                lockValues: {
+                    alpha: 1,
+                },
+            },
         },
-        layout: 'full-vertical',
-        lockValues: {
-          alpha: 1,
-        },
-      },
-    },
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  animations: [
-    trigger('logIn', [
-      transition('* <=> *', [
-        query(
-          ':enter',
-          [
-            style({ background: 'red' }),
-            stagger(100, [animate('1s ease-out', style({}))]),
-          ],
-          { optional: true },
-        ),
-      ]),
-    ]),
-  ],
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    animations: [
+        trigger('logIn', [
+            transition('* <=> *', [
+                query(':enter', [
+                    style({ background: 'red' }),
+                    stagger(100, [animate('1s ease-out', style({}))]),
+                ], { optional: true }),
+            ]),
+        ]),
+    ]
 })
 export class AppComponent implements OnInit {
   constructor(public http: HttpClient) {}

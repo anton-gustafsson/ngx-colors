@@ -22,26 +22,25 @@ import { TextInputComponent } from '../text-input/text-input.component';
 import { PaletteComponent } from '../palette/palette.component';
 
 @Component({
-  selector: 'ngx-colors-panel',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ColorPickerComponent,
-    TextInputComponent,
-    PaletteComponent,
-    ReactiveFormsModule,
-  ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PanelComponent),
-      multi: true,
-    },
-  ],
-  templateUrl: './panel.component.html',
-  styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-colors-panel',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ColorPickerComponent,
+        TextInputComponent,
+        PaletteComponent,
+        ReactiveFormsModule,
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PanelComponent),
+            multi: true,
+        },
+    ],
+    templateUrl: './panel.component.html',
+    styleUrls: ['./panel.component.scss', '../../shared/shared.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PanelComponent implements OnInit, OnDestroy {
   constructor(public stateService: StateService) {}
